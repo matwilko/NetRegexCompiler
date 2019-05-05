@@ -45,16 +45,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// specified regular expression with options that modify the pattern.
         /// </summary>
         public Regex(string pattern, RegexOptions options)
-            : this(pattern, options, s_defaultMatchTimeout, false)
+            : this(pattern, options, s_defaultMatchTimeout)
         {
         }
 
         public Regex(string pattern, RegexOptions options, TimeSpan matchTimeout)
-            : this(pattern, options, matchTimeout, false)
-        {
-        }
-
-        private Regex(string pattern, RegexOptions options, TimeSpan matchTimeout, bool addToCache)
         {
             if (pattern == null)
             {
@@ -86,58 +81,24 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             roptions = options;
             internalMatchTimeout = matchTimeout;
 
-            // Cache handling. Try to look up this regex in the cache.
-            CultureInfo culture = (options & RegexOptions.CultureInvariant) != 0 ?
-                CultureInfo.InvariantCulture :
-                CultureInfo.CurrentCulture;
-            var key = new CachedCodeEntryKey(options, culture.ToString(), pattern);
-            CachedCodeEntry cached = GetCachedCode(key, false);
+            var culture = (options & RegexOptions.CultureInvariant) != 0
+                ? CultureInfo.InvariantCulture
+                : CultureInfo.CurrentCulture;
 
-            if (cached == null)
-            {
-                // Parse the input
-                RegexTree tree = RegexParser.Parse(pattern, roptions, culture);
+            // Parse the input
+            var tree = RegexParser.Parse(pattern, roptions, culture);
 
-                // Extract the relevant information
-                capnames = tree.CapNames;
-                capslist = tree.CapsList;
-                _code = RegexWriter.Write(tree);
-                caps = _code.Caps;
-                capsize = _code.CapSize;
+            // Extract the relevant information
+            capnames = tree.CapNames;
+            capslist = tree.CapsList;
+            _code = RegexWriter.Write(tree);
+            caps = _code.Caps;
+            capsize = _code.CapSize;
 
-                InitializeReferences();
+            InitializeReferences();
 
-                tree = null;
-                if (addToCache)
-                    cached = GetCachedCode(key, true);
-            }
-            else
-            {
-                caps = cached.Caps;
-                capnames = cached.Capnames;
-                capslist = cached.Capslist;
-                capsize = cached.Capsize;
-                _code = cached.Code;
-                factory = cached.Factory;
-
-                // Cache runner and replacement
-                _runnerref = cached.Runnerref;
-                _replref = cached.ReplRef;
-                _refsInitialized = true;
-            }
-
-            // if the compile option is set, then compile the code if it's not already
-            if (factory == null)
-            {
-                factory = Compile(_code, roptions);
-
-                if (addToCache && cached != null)
-                {
-                    cached.AddCompiled(factory);
-                }
-
-                _code = null;
-            }
+            factory = Compile(_code, roptions);
+            _code = null;
         }
 
         [CLSCompliant(false)]
