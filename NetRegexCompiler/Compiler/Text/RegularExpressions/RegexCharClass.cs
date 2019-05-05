@@ -410,12 +410,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         static RegexCharClass()
         {
             // Make sure the initial capacity for s_definedCategories is correct
-            Debug.Assert(
-                s_definedCategories.Count == DefinedCategoriesCapacity,
-                "RegexCharClass s_definedCategories's initial capacity (DefinedCategoriesCapacity) is incorrect.",
-                "Expected (s_definedCategories.Count): {0}, Actual (DefinedCategoriesCapacity): {1}",
-                s_definedCategories.Count,
-                DefinedCategoriesCapacity);
+            Debug.Assert(s_definedCategories.Count == DefinedCategoriesCapacity, $"RegexCharClass s_definedCategories's initial capacity (DefinedCategoriesCapacity) is incorrect. Expected (s_definedCategories.Count): {s_definedCategories.Count}, Actual (DefinedCategoriesCapacity): {DefinedCategoriesCapacity}");
 
             // Make sure the s_propTable is correctly ordered
             int len = s_propTable.Length;
@@ -1247,7 +1242,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         else if (group.Equals(s_notWord))
                             desc.Append("\\W");
                         else
-                            Debug.Fail("Couldn't find a group to match '" + group + "'");
+                            Debug.Assert(false, $"Couldn't find a group to match '{group}'");
                     }
 
                     index = lastindex;
