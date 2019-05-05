@@ -125,7 +125,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 throw new ArgumentNullException(nameof(replacement));
 
             if (_regex == null)
-                throw new NotSupportedException(SR.NoResultOnFailed);
+                throw new NotSupportedException("Result cannot be called on a failed Match.");
 
             // Gets the weakly cached replacement helper or creates one if there isn't one already.
             RegexReplacement repl = RegexReplacement.GetOrCreate(_regex._replref, replacement, _regex.caps, _regex.capsize,

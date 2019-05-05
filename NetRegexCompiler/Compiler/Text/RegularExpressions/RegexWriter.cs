@@ -16,7 +16,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using NetRegexCompiler.Compiler.Collections.Generic;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -494,7 +493,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
 
                 default:
-                    throw new ArgumentException(SR.Format(SR.UnexpectedOpcode, nodetype.ToString()));
+                    throw new ArgumentException($"Unexpected opcode in regular expression generation: {nodetype.ToString()}.");
             }
         }
     }

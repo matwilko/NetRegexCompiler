@@ -208,7 +208,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     return 3;
 
                 default:
-                    throw new ArgumentException(SR.Format(SR.UnexpectedOpcode, opcode.ToString()));
+                    throw new ArgumentException($"Unexpected opcode in regular expression generation: {opcode}.");
             }
         }
 

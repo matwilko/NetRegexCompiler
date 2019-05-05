@@ -5,6 +5,7 @@
 // The RegexInterpreter executes a block of regular expression codes
 // while consuming input.
 
+using System;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -1164,7 +1165,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         }
 
                     default:
-                        throw NotImplemented.ByDesignWithMessage(SR.UnimplementedState);
+                        throw new NotImplementedException("Unimplemented state.");
                 }
 
             BreakBackward:

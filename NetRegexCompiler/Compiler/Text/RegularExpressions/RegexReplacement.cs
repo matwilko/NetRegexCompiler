@@ -32,7 +32,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         public RegexReplacement(string rep, RegexNode concat, Hashtable _caps)
         {
             if (concat.Type() != RegexNode.Concatenate)
-                throw new ArgumentException(SR.ReplacementError);
+                throw new ArgumentException("Replacement pattern error.");
 
             Span<char> buffer = stackalloc char[256];
             ValueStringBuilder vsb = new ValueStringBuilder(buffer);
@@ -69,7 +69,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         break;
 
                     default:
-                        throw new ArgumentException(SR.ReplacementError);
+                        throw new ArgumentException("Replacement pattern error.");
                 }
             }
 
@@ -190,9 +190,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         public string Replace(Regex regex, string input, int count, int startat)
         {
             if (count < -1)
-                throw new ArgumentOutOfRangeException(nameof(count), SR.CountTooSmall);
+                throw new ArgumentOutOfRangeException(nameof(count), "Count cannot be less than -1.");
             if (startat < 0 || startat > input.Length)
-                throw new ArgumentOutOfRangeException(nameof(startat), SR.BeginIndexNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(startat), "Start index cannot be less than 0 or greater than input length.");
 
             if (count == 0)
                 return input;

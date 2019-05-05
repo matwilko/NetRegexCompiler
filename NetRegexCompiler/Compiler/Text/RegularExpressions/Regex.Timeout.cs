@@ -93,13 +93,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    throw new ArgumentOutOfRangeException(SR.Format(SR.IllegalDefaultRegexMatchTimeoutInAppDomain, DefaultMatchTimeout_ConfigKeyName, defaultMatchTimeOut));
+                    throw new ArgumentOutOfRangeException($"AppDomain data '{DefaultMatchTimeout_ConfigKeyName}' contains the invalid value or object '{defaultMatchTimeOut}' for specifying a default matching timeout for System.Text.RegularExpressions.Regex.");
                 }
 
                 return defaultMatchTimeOut;
             }
 
-            throw new InvalidCastException(SR.Format(SR.IllegalDefaultRegexMatchTimeoutInAppDomain, DefaultMatchTimeout_ConfigKeyName, defaultMatchTimeoutObj));
+            throw new InvalidCastException($"AppDomain data '{DefaultMatchTimeout_ConfigKeyName}' contains the invalid value or object '{defaultMatchTimeoutObj}' for specifying a default matching timeout for System.Text.RegularExpressions.Regex.");
         }
     }
 }

@@ -188,7 +188,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private void InitializeReferences()
         {
             if (_refsInitialized)
-                throw new NotSupportedException(SR.OnlyAllowedOnce);
+                throw new NotSupportedException("This operation is only allowed once per object.");
 
             _refsInitialized = true;
             _runnerref = new ExclusiveReference();
@@ -202,10 +202,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         internal Match Run(bool quick, int prevlen, string input, int beginning, int length, int startat)
         {
             if (startat < 0 || startat > input.Length)
-                throw new ArgumentOutOfRangeException(nameof(startat), SR.BeginIndexNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(startat), "Start index cannot be less than 0 or greater than input length.");
 
             if (length < 0 || length > input.Length)
-                throw new ArgumentOutOfRangeException(nameof(length), SR.LengthNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(length), "Length cannot be less than 0 or exceed input length.");
 
             // There may be a cached runner; grab ownership of it if we can.
             RegexRunner runner = _runnerref.Get();

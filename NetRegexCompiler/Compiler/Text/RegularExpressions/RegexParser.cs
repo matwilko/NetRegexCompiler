@@ -15,7 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using NetRegexCompiler.Compiler.Collections.Generic;
+using System.Text;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -340,7 +340,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     case ')':
                         if (EmptyStack())
-                            throw MakeException(RegexParseError.TooManyParentheses, SR.TooManyParens);
+                            throw MakeException(RegexParseError.TooManyParentheses, "Too many )'s.");
 
                         AddGroup();
                         PopGroup();
@@ -352,7 +352,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     case '\\':
                         if (CharsRight() == 0)
-                            throw MakeException(RegexParseError.IllegalEndEscape, SR.IllegalEndEscape);
+                            throw MakeException(RegexParseError.IllegalEndEscape, "Illegal \\ at end of pattern.");
 
                         AddUnitNode(ScanBackslash(scanOnly: false));
                         break;
@@ -379,15 +379,15 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         if (Unit() == null)
                         {
                             if (wasPrevQuantifier)
-                                throw MakeException(RegexParseError.NestedQuantify, SR.Format(SR.NestedQuantify, ch));
+                                throw MakeException(RegexParseError.NestedQuantify, $"Nested quantifier '{ch}'.");
                             else
-                                throw MakeException(RegexParseError.QuantifyAfterNothing, SR.QuantifyAfterNothing);
+                                throw MakeException(RegexParseError.QuantifyAfterNothing, "Quantifier {x,y} following nothing.");
                         }
                         MoveLeft();
                         break;
 
                     default:
-                        throw new InvalidOperationException(SR.InternalError_ScanRegex);
+                        throw new InvalidOperationException("Internal error in ScanRegex.");
                 }
 
                 ScanBlank();
@@ -451,7 +451,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             break;
 
                         default:
-                            throw new InvalidOperationException(SR.InternalError_ScanRegex);
+                            throw new InvalidOperationException("Internal error in ScanRegex.");
                     }
 
                     ScanBlank();
@@ -465,7 +465,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     }
 
                     if (min > max)
-                        throw MakeException(RegexParseError.IllegalRange, SR.IllegalRange);
+                        throw MakeException(RegexParseError.IllegalRange, "Illegal {x,y} with x > y.");
 
                     AddConcatenate(lazy, min, max);
                 }
@@ -478,7 +478,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             ;
 
             if (!EmptyStack())
-                throw MakeException(RegexParseError.NotEnoughParentheses, SR.NotEnoughParens);
+                throw MakeException(RegexParseError.NotEnoughParentheses, "Not enough )'s.");
 
             AddGroup();
 
@@ -563,7 +563,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             if (!scanOnly)
                             {
                                 if (inRange)
-                                    throw MakeException(RegexParseError.BadClassInCharRange, SR.Format(SR.BadClassInCharRange, ch));
+                                    throw MakeException(RegexParseError.BadClassInCharRange, $"Cannot include class \\{ch} in character range.");
                                 cc.AddDigit(UseOptionE(), ch == 'D', _pattern, _currentPos);
                             }
                             continue;
@@ -573,7 +573,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             if (!scanOnly)
                             {
                                 if (inRange)
-                                    throw MakeException(RegexParseError.BadClassInCharRange, SR.Format(SR.BadClassInCharRange, ch));
+                                    throw MakeException(RegexParseError.BadClassInCharRange, $"Cannot include class \\{ch} in character range.");
                                 cc.AddSpace(UseOptionE(), ch == 'S');
                             }
                             continue;
@@ -583,7 +583,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             if (!scanOnly)
                             {
                                 if (inRange)
-                                    throw MakeException(RegexParseError.BadClassInCharRange, SR.Format(SR.BadClassInCharRange, ch));
+                                    throw MakeException(RegexParseError.BadClassInCharRange, $"Cannot include class \\{ch} in character range.");
 
                                 cc.AddWord(UseOptionE(), ch == 'W');
                             }
@@ -594,7 +594,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             if (!scanOnly)
                             {
                                 if (inRange)
-                                    throw MakeException(RegexParseError.BadClassInCharRange, SR.Format(SR.BadClassInCharRange, ch));
+                                    throw MakeException(RegexParseError.BadClassInCharRange, $"Cannot include class \\{ch} in character range.");
                                 cc.AddCategoryFromName(ParseProperty(), (ch != 'p'), caseInsensitive, _pattern, _currentPos);
                             }
                             else
@@ -642,13 +642,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             cc.AddSubtraction(ScanCharClass(caseInsensitive, scanOnly));
 
                             if (CharsRight() > 0 && RightChar() != ']')
-                                throw MakeException(RegexParseError.SubtractionMustBeLast, SR.SubtractionMustBeLast);
+                                throw MakeException(RegexParseError.SubtractionMustBeLast, "A subtraction must be the last element in a character class.");
                         }
                         else
                         {
                             // a regular range, like a-z
                             if (chPrev > ch)
-                                throw MakeException(RegexParseError.ReversedCharRange, SR.ReversedCharRange);
+                                throw MakeException(RegexParseError.ReversedCharRange, "[x-y] range in reverse order.");
                             cc.AddRange(chPrev, ch);
                         }
                     }
@@ -670,7 +670,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         cc.AddSubtraction(ScanCharClass(caseInsensitive, scanOnly));
 
                         if (CharsRight() > 0 && RightChar() != ']')
-                            throw MakeException(RegexParseError.SubtractionMustBeLast, SR.SubtractionMustBeLast);
+                            throw MakeException(RegexParseError.SubtractionMustBeLast, "A subtraction must be the last element in a character class.");
                     }
                     else
                     {
@@ -686,7 +686,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
 
             if (!closed)
-                throw MakeException(RegexParseError.UnterminatedBracket, SR.UnterminatedBracket);
+                throw MakeException(RegexParseError.UnterminatedBracket, "Unterminated [] set.");
 
             if (!scanOnly && caseInsensitive)
                 cc.AddLowercase(_culture);
@@ -796,9 +796,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                                     // check if we have bogus characters after the number
                                     if (CharsRight() > 0 && !(RightChar() == close || RightChar() == '-'))
-                                        throw MakeException(RegexParseError.InvalidGroupName, SR.InvalidGroupName);
+                                        throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                     if (capnum == 0)
-                                        throw MakeException(RegexParseError.CapnumNotZero, SR.CapnumNotZero);
+                                        throw MakeException(RegexParseError.CapnumNotZero, "Capture number cannot be zero.");
                                 }
                                 else if (RegexCharClass.IsWordChar(ch))
                                 {
@@ -809,7 +809,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                                     // check if we have bogus character after the name
                                     if (CharsRight() > 0 && !(RightChar() == close || RightChar() == '-'))
-                                        throw MakeException(RegexParseError.InvalidGroupName, SR.InvalidGroupName);
+                                        throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                 }
                                 else if (ch == '-')
                                 {
@@ -818,7 +818,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                 else
                                 {
                                     // bad group name - starts with something other than a word character and isn't a number
-                                    throw MakeException(RegexParseError.InvalidGroupName, SR.InvalidGroupName);
+                                    throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                 }
 
                                 // grab part after - if any
@@ -833,11 +833,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                         uncapnum = ScanDecimal();
 
                                         if (!IsCaptureSlot(uncapnum))
-                                            throw MakeException(RegexParseError.UndefinedBackref, SR.Format(SR.UndefinedBackref, uncapnum));
+                                            throw MakeException(RegexParseError.UndefinedBackref, $"Reference to undefined group number {uncapnum}.");
 
                                         // check if we have bogus characters after the number
                                         if (CharsRight() > 0 && RightChar() != close)
-                                            throw MakeException(RegexParseError.InvalidGroupName, SR.InvalidGroupName);
+                                            throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                     }
                                     else if (RegexCharClass.IsWordChar(ch))
                                     {
@@ -846,16 +846,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                         if (IsCaptureName(uncapname))
                                             uncapnum = CaptureSlotFromName(uncapname);
                                         else
-                                            throw MakeException(RegexParseError.UndefinedNameRef, SR.Format(SR.UndefinedNameRef, uncapname));
+                                            throw MakeException(RegexParseError.UndefinedNameRef, $"Reference to undefined group name '{uncapname}'.");
 
                                         // check if we have bogus character after the name
                                         if (CharsRight() > 0 && RightChar() != close)
-                                            throw MakeException(RegexParseError.InvalidGroupName, SR.InvalidGroupName);
+                                            throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                     }
                                     else
                                     {
                                         // bad group name - starts with something other than a word character and isn't a number
-                                        throw MakeException(RegexParseError.InvalidGroupName, SR.InvalidGroupName);
+                                        throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                     }
                                 }
 
@@ -886,10 +886,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                     if (IsCaptureSlot(capnum))
                                         return new RegexNode(RegexNode.Testref, _options, capnum);
                                     else
-                                        throw MakeException(RegexParseError.UndefinedReference, SR.Format(SR.UndefinedReference, capnum.ToString()));
+                                        throw MakeException(RegexParseError.UndefinedReference, $"(?({capnum.ToString()}) ) reference to undefined group.");
                                 }
                                 else
-                                    throw MakeException(RegexParseError.MalformedReference, SR.Format(SR.MalformedReference, capnum.ToString()));
+                                    throw MakeException(RegexParseError.MalformedReference, $"(?({capnum.ToString()}) ) malformed.");
                             }
                             else if (RegexCharClass.IsWordChar(ch))
                             {
@@ -910,15 +910,15 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             char rightchar2 = RightChar(2);
                             // disallow comments in the condition
                             if (rightchar2 == '#')
-                                throw MakeException(RegexParseError.AlternationCantHaveComment, SR.AlternationCantHaveComment);
+                                throw MakeException(RegexParseError.AlternationCantHaveComment, "Alternation conditions cannot be comments.");
 
                             // disallow named capture group (?<..>..) in the condition
                             if (rightchar2 == '\'')
-                                throw MakeException(RegexParseError.AlternationCantCapture, SR.AlternationCantCapture);
+                                throw MakeException(RegexParseError.AlternationCantCapture, "Alternation conditions do not capture and cannot be named.");
                             else
                             {
                                 if (charsRight >= 4 && (rightchar2 == '<' && RightChar(3) != '!' && RightChar(3) != '='))
-                                    throw MakeException(RegexParseError.AlternationCantCapture, SR.AlternationCantCapture);
+                                    throw MakeException(RegexParseError.AlternationCantCapture, "Alternation conditions do not capture and cannot be named.");
                             }
                         }
 
@@ -950,7 +950,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             ;
             // break Recognize comes here
 
-            throw MakeException(RegexParseError.UnrecognizedGrouping, SR.UnrecognizedGrouping);
+            throw MakeException(RegexParseError.UnrecognizedGrouping, "Unrecognized grouping construct.");
         }
 
         /*
@@ -979,7 +979,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         while (CharsRight() > 0 && RightChar() != ')')
                             MoveRight();
                         if (CharsRight() == 0)
-                            throw MakeException(RegexParseError.UnterminatedComment, SR.UnterminatedComment);
+                            throw MakeException(RegexParseError.UnterminatedComment, "Unterminated (?#...) comment.");
                         MoveRight();
                     }
                     else
@@ -998,7 +998,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     while (CharsRight() > 0 && RightChar() != ')')
                         MoveRight();
                     if (CharsRight() == 0)
-                        throw MakeException(RegexParseError.UnterminatedComment, SR.UnterminatedComment);
+                        throw MakeException(RegexParseError.UnterminatedComment, "Unterminated (?#...) comment.");
                     MoveRight();
                 }
             }
@@ -1097,7 +1097,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private RegexNode ScanBasicBackslash(bool scanOnly)
         {
             if (CharsRight() == 0)
-                throw MakeException(RegexParseError.IllegalEndEscape, SR.IllegalEndEscape);
+                throw MakeException(RegexParseError.IllegalEndEscape, "Illegal \\ at end of pattern.");
 
             int backpos = Textpos();
             char close = '\0';
@@ -1121,7 +1121,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
 
                 if (!angled || CharsRight() <= 0)
-                    throw MakeException(RegexParseError.MalformedNameRef, SR.MalformedNameRef);
+                    throw MakeException(RegexParseError.MalformedNameRef, "Malformed \\k<...> named back reference.");
 
                 ch = RightChar();
             }
@@ -1150,7 +1150,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     if (IsCaptureSlot(capnum))
                         return new RegexNode(RegexNode.Ref, _options, capnum);
                     else
-                        throw MakeException(RegexParseError.UndefinedBackref, SR.Format(SR.UndefinedBackref, capnum.ToString()));
+                        throw MakeException(RegexParseError.UndefinedBackref, $"Reference to undefined group number {capnum.ToString()}.");
                 }
             }
 
@@ -1183,7 +1183,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     if (IsCaptureSlot(capnum))
                         return new RegexNode(RegexNode.Ref, _options, capnum);
                     else if (capnum <= 9)
-                        throw MakeException(RegexParseError.UndefinedBackref, SR.Format(SR.UndefinedBackref, capnum.ToString()));
+                        throw MakeException(RegexParseError.UndefinedBackref, $"Reference to undefined group number {capnum.ToString()}.");
                 }
             }
 
@@ -1201,7 +1201,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     if (IsCaptureName(capname))
                         return new RegexNode(RegexNode.Ref, _options, CaptureSlotFromName(capname));
                     else
-                        throw MakeException(RegexParseError.UndefinedNameRef, SR.Format(SR.UndefinedNameRef, capname));
+                        throw MakeException(RegexParseError.UndefinedNameRef, $"Reference to undefined group name '{capname}'.");
                 }
             }
 
@@ -1261,7 +1261,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     {
                         int digit = (int)(ch - '0');
                         if (newcapnum > (MaxValueDiv10) || (newcapnum == (MaxValueDiv10) && digit > (MaxValueMod10)))
-                            throw MakeException(RegexParseError.CaptureGroupOutOfRange, SR.CaptureGroupOutOfRange);
+                            throw MakeException(RegexParseError.CaptureGroupOutOfRange, "Capture group numbers must be less than or equal to Int32.MaxValue.");
 
                         newcapnum = newcapnum * 10 + digit;
 
@@ -1402,7 +1402,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 MoveRight();
 
                 if (i > (MaxValueDiv10) || (i == (MaxValueDiv10) && d > (MaxValueMod10)))
-                    throw MakeException(RegexParseError.CaptureGroupOutOfRange, SR.CaptureGroupOutOfRange);
+                    throw MakeException(RegexParseError.CaptureGroupOutOfRange, "Capture group numbers must be less than or equal to Int32.MaxValue.");
 
                 i *= 10;
                 i += d;
@@ -1429,7 +1429,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
 
             if (c > 0)
-                throw MakeException(RegexParseError.TooFewHex, SR.TooFewHex);
+                throw MakeException(RegexParseError.TooFewHex, "Insufficient hexadecimal digits.");
 
             return (char)i;
         }
@@ -1459,7 +1459,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private char ScanControl()
         {
             if (CharsRight() == 0)
-                throw MakeException(RegexParseError.MissingControl, SR.MissingControl);
+                throw MakeException(RegexParseError.MissingControl, "Missing control character.");
 
             char ch = RightCharMoveRight();
 
@@ -1471,7 +1471,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             if (unchecked(ch = (char)(ch - '@')) < ' ')
                 return ch;
 
-            throw MakeException(RegexParseError.UnrecognizedControl, SR.UnrecognizedControl);
+            throw MakeException(RegexParseError.UnrecognizedControl, "Unrecognized control character.");
         }
 
         /*
@@ -1554,7 +1554,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     return ScanControl();
                 default:
                     if (!UseOptionE() && RegexCharClass.IsWordChar(ch))
-                        throw MakeException(RegexParseError.UnrecognizedEscape, SR.Format(SR.UnrecognizedEscape, ch));
+                        throw MakeException(RegexParseError.UnrecognizedEscape, $"Unrecognized escape sequence \\{ch}.");
                     return ch;
             }
         }
@@ -1566,13 +1566,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             if (CharsRight() < 3)
             {
-                throw MakeException(RegexParseError.IncompleteSlashP, SR.IncompleteSlashP);
+                throw MakeException(RegexParseError.IncompleteSlashP, "Incomplete \\p{X} character escape.");
             }
 
             char ch = RightCharMoveRight();
             if (ch != '{')
             {
-                throw MakeException(RegexParseError.MalformedSlashP, SR.MalformedSlashP);
+                throw MakeException(RegexParseError.MalformedSlashP, "Malformed \\p{X} character escape.");
             }
 
             int startpos = Textpos();
@@ -1588,7 +1588,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             string capname = _pattern.Substring(startpos, Textpos() - startpos);
 
             if (CharsRight() == 0 || RightCharMoveRight() != '}')
-                throw MakeException(RegexParseError.IncompleteSlashP, SR.IncompleteSlashP);
+                throw MakeException(RegexParseError.IncompleteSlashP, "Incomplete \\p{X} character escape.");
 
             return capname;
         }
@@ -1713,8 +1713,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                                     if (ch != '0' && RegexCharClass.IsWordChar(ch))
                                     {
-                                        //if (_ignoreNextParen)
-                                        //    throw MakeException(SR.AlternationCantCapture);
                                         if (ch >= '1' && ch <= '9')
                                             NoteCaptureSlot(ScanDecimal(), pos);
                                         else
@@ -2108,7 +2106,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             if (_group.Type() == RegexNode.Testgroup && _group.ChildCount() == 0)
             {
                 if (_unit == null)
-                    throw MakeException(RegexParseError.IllegalCondition, SR.IllegalCondition);
+                    throw MakeException(RegexParseError.IllegalCondition, "Illegal conditional (?(...)) expression.");
 
                 _group.AddChild(_unit);
                 _unit = null;
@@ -2236,7 +2234,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 _group.AddChild(_concatenation.ReverseLeft());
 
                 if (_group.Type() == RegexNode.Testref && _group.ChildCount() > 2 || _group.ChildCount() > 3)
-                    throw MakeException(RegexParseError.TooManyAlternates, SR.TooManyAlternates);
+                    throw MakeException(RegexParseError.TooManyAlternates, "Too many | in (?()|).");
             }
             else
             {
@@ -2284,7 +2282,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
          */
         private RegexParseException MakeException(RegexParseError error, string message)
         {
-            return new RegexParseException(error, _currentPos, SR.Format(SR.MakeException, _pattern, _currentPos, message));
+            return new RegexParseException(error, _currentPos, $"Invalid pattern '{_pattern}' at offset {_currentPos}. {message}");
         }
 
         /*

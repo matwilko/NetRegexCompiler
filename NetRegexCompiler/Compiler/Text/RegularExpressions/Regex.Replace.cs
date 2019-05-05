@@ -109,9 +109,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             if (evaluator == null)
                 throw new ArgumentNullException(nameof(evaluator));
             if (count < -1)
-                throw new ArgumentOutOfRangeException(nameof(count), SR.CountTooSmall);
+                throw new ArgumentOutOfRangeException(nameof(count), "Count cannot be less than -1.");
             if (startat < 0 || startat > input.Length)
-                throw new ArgumentOutOfRangeException(nameof(startat), SR.BeginIndexNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(startat), "Start index cannot be less than 0 or greater than input length.");
 
             if (count == 0)
                 return input;

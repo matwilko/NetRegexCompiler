@@ -1159,8 +1159,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
             }
 
-            throw new RegexParseException(RegexParseError.UnknownUnicodeProperty, currentPos,
-                SR.Format(SR.MakeException, pattern, currentPos, SR.Format(SR.UnknownProperty, capname)));
+            throw new RegexParseException(RegexParseError.UnknownUnicodeProperty, currentPos, $"Invalid pattern '{pattern}' at offset {currentPos}. Unknown property '{capname}'.");
         }
 
 #if DEBUG

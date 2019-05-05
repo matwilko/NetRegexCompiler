@@ -19,7 +19,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// <param name="regexPattern">Matching timeout occurred during matching to the specified pattern.</param>
         /// <param name="matchTimeout">Matching timeout occurred because matching took longer than the specified timeout.</param>
         public RegexMatchTimeoutException(string regexInput, string regexPattern, TimeSpan matchTimeout)
-            : base(SR.RegexMatchTimeoutException_Occurred)
+            : base("The RegEx engine has timed out while trying to match a pattern to an input string. This can occur for many reasons, including very large inputs or excessive backtracking caused by nested quantifiers, back-references and other factors.")
         {
             Input = regexInput;
             Pattern = regexPattern;

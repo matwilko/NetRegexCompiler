@@ -108,7 +108,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             if (arrayIndex < 0 || arrayIndex > array.Length)
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex));
             if (array.Length - arrayIndex < Count)
-                throw new ArgumentException(SR.Arg_ArrayPlusOffTooSmall);
+                throw new ArgumentException("Destination array is not long enough to copy all the items in the collection. Check array index and length.");
 
             for (int i = arrayIndex, j = 0; j < Count; i++, j++)
             {
@@ -131,28 +131,28 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         void IList<Capture>.Insert(int index, Capture item)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         void IList<Capture>.RemoveAt(int index)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         Capture IList<Capture>.this[int index]
         {
             get { return this[index]; }
-            set { throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection); }
+            set { throw new NotSupportedException("Collection is read-only."); }
         }
 
         void ICollection<Capture>.Add(Capture item)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         void ICollection<Capture>.Clear()
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         bool ICollection<Capture>.Contains(Capture item) =>
@@ -160,17 +160,17 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         bool ICollection<Capture>.Remove(Capture item)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         int IList.Add(object value)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         void IList.Clear()
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         bool IList.Contains(object value) =>
@@ -181,25 +181,25 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         void IList.Insert(int index, object value)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         bool IList.IsFixedSize => true;
 
         void IList.Remove(object value)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         void IList.RemoveAt(int index)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         object IList.this[int index]
         {
             get { return this[index]; }
-            set { throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection); }
+            set { throw new NotSupportedException("Collection is read-only."); }
         }
 
         private sealed class Enumerator : IEnumerator<Capture>
@@ -232,7 +232,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 get
                 {
                     if (_index < 0 || _index >= _collection.Count)
-                        throw new InvalidOperationException(SR.EnumNotStarted);
+                        throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 
                     return _collection[_index];
                 }

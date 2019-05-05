@@ -37,7 +37,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         internal MatchCollection(Regex regex, string input, int beginning, int length, int startat)
         {
             if (startat < 0 || startat > input.Length)
-                throw new ArgumentOutOfRangeException(nameof(startat), SR.BeginIndexNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(startat), "Start index cannot be less than 0 or greater than input length.");
 
             _regex = regex;
             _input = input;
@@ -152,28 +152,28 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         void IList<Match>.Insert(int index, Match item)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         void IList<Match>.RemoveAt(int index)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         Match IList<Match>.this[int index]
         {
             get { return this[index]; }
-            set { throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection); }
+            set { throw new NotSupportedException("Collection is read-only."); }
         }
 
         void ICollection<Match>.Add(Match item)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         void ICollection<Match>.Clear()
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         bool ICollection<Match>.Contains(Match item)
@@ -184,17 +184,17 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         bool ICollection<Match>.Remove(Match item)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         int IList.Add(object value)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         void IList.Clear()
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         bool IList.Contains(object value) =>
@@ -205,25 +205,25 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         void IList.Insert(int index, object value)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         bool IList.IsFixedSize => true;
 
         void IList.Remove(object value)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         void IList.RemoveAt(int index)
         {
-            throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection);
+            throw new NotSupportedException("Collection is read-only.");
         }
 
         object IList.this[int index]
         {
             get { return this[index]; }
-            set { throw new NotSupportedException(SR.NotSupported_ReadOnlyCollection); }
+            set { throw new NotSupportedException("Collection is read-only."); }
         }
 
         private sealed class Enumerator : IEnumerator<Match>
@@ -261,7 +261,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 get
                 {
                     if (_index < 0)
-                        throw new InvalidOperationException(SR.EnumNotStarted);
+                        throw new InvalidOperationException("Enumeration has either not started or has already finished.");
 
                     return _collection.GetMatch(_index);
                 }

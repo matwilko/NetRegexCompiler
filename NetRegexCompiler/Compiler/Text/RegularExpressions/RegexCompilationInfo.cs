@@ -52,7 +52,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 if (value.Length == 0)
                 {
-                    throw new ArgumentException(SR.Format(SR.InvalidEmptyArgument, nameof(Name)), nameof(Name));
+                    throw new ArgumentException($"Argument {nameof(Name)} cannot be zero-length.", nameof(Name));
                 }
 
                 _name = value;

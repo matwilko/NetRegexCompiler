@@ -519,7 +519,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
 
                 default:
-                    throw new ArgumentException(SR.Format(SR.UnexpectedOpcode, NodeType.ToString(CultureInfo.CurrentCulture)));
+                    throw new ArgumentException($"Unexpected opcode in regular expression generation: {NodeType.ToString(CultureInfo.CurrentCulture)}.");
             }
         }
     }

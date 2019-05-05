@@ -3104,7 +3104,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
 
                 default:
-                    throw new NotImplementedException(SR.UnimplementedState);
+                    throw new NotImplementedException("Unimplemented state.");
             }
         }
     }
