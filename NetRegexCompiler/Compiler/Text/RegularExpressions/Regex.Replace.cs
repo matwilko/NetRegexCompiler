@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Text;
+using NetRegexCompiler.Compiler.Extensions;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -124,8 +126,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
             else
             {
-                Span<char> charInitSpan = stackalloc char[ReplaceBufferSize];
-                var vsb = new ValueStringBuilder(charInitSpan);
+                var vsb = new StringBuilder(ReplaceBufferSize);
 
                 if (!regex.RightToLeft)
                 {
@@ -134,7 +135,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     do
                     {
                         if (match.Index != prevat)
-                            vsb.Append(input.AsSpan(prevat, match.Index - prevat));
+                            vsb.Append(input, prevat, match.Index - prevat);
 
                         prevat = match.Index + match.Length;
                         vsb.Append(evaluator(match));
@@ -146,7 +147,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     } while (match.Success);
 
                     if (prevat < input.Length)
-                        vsb.Append(input.AsSpan(prevat, input.Length - prevat));
+                        vsb.Append(input, prevat, input.Length - prevat);
                 }
                 else
                 {
@@ -159,7 +160,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     do
                     {
                         if (match.Index + match.Length != prevat)
-                            vsb.AppendReversed(input.AsSpan(match.Index + match.Length, prevat - match.Index - match.Length));
+                            vsb.AppendReversed(input, match.Index + match.Length, prevat - match.Index - match.Length);
 
                         prevat = match.Index;
                         vsb.AppendReversed(evaluator(match));
@@ -171,7 +172,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     } while (match.Success);
 
                     if (prevat > 0)
-                        vsb.AppendReversed(input.AsSpan(0, prevat));
+                        vsb.AppendReversed(input, 0, prevat);
 
                     vsb.Reverse();
                 }

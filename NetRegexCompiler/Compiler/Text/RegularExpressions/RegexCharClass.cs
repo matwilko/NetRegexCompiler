@@ -1028,10 +1028,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             int rangeLen = _rangelist.Count * 2;
             int strGuessCount = rangeLen + _categories.Length + 3;
 
-            Span<char> buffer = strGuessCount <= 256 ? stackalloc char[256] : null;
-            ValueStringBuilder vsb = buffer != null ?
-                new ValueStringBuilder(buffer) :
-                new ValueStringBuilder(strGuessCount);
+            var vsb = new StringBuilder(strGuessCount);
 
             int flags = _negate ? 1 : 0;
 
@@ -1050,11 +1047,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             vsb[SETLENGTH] = (char)(vsb.Length - SETSTART);
 
-            // Append the categories string
-            foreach (ReadOnlyMemory<char> chunk in _categories.GetChunks())
-            {
-                vsb.Append(chunk.Span);
-            }
+            vsb.Append(_categories);
 
             if (_subtractor != null)
                 vsb.Append(_subtractor.ToStringClass());

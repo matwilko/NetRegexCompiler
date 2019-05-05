@@ -9,6 +9,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using NetRegexCompiler.Compiler.Extensions;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -34,8 +36,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             if (concat.Type() != RegexNode.Concatenate)
                 throw new ArgumentException("Replacement pattern error.");
 
-            Span<char> buffer = stackalloc char[256];
-            ValueStringBuilder vsb = new ValueStringBuilder(buffer);
+            var vsb = new StringBuilder(256);
             List<string> strings = new List<string>();
             List<int> rules = new List<int>();
 
@@ -111,7 +112,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// Given a Match, emits into the StringBuilder the evaluated
         /// substitution pattern.
         /// </summary>
-        public void ReplacementImpl(ref ValueStringBuilder vsb, Match match)
+        public void ReplacementImpl(StringBuilder vsb, Match match)
         {
             for (int i = 0; i < _rules.Count; i++)
             {
@@ -142,10 +143,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         }
 
        /// <summary>
-        /// Given a Match, emits into the ValueStringBuilder the evaluated
+        /// Given a Match, emits into the StringBuilder the evaluated
         /// Right-to-Left substitution pattern.
         /// </summary>
-        public void ReplacementImplRTL(ref ValueStringBuilder vsb, Match match)
+        public void ReplacementImplRTL(StringBuilder vsb, Match match)
         {
             for (int i = _rules.Count - 1; i >= 0; i--)
             {
@@ -204,8 +205,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
             else
             {
-                Span<char> charInitSpan = stackalloc char[256];
-                var vsb = new ValueStringBuilder(charInitSpan);
+                var vsb = new StringBuilder();
 
                 if (!regex.RightToLeft)
                 {
@@ -214,10 +214,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     do
                     {
                         if (match.Index != prevat)
-                            vsb.Append(input.AsSpan(prevat, match.Index - prevat));
+                            vsb.Append(input, prevat, match.Index - prevat);
 
                         prevat = match.Index + match.Length;
-                        ReplacementImpl(ref vsb, match);
+                        ReplacementImpl(vsb, match);
                         if (--count == 0)
                             break;
 
@@ -225,7 +225,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     } while (match.Success);
 
                     if (prevat < input.Length)
-                        vsb.Append(input.AsSpan(prevat, input.Length - prevat));
+                        vsb.Append(input, prevat, input.Length - prevat);
                 }
                 else
                 {
@@ -238,10 +238,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     do
                     {
                         if (match.Index + match.Length != prevat)
-                            vsb.AppendReversed(input.AsSpan(match.Index + match.Length, prevat - match.Index - match.Length));
+                            vsb.AppendReversed(input, match.Index + match.Length, prevat - match.Index - match.Length);
 
                         prevat = match.Index;
-                        ReplacementImplRTL(ref vsb, match);
+                        ReplacementImplRTL(vsb, match);
                         if (--count == 0)
                             break;
 
@@ -249,7 +249,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     } while (match.Success);
 
                     if (prevat > 0)
-                        vsb.AppendReversed(input.AsSpan(0, prevat));
+                        vsb.AppendReversed(input, 0, prevat);
 
                     vsb.Reverse();
                 }

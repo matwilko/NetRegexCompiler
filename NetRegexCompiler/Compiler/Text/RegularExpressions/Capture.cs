@@ -51,11 +51,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// <summary>
         /// The substring to the left of the capture
         /// </summary>
-        internal ReadOnlySpan<char> GetLeftSubstring() => Text.AsSpan(0, Index);
+        internal string GetLeftSubstring() => Text.Substring(0, Index);
 
         /// <summary>
         /// The substring to the right of the capture
         /// </summary>
-        internal ReadOnlySpan<char> GetRightSubstring() => Text.AsSpan(Index + Length, Text.Length - Index - Length);
+        internal string GetRightSubstring() => Text.Substring(Index + Length, Text.Length - Index - Length);
     }
 }

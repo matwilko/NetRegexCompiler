@@ -29,6 +29,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -131,15 +132,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             // Gets the weakly cached replacement helper or creates one if there isn't one already.
             RegexReplacement repl = RegexReplacement.GetOrCreate(_regex._replref, replacement, _regex.caps, _regex.capsize,
                 _regex.capnames, _regex.roptions);
-            Span<char> charInitSpan = stackalloc char[ReplaceBufferSize];
-            var vsb = new ValueStringBuilder(charInitSpan);
+            var vsb = new StringBuilder(ReplaceBufferSize);
 
-            repl.ReplacementImpl(ref vsb, this);
+            repl.ReplacementImpl(vsb, this);
 
             return vsb.ToString();
         }
 
-        internal virtual ReadOnlySpan<char> GroupToStringImpl(int groupnum)
+        internal virtual string GroupToStringImpl(int groupnum)
         {
             int c = _matchcount[groupnum];
             if (c == 0)
@@ -147,10 +147,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             int[] matches = _matches[groupnum];
 
-            return Text.AsSpan(matches[(c - 1) * 2], matches[(c * 2) - 1]);
+            return Text.Substring(matches[(c - 1) * 2], matches[(c * 2) - 1]);
         }
 
-        internal ReadOnlySpan<char> LastGroupToStringImpl()
+        internal string LastGroupToStringImpl()
         {
             return GroupToStringImpl(_matchcount.Length - 1);
         }

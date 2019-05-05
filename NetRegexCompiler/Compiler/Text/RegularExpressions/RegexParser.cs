@@ -129,18 +129,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private static string EscapeImpl(string input, int i)
         {
-            // For small inputs we allocate on the stack. In most cases a buffer three 
-            // times larger the original string should be sufficient as usually not all 
-            // characters need to be encoded.
-            // For larger string we rent the input string's length plus a fixed 
-            // conservative amount of chars from the ArrayPool.
-            Span<char> buffer = input.Length <= (EscapeMaxBufferSize / 3) ? stackalloc char[EscapeMaxBufferSize] : default;
-            ValueStringBuilder vsb = !buffer.IsEmpty ?
-                new ValueStringBuilder(buffer) :
-                new ValueStringBuilder(input.Length + 200);
+            var vsb = new StringBuilder(input.Length + 200);
 
             char ch = input[i];
-            vsb.Append(input.AsSpan(0, i));
+            vsb.Append(input, 0, i);
 
             do
             {
@@ -173,57 +165,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     i++;
                 }
 
-                vsb.Append(input.AsSpan(lastpos, i - lastpos));
+                vsb.Append(input, lastpos, i - lastpos);
             } while (i < input.Length);
 
             return vsb.ToString();
         }
-
-        /// <summary>
-        /// Unescapes all metacharacters (including (,),[,],{,},|,^,$,*,+,?,\, spaces and #)
-        /// </summary>
-        public static string Unescape(string input)
-        {
-            for (int i = 0; i < input.Length; i++)
-            {
-                if (input[i] == '\\')
-                {
-                    return UnescapeImpl(input, i);
-                }
-            }
-
-            return input;
-        }
-
-        private static string UnescapeImpl(string input, int i)
-        {
-            Span<RegexOptions> optionSpan = stackalloc RegexOptions[OptionStackDefaultSize];
-            var parser = new RegexParser(input, RegexOptions.None, CultureInfo.InvariantCulture, optionSpan);
-
-            // In the worst case the escaped string has the same length.
-            // For small inputs we use stack allocation.
-            Span<char> buffer = input.Length <= EscapeMaxBufferSize ? stackalloc char[EscapeMaxBufferSize] : default;
-            ValueStringBuilder vsb = !buffer.IsEmpty ?
-                new ValueStringBuilder(buffer) :
-                new ValueStringBuilder(input.Length);
-
-            vsb.Append(input.AsSpan(0, i));
-            do
-            {
-                i++;
-                parser.Textto(i);
-                if (i < input.Length)
-                    vsb.Append(parser.ScanCharEscape());
-                i = parser.Textpos();
-                int lastpos = i;
-                while (i < input.Length && input[i] != '\\')
-                    i++;
-                vsb.Append(input.AsSpan(lastpos, i - lastpos));
-            } while (i < input.Length);
-            
-            return vsb.ToString();
-        }
-
+        
         /// <summary>
         /// Resets parsing to the beginning of the pattern.
         /// </summary>
