@@ -41,15 +41,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         }
 
         /// <summary>
-        /// Creates and compiles a regular expression object for the specified regular
-        /// expression.
-        /// </summary>
-        public Regex(string pattern)
-            : this(pattern, RegexOptions.None, s_defaultMatchTimeout, false)
-        {
-        }
-
-        /// <summary>
         /// Creates and compiles a regular expression object for the
         /// specified regular expression with options that modify the pattern.
         /// </summary>
@@ -79,7 +70,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
              && (options & ~(RegexOptions.ECMAScript |
                              RegexOptions.IgnoreCase |
                              RegexOptions.Multiline |
-                             RegexOptions.Compiled |
                              RegexOptions.CultureInvariant
 #if DEBUG
                            | RegexOptions.Debug
@@ -137,7 +127,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
 
             // if the compile option is set, then compile the code if it's not already
-            if (UseOptionC() && factory == null)
+            if (factory == null)
             {
                 factory = Compile(_code, roptions);
 
@@ -440,9 +430,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 #endif
             return match;
         }
-
-        protected bool UseOptionC() => (roptions & RegexOptions.Compiled) != 0;
-
+        
         /*
          * True if the L option was set
          */
