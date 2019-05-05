@@ -3,11 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.Serialization;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    [Serializable]
     internal sealed class RegexParseException : ArgumentException
     {
         private readonly RegexParseError _error;
@@ -38,18 +36,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         public RegexParseException(string message, Exception inner) : base(message, inner)
         {
-        }
-
-        private RegexParseException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            // To maintain serialization support with netfx.
-            info.SetType(typeof(ArgumentException));
         }
     }
 }

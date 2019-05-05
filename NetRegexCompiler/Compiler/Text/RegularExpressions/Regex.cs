@@ -8,7 +8,6 @@
 using System;
 using System.Collections;
 using System.Globalization;
-using System.Runtime.Serialization;
 using NetRegexCompiler.Compiler.Collections;
 using System.Runtime.CompilerServices;
 
@@ -19,7 +18,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
     /// contains static methods that allow use of regular expressions without instantiating
     /// a Regex explicitly.
     /// </summary>
-    public partial class Regex : ISerializable
+    public partial class Regex
     {
         internal const int MaxOptionShift = 10;
 
@@ -62,17 +61,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         public Regex(string pattern, RegexOptions options, TimeSpan matchTimeout)
             : this(pattern, options, matchTimeout, false)
         {
-        }
-
-        protected Regex(SerializationInfo info, StreamingContext context)
-            : this(info.GetString("pattern"), (RegexOptions)info.GetInt32("options"))
-        {
-            throw new PlatformNotSupportedException();
-        }
-
-        void ISerializable.GetObjectData(SerializationInfo si, StreamingContext context)
-        {
-            throw new PlatformNotSupportedException();
         }
 
         private Regex(string pattern, RegexOptions options, TimeSpan matchTimeout, bool addToCache)
