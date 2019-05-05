@@ -8,29 +8,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
     public partial class Regex
     {
-        /// <summary>
-        /// Searches the input string for one or more occurrences of the text supplied in the given pattern.
-        /// </summary>
-        public static bool IsMatch(string input, string pattern)
-        {
-            return IsMatch(input, pattern, RegexOptions.None, s_defaultMatchTimeout);
-        }
-
-        /// <summary>
-        /// Searches the input string for one or more occurrences of the text
-        /// supplied in the pattern parameter with matching options supplied in the options
-        /// parameter.
-        /// </summary>
-        public static bool IsMatch(string input, string pattern, RegexOptions options)
-        {
-            return IsMatch(input, pattern, options, s_defaultMatchTimeout);
-        }
-
-        public static bool IsMatch(string input, string pattern, RegexOptions options, TimeSpan matchTimeout)
-        {
-            return new Regex(pattern, options, matchTimeout, true).IsMatch(input);
-        }
-
         /*
          * Returns true if the regex finds a match within the specified string
          */
@@ -60,30 +37,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 throw new ArgumentNullException(nameof(input));
 
             return (null == Run(true, -1, input, 0, input.Length, startat));
-        }
-
-        /// <summary>
-        /// Searches the input string for one or more occurrences of the text
-        /// supplied in the pattern parameter.
-        /// </summary>
-        public static Match Match(string input, string pattern)
-        {
-            return Match(input, pattern, RegexOptions.None, s_defaultMatchTimeout);
-        }
-
-        /// <summary>
-        /// Searches the input string for one or more occurrences of the text
-        /// supplied in the pattern parameter. Matching is modified with an option
-        /// string.
-        /// </summary>
-        public static Match Match(string input, string pattern, RegexOptions options)
-        {
-            return Match(input, pattern, options, s_defaultMatchTimeout);
-        }
-
-        public static Match Match(string input, string pattern, RegexOptions options, TimeSpan matchTimeout)
-        {
-            return new Regex(pattern, options, matchTimeout, true).Match(input);
         }
 
         /*
@@ -131,27 +84,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 throw new ArgumentNullException(nameof(input));
 
             return Run(false, -1, input, beginning, length, UseOptionR() ? beginning + length : beginning);
-        }
-
-        /// <summary>
-        /// Returns all the successful matches as if Match were called iteratively numerous times.
-        /// </summary>
-        public static MatchCollection Matches(string input, string pattern)
-        {
-            return Matches(input, pattern, RegexOptions.None, s_defaultMatchTimeout);
-        }
-
-        /// <summary>
-        /// Returns all the successful matches as if Match were called iteratively numerous times.
-        /// </summary>
-        public static MatchCollection Matches(string input, string pattern, RegexOptions options)
-        {
-            return Matches(input, pattern, options, s_defaultMatchTimeout);
-        }
-
-        public static MatchCollection Matches(string input, string pattern, RegexOptions options, TimeSpan matchTimeout)
-        {
-            return new Regex(pattern, options, matchTimeout, true).Matches(input);
         }
 
         /*

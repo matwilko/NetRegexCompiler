@@ -14,30 +14,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private const int ReplaceBufferSize = 256;
 
         /// <summary>
-        /// Replaces all occurrences of the pattern with the <paramref name="replacement"/> pattern, starting at
-        /// the first character in the input string.
-        /// </summary>
-        public static string Replace(string input, string pattern, string replacement)
-        {
-            return Replace(input, pattern, replacement, RegexOptions.None, s_defaultMatchTimeout);
-        }
-
-        /// <summary>
-        /// Replaces all occurrences of
-        /// the <paramref name="pattern "/>with the <paramref name="replacement "/>
-        /// pattern, starting at the first character in the input string.
-        /// </summary>
-        public static string Replace(string input, string pattern, string replacement, RegexOptions options)
-        {
-            return Replace(input, pattern, replacement, options, s_defaultMatchTimeout);
-        }
-
-        public static string Replace(string input, string pattern, string replacement, RegexOptions options, TimeSpan matchTimeout)
-        {
-            return new Regex(pattern, options, matchTimeout, true).Replace(input, replacement);
-        }
-
-        /// <summary>
         /// Replaces all occurrences of the previously defined pattern with the
         /// <paramref name="replacement"/> pattern, starting at the first character in the
         /// input string.
@@ -80,29 +56,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             RegexReplacement repl = RegexReplacement.GetOrCreate(_replref, replacement, caps, capsize, capnames, roptions);
 
             return repl.Replace(this, input, count, startat);
-        }
-
-        /// <summary>
-        /// Replaces all occurrences of the <paramref name="pattern"/> with the recent
-        /// replacement pattern.
-        /// </summary>
-        public static string Replace(string input, string pattern, MatchEvaluator evaluator)
-        {
-            return Replace(input, pattern, evaluator, RegexOptions.None, s_defaultMatchTimeout);
-        }
-
-        /// <summary>
-        /// Replaces all occurrences of the <paramref name="pattern"/> with the recent
-        /// replacement pattern, starting at the first character.
-        /// </summary>
-        public static string Replace(string input, string pattern, MatchEvaluator evaluator, RegexOptions options)
-        {
-            return Replace(input, pattern, evaluator, options, s_defaultMatchTimeout);
-        }
-
-        public static string Replace(string input, string pattern, MatchEvaluator evaluator, RegexOptions options, TimeSpan matchTimeout)
-        {
-            return new Regex(pattern, options, matchTimeout, true).Replace(input, evaluator);
         }
 
         /// <summary>
