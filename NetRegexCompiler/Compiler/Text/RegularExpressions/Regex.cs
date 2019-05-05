@@ -10,9 +10,7 @@ using System.Collections;
 using System.Globalization;
 using System.Runtime.Serialization;
 using NetRegexCompiler.Compiler.Collections;
-#if FEATURE_COMPILED
 using System.Runtime.CompilerServices;
-#endif
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -142,9 +140,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 capslist = cached.Capslist;
                 capsize = cached.Capsize;
                 _code = cached.Code;
-#if FEATURE_COMPILED
                 factory = cached.Factory;
-#endif
 
                 // Cache runner and replacement
                 _runnerref = cached.Runnerref;
@@ -152,7 +148,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 _refsInitialized = true;
             }
 
-#if FEATURE_COMPILED
             // if the compile option is set, then compile the code if it's not already
             if (UseOptionC() && factory == null)
             {
@@ -165,7 +160,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 _code = null;
             }
-#endif
         }
 
         [CLSCompliant(false)]
@@ -200,7 +194,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-#if FEATURE_COMPILED
         /// <summary>
         /// This method is here for perf reasons: if the call to RegexCompiler is NOT in the 
         /// Regex constructor, we don't load RegexCompiler and its reflection classes when
@@ -211,24 +204,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             return RegexCompiler.Compile(code, roptions);
         }
-#endif
-
-#if FEATURE_COMPILEAPIS
-        public static void CompileToAssembly(RegexCompilationInfo[] regexinfos, AssemblyName assemblyname)
-        {
-            throw new PlatformNotSupportedException(SR.PlatformNotSupported_CompileToAssembly);
-        }
-
-        public static void CompileToAssembly(RegexCompilationInfo[] regexinfos, AssemblyName assemblyname, CustomAttributeBuilder[] attributes)
-        {
-            throw new PlatformNotSupportedException(SR.PlatformNotSupported_CompileToAssembly);
-        }
-
-        public static void CompileToAssembly(RegexCompilationInfo[] regexinfos, AssemblyName assemblyname, CustomAttributeBuilder[] attributes, string resourceFile)
-        {
-            throw new PlatformNotSupportedException(SR.PlatformNotSupported_CompileToAssembly);
-        }
-#endif // FEATURE_COMPILEAPIS
 
         /// <summary>
         /// Escapes a minimal set of metacharacters (\, *, +, ?, |, {, [, (, ), ^, $, ., #, and

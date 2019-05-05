@@ -272,9 +272,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             public readonly Hashtable Caps;
             public readonly Hashtable Capnames;
             public readonly string[] Capslist;
-#if FEATURE_COMPILED
             public RegexRunnerFactory Factory;
-#endif
             public readonly int Capsize;
             public readonly ExclusiveReference Runnerref;
             public readonly WeakReference<RegexReplacement> ReplRef;
@@ -292,13 +290,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 ReplRef = replref;
             }
 
-#if FEATURE_COMPILED
             public void AddCompiled(RegexRunnerFactory factory)
             {
                 Factory = factory;
                 Code = null;
             }
-#endif
         }
     }
 }
