@@ -18,28 +18,23 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
     /// contains static methods that allow use of regular expressions without instantiating
     /// a Regex explicitly.
     /// </summary>
-    public partial class Regex
+    public sealed partial class Regex
     {
         internal const int MaxOptionShift = 10;
 
-        protected internal string pattern;                   // The string pattern provided
-        protected internal RegexOptions roptions;            // the top-level options from the options string
-        protected internal RegexRunnerFactory factory;
-        protected internal Hashtable caps;                   // if captures are sparse, this is the hashtable capnum->index
-        protected internal Hashtable capnames;               // if named captures are used, this maps names->index
-        protected internal string[] capslist;                // if captures are sparse or named captures are used, this is the sorted list of names
-        protected internal int capsize;                      // the size of the capture array
+        internal string pattern;                   // The string pattern provided
+        internal RegexOptions roptions;            // the top-level options from the options string
+        internal RegexRunnerFactory factory;
+        internal Hashtable caps;                   // if captures are sparse, this is the hashtable capnum->index
+        internal Hashtable capnames;               // if named captures are used, this maps names->index
+        internal string[] capslist;                // if captures are sparse or named captures are used, this is the sorted list of names
+        internal int capsize;                      // the size of the capture array
         
         internal ExclusiveReference _runnerref;              // cached runner
         internal WeakReference<RegexReplacement> _replref; // cached parsed replacement pattern
         internal RegexCode _code;                            // if interpreted, this is the code for RegexInterpreter
         internal bool _refsInitialized = false;
-
-        protected Regex()
-        {
-            internalMatchTimeout = s_defaultMatchTimeout;
-        }
-
+        
         /// <summary>
         /// Creates and compiles a regular expression object for the
         /// specified regular expression with options that modify the pattern.
@@ -338,7 +333,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return -1;
         }
 
-        protected void InitializeReferences()
+        private void InitializeReferences()
         {
             if (_refsInitialized)
                 throw new NotSupportedException(SR.OnlyAllowedOnce);
@@ -395,7 +390,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /*
          * True if the L option was set
          */
-        protected internal bool UseOptionR() => (roptions & RegexOptions.RightToLeft) != 0;
+        internal bool UseOptionR() => (roptions & RegexOptions.RightToLeft) != 0;
 
         internal bool UseOptionInvariant() => (roptions & RegexOptions.CultureInvariant) != 0;
 

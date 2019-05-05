@@ -31,7 +31,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         public static readonly TimeSpan InfiniteMatchTimeout = Timeout.InfiniteTimeSpan;
 
         // timeout for the execution of this regex
-        protected internal TimeSpan internalMatchTimeout;
+        internal TimeSpan internalMatchTimeout;
 
         static Regex()
         {
@@ -51,7 +51,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// <param name="matchTimeout">The timeout value to validate.</param>
         /// <exception cref="ArgumentOutOfRangeException">If the specified timeout is not within a valid range.
         /// </exception>
-        protected internal static void ValidateMatchTimeout(TimeSpan matchTimeout)
+        internal static void ValidateMatchTimeout(TimeSpan matchTimeout)
         {
             if (InfiniteMatchTimeout == matchTimeout)
                 return;
