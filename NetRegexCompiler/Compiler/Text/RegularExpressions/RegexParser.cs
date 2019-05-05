@@ -19,7 +19,7 @@ using System.Text;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    internal ref struct RegexParser
+    internal sealed class RegexParser
     {
         private const int EscapeMaxBufferSize = 256;
         private const int OptionStackDefaultSize = 32;
@@ -48,11 +48,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private List<string> _capnamelist;
 
         private RegexOptions _options;
-        private ValueListBuilder<RegexOptions> _optionsStack;
+        private Stack<RegexOptions> _optionsStack;
 
         private bool _ignoreNextParen; // flag to skip capturing a parentheses group
 
-        private RegexParser(string pattern, RegexOptions options, CultureInfo culture, Dictionary<int, int> caps, int capsize, Dictionary<string, int> capnames, Span<RegexOptions> optionSpan)
+        private RegexParser(string pattern, RegexOptions options, CultureInfo culture, Dictionary<int, int> caps, int capsize, Dictionary<string, int> capnames)
         {
             Debug.Assert(pattern != null, "Pattern must be set");
             Debug.Assert(culture != null, "Culture must be set");
@@ -64,7 +64,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _capsize = capsize;
             _capnames = capnames;
 
-            _optionsStack = new ValueListBuilder<RegexOptions>(optionSpan);
+            _optionsStack = new Stack<RegexOptions>();
             _stack = default;
             _group = default;
             _alternation = default;
@@ -79,22 +79,20 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _ignoreNextParen = false;
         }
 
-        private RegexParser(string pattern, RegexOptions options, CultureInfo culture, Span<RegexOptions> optionSpan)
-            : this(pattern, options, culture, new Dictionary<int, int>(), default, null, optionSpan)
+        private RegexParser(string pattern, RegexOptions options, CultureInfo culture)
+            : this(pattern, options, culture, new Dictionary<int, int>(), default, null)
         {
         }
 
         public static RegexTree Parse(string pattern, RegexOptions options, CultureInfo culture)
         {
-            Span<RegexOptions> optionSpan = stackalloc RegexOptions[OptionStackDefaultSize];
-            var parser = new RegexParser(pattern, options, culture, optionSpan);
+            var parser = new RegexParser(pattern, options, culture);
 
             parser.CountCaptures();
             parser.Reset(options);
             RegexNode root = parser.ScanRegex();
             string[] capnamelist = parser._capnamelist?.ToArray();
             var tree = new RegexTree(root, parser._caps, parser._capnumlist, parser._captop, parser._capnames, capnamelist, options);
-            parser.Dispose();
 
             return tree;
         }
@@ -105,12 +103,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         public static RegexReplacement ParseReplacement(string pattern, RegexOptions options, Dictionary<int, int> caps, int capsize, Dictionary<string, int> capnames)
         {
             CultureInfo culture = (options & RegexOptions.CultureInvariant) != 0 ? CultureInfo.InvariantCulture : CultureInfo.CurrentCulture;
-            Span<RegexOptions> optionSpan = stackalloc RegexOptions[OptionStackDefaultSize];
-            var parser = new RegexParser(pattern, options, culture, caps, capsize, capnames, optionSpan);
+            var parser = new RegexParser(pattern, options, culture, caps, capsize, capnames);
 
             RegexNode root = parser.ScanReplacement();
             var regexReplacement = new RegexReplacement(pattern, root, caps);
-            parser.Dispose();
 
             return regexReplacement;
         }
@@ -224,9 +220,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     i++;
                 vsb.Append(input.AsSpan(lastpos, i - lastpos));
             } while (i < input.Length);
-
-            parser.Dispose();
-
+            
             return vsb.ToString();
         }
 
@@ -238,14 +232,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _currentPos = 0;
             _autocap = 1;
             _ignoreNextParen = false;
-            _optionsStack.Length = 0;
+            _optionsStack.Clear();
             _options = options;
             _stack = null;
-        }
-
-        public void Dispose()
-        {
-            _optionsStack.Dispose();
         }
 
         /*
@@ -2250,7 +2239,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
          */
         private void PushOptions()
         {
-            _optionsStack.Append(_options);
+            _optionsStack.Push(_options);
         }
 
         /*
@@ -2266,7 +2255,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
          */
         private bool EmptyOptionsStack()
         {
-            return _optionsStack.Length == 0;
+            return _optionsStack.Count == 0;
         }
 
         /*
@@ -2274,7 +2263,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
          */
         private void PopKeepOptions()
         {
-            _optionsStack.Length--;
+            _ = _optionsStack.Pop();
         }
 
         /*

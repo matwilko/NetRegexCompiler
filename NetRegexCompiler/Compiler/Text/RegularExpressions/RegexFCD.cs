@@ -15,11 +15,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using NetRegexCompiler.Compiler.Collections.Generic;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    internal ref struct RegexFCD
+    internal sealed class RegexFCD
     {
         private const int StackBufferSize = 32;
         private const int BeforeChild = 64;
@@ -37,15 +36,15 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         public const int ECMABoundary = 0x0080;
 
         private readonly List<RegexFC> _fcStack;
-        private ValueListBuilder<int> _intStack;    // must not be readonly
+        private Stack<int> _intStack;    // must not be readonly
         private bool _skipAllChildren;              // don't process any more children at the current level
         private bool _skipchild;                    // don't process the current child.
         private bool _failed;
 
-        private RegexFCD(Span<int> intStack)
+        private RegexFCD()
         {
             _fcStack = new List<RegexFC>(StackBufferSize);
-            _intStack = new ValueListBuilder<int>(intStack);
+            _intStack = new Stack<int>();
             _failed = false;
             _skipchild = false;
             _skipAllChildren = false;
@@ -57,12 +56,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// </summary>
         public static RegexPrefix? FirstChars(RegexTree t)
         {
-            // Create/rent buffers
-            Span<int> intSpan = stackalloc int[StackBufferSize];
-
-            RegexFCD s = new RegexFCD(intSpan);
+            RegexFCD s = new RegexFCD();
             RegexFC fc = s.RegexFCFromRegexTree(t);
-            s.Dispose();
 
             if (fc == null || fc._nullable)
                 return null;
@@ -260,12 +255,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// </summary>
         private void PushInt(int i)
         {
-            _intStack.Append(i);
+            _intStack.Push(i);
         }
 
         private bool IntIsEmpty()
         {
-            return _intStack.Length == 0;
+            return _intStack.Count == 0;
         }
 
         private int PopInt()
@@ -298,15 +293,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             return _fcStack[_fcStack.Count - 1];
         }
-
-        /// <summary>
-        /// Return rented buffers.
-        /// </summary>
-        public void Dispose()
-        {
-            _intStack.Dispose();
-        }
-
+        
         /// <summary>
         /// The main FC computation. It does a shortcutted depth-first walk
         /// through the tree and calls CalculateFC to emits code before
