@@ -31,7 +31,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private ValueListBuilder<int> _intStack;
         private readonly Dictionary<string, int> _stringHash;
         private readonly List<string> _stringTable;
-        private Hashtable _caps;
+        private Dictionary<int, int> _caps;
         private int _trackCount;
 
         private RegexWriter(Span<int> emittedSpan, Span<int> intStackSpan)

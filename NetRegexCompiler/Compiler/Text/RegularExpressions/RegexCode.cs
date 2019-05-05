@@ -93,15 +93,15 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         public readonly int[] Codes;                     // the code
         public readonly string[] Strings;                // the string/set table
         public readonly int TrackCount;                  // how many instructions use backtracking
-        public readonly Hashtable Caps;                  // mapping of user group numbers -> impl group slots
+        public readonly Dictionary<int, int> Caps;                  // mapping of user group numbers -> impl group slots
         public readonly int CapSize;                     // number of impl group slots
         public readonly RegexPrefix? FCPrefix;           // the set of candidate first characters (may be null)
         public readonly RegexBoyerMoore BMPrefix;        // the fixed prefix string as a Boyer-Moore machine (may be null)
         public readonly int Anchors;                     // the set of zero-length start anchors (RegexFCD.Bol, etc)
         public readonly bool RightToLeft;                // true if right to left
 
-        public RegexCode(int[] codes, List<string> stringlist, int trackcount,
-                           Hashtable caps, int capsize,
+        public RegexCode(int[] codes, List<string> stringlist, int trackcount, 
+                           Dictionary<int, int> caps, int capsize,
                            RegexBoyerMoore bmPrefix, RegexPrefix? fcPrefix,
                            int anchors, bool rightToLeft)
         {

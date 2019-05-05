@@ -6,20 +6,21 @@
 // global information attached.
 
 using System.Collections;
+using System.Collections.Generic;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
     internal sealed class RegexTree
     {
         public readonly RegexNode Root;
-        public readonly Hashtable Caps;
+        public readonly Dictionary<int, int> Caps;
         public readonly int[] CapNumList;
         public readonly int CapTop;
-        public readonly Hashtable CapNames;
+        public readonly Dictionary<string, int> CapNames;
         public readonly string[] CapsList;
         public readonly RegexOptions Options;
 
-        internal RegexTree(RegexNode root, Hashtable caps, int[] capNumList, int capTop, Hashtable capNames, string[] capsList, RegexOptions options)
+        internal RegexTree(RegexNode root, Dictionary<int, int> caps, int[] capNumList, int capTop, Dictionary<string, int> capNames, string[] capsList, RegexOptions options)
         {
             Root = root;
             Caps = caps;

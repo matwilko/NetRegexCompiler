@@ -22,12 +22,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
     public class GroupCollection : IList<Group>, IReadOnlyList<Group>, IList, IReadOnlyDictionary<string, Group>
     {
         private readonly Match _match;
-        private readonly Hashtable _captureMap;
+        private readonly Dictionary<int, int> _captureMap;
 
         // cache of Group objects fed to the user
         private Group[] _groups;
 
-        internal GroupCollection(Match match, Hashtable caps)
+        internal GroupCollection(Match match, Dictionary<int, int> caps)
         {
             _match = match;
             _captureMap = caps;

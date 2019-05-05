@@ -41,8 +41,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private int _captop;
         private int _capsize;
 
-        private Hashtable _caps;
-        private Hashtable _capnames;
+        private Dictionary<int, int> _caps;
+        private Dictionary<string, int> _capnames;
 
         private int[] _capnumlist;
         private List<string> _capnamelist;
@@ -52,7 +52,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private bool _ignoreNextParen; // flag to skip capturing a parentheses group
 
-        private RegexParser(string pattern, RegexOptions options, CultureInfo culture, Hashtable caps, int capsize, Hashtable capnames, Span<RegexOptions> optionSpan)
+        private RegexParser(string pattern, RegexOptions options, CultureInfo culture, Dictionary<int, int> caps, int capsize, Dictionary<string, int> capnames, Span<RegexOptions> optionSpan)
         {
             Debug.Assert(pattern != null, "Pattern must be set");
             Debug.Assert(culture != null, "Culture must be set");
@@ -80,7 +80,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         }
 
         private RegexParser(string pattern, RegexOptions options, CultureInfo culture, Span<RegexOptions> optionSpan)
-            : this(pattern, options, culture, new Hashtable(), default, null, optionSpan)
+            : this(pattern, options, culture, new Dictionary<int, int>(), default, null, optionSpan)
         {
         }
 
@@ -102,7 +102,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// <summary>
         /// This static call constructs a flat concatenation node given a replacement pattern.
         /// </summary>
-        public static RegexReplacement ParseReplacement(string pattern, RegexOptions options, Hashtable caps, int capsize, Hashtable capnames)
+        public static RegexReplacement ParseReplacement(string pattern, RegexOptions options, Dictionary<int, int> caps, int capsize, Dictionary<string, int> capnames)
         {
             CultureInfo culture = (options & RegexOptions.CultureInvariant) != 0 ? CultureInfo.InvariantCulture : CultureInfo.CurrentCulture;
             Span<RegexOptions> optionSpan = stackalloc RegexOptions[OptionStackDefaultSize];
@@ -1790,7 +1790,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             if (_capnames == null)
             {
-                _capnames = new Hashtable();
+                _capnames = new Dictionary<string, int>();
                 _capnamelist = new List<string>();
             }
 
@@ -1849,7 +1849,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 if (_capnames == null)
                 {
                     oldcapnamelist = null;
-                    _capnames = new Hashtable();
+                    _capnames = new Dictionary<string, int>();
                     _capnamelist = new List<string>();
                     next = -1;
                 }

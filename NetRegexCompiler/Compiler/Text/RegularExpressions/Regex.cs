@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using NetRegexCompiler.Compiler.Collections;
 
@@ -24,8 +25,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         internal string pattern;                   // The string pattern provided
         internal RegexOptions roptions;            // the top-level options from the options string
         internal RegexRunnerFactory factory;
-        internal Hashtable caps;                   // if captures are sparse, this is the hashtable capnum->index
-        internal Hashtable capnames;               // if named captures are used, this maps names->index
+        internal Dictionary<int, int> caps;                   // if captures are sparse, this is the hashtable capnum->index
+        internal Dictionary<string, int> capnames;               // if named captures are used, this maps names->index
         internal string[] capslist;                // if captures are sparse or named captures are used, this is the sorted list of names
         internal int capsize;                      // the size of the capture array
         

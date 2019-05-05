@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
@@ -374,9 +375,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
     internal class MatchSparse : Match
     {
         // the lookup hashtable
-        new internal readonly Hashtable _caps;
+        new internal readonly Dictionary<int, int> _caps;
 
-        internal MatchSparse(Regex regex, Hashtable caps, int capcount, string text, int begpos, int len, int startpos)
+        internal MatchSparse(Regex regex, Dictionary<int, int> caps, int capcount, string text, int begpos, int len, int startpos)
             : base(regex, capcount, text, begpos, len, startpos)
         {
             _caps = caps;
@@ -398,7 +399,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             if (_caps != null)
             {
-                foreach (DictionaryEntry kvp in _caps)
+                foreach (var kvp in _caps)
                 {
                     System.Diagnostics.Debug.WriteLine("Slot " + kvp.Key.ToString() + " -> " + kvp.Value.ToString());
                 }

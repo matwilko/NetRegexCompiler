@@ -29,7 +29,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// the constructor takes a RegexNode which is a concatenation
         /// of constant strings and backreferences.
         /// </summary>
-        public RegexReplacement(string rep, RegexNode concat, Hashtable _caps)
+        public RegexReplacement(string rep, RegexNode concat, Dictionary<int, int> _caps)
         {
             if (concat.Type() != RegexNode.Concatenate)
                 throw new ArgumentException("Replacement pattern error.");
@@ -88,8 +88,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// Either returns a weakly cached RegexReplacement helper or creates one and caches it.
         /// </summary>
         /// <returns></returns>
-        public static RegexReplacement GetOrCreate(WeakReference<RegexReplacement> replRef, string replacement, Hashtable caps,
-            int capsize, Hashtable capnames, RegexOptions roptions)
+        public static RegexReplacement GetOrCreate(WeakReference<RegexReplacement> replRef, string replacement, Dictionary<int, int> caps,
+            int capsize, Dictionary<string, int> capnames, RegexOptions roptions)
         {
             RegexReplacement repl;
 
