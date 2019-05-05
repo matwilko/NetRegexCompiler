@@ -12,14 +12,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         // We need this because time is queried using Environment.TickCount for performance reasons
         // (Environment.TickCount returns milliseconds as an int and cycles):
         private static readonly TimeSpan s_maximumMatchTimeout = TimeSpan.FromMilliseconds(int.MaxValue - 1);
-
-        // During static initialisation of Regex we check
-        private const string DefaultMatchTimeout_ConfigKeyName = "REGEX_DEFAULT_MATCH_TIMEOUT";
-
-        // DefaultMatchTimeout specifies the match timeout to use if no other timeout was specified
-        // by one means or another. Typically, it is set to InfiniteMatchTimeout.
-        internal static readonly TimeSpan s_defaultMatchTimeout;
-
+        
         // InfiniteMatchTimeout specifies that match timeout is switched OFF. It allows for faster code paths
         // compared to simply having a very large timeout.
         // We do not want to ask users to use System.Threading.Timeout.InfiniteTimeSpan as a parameter because:
@@ -32,12 +25,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         // timeout for the execution of this regex
         internal TimeSpan internalMatchTimeout;
-
-        static Regex()
-        {
-            s_defaultMatchTimeout = InitDefaultMatchTimeout();
-        }
-
+        
         /// <summary>
         /// The match timeout used by this Regex instance.
         /// </summary>
@@ -61,45 +49,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 return;
 
             throw new ArgumentOutOfRangeException(nameof(matchTimeout));
-        }
-
-        /// <summary>
-        /// Specifies the default RegEx matching timeout value (i.e. the timeout that will be used if no
-        /// explicit timeout is specified).
-        /// The default is queried from the current <code>AppDomain</code>.
-        /// If the AddDomain's data value for that key is not a <code>TimeSpan</code> value or if it is outside the
-        /// valid range, an exception is thrown.
-        /// If the AddDomain's data value for that key is <code>null</code>, a fallback value is returned.
-        /// </summary>
-        /// <returns>The default RegEx matching timeout for this AppDomain</returns>
-        private static TimeSpan InitDefaultMatchTimeout()
-        {
-            // Query AppDomain
-            AppDomain ad = AppDomain.CurrentDomain;
-            object defaultMatchTimeoutObj = ad.GetData(DefaultMatchTimeout_ConfigKeyName);
-
-            // If no default is specified, use fallback
-            if (defaultMatchTimeoutObj == null)
-            {
-                return InfiniteMatchTimeout;
-            }
-
-            if (defaultMatchTimeoutObj is TimeSpan defaultMatchTimeOut)
-            {
-                // If default timeout is outside the valid range, throw. It will result in a TypeInitializationException:
-                try
-                {
-                    ValidateMatchTimeout(defaultMatchTimeOut);
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    throw new ArgumentOutOfRangeException($"AppDomain data '{DefaultMatchTimeout_ConfigKeyName}' contains the invalid value or object '{defaultMatchTimeOut}' for specifying a default matching timeout for System.Text.RegularExpressions.Regex.");
-                }
-
-                return defaultMatchTimeOut;
-            }
-
-            throw new InvalidCastException($"AppDomain data '{DefaultMatchTimeout_ConfigKeyName}' contains the invalid value or object '{defaultMatchTimeoutObj}' for specifying a default matching timeout for System.Text.RegularExpressions.Regex.");
         }
     }
 }

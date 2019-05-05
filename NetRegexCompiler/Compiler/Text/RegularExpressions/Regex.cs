@@ -39,7 +39,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// specified regular expression with options that modify the pattern.
         /// </summary>
         public Regex(string pattern, RegexOptions options)
-            : this(pattern, options, s_defaultMatchTimeout)
+            : this(pattern, options, InfiniteMatchTimeout)
         {
         }
 

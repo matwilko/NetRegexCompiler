@@ -14,7 +14,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private TimeSpan _matchTimeout;
 
         public RegexCompilationInfo(string pattern, RegexOptions options, string name, string fullnamespace, bool ispublic)
-            : this(pattern, options, name, fullnamespace, ispublic, Regex.s_defaultMatchTimeout)
+            : this(pattern, options, name, fullnamespace, ispublic, Regex.InfiniteMatchTimeout)
         {
         }
 
