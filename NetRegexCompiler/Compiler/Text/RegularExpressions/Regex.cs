@@ -9,7 +9,6 @@ using System;
 using System.Collections;
 using System.Globalization;
 using NetRegexCompiler.Compiler.Collections;
-using System.Runtime.CompilerServices;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -92,85 +91,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             InitializeReferences();
 
-            factory = Compile(_code, roptions);
+            factory = RegexCompiler.Compile(_code, roptions);
             _code = null;
         }
-
-        [CLSCompliant(false)]
-        protected IDictionary Caps
-        {
-            get
-            {
-                return caps;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-
-                caps = value as Hashtable ?? new Hashtable(value);
-            }
-        }
-
-        [CLSCompliant(false)]
-        protected IDictionary CapNames
-        {
-            get
-            {
-                return capnames;
-            }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-
-                capnames = value as Hashtable ?? new Hashtable(value);
-            }
-        }
-
-        /// <summary>
-        /// This method is here for perf reasons: if the call to RegexCompiler is NOT in the 
-        /// Regex constructor, we don't load RegexCompiler and its reflection classes when
-        /// instantiating a non-compiled regex.
-        /// </summary>
-        [MethodImplAttribute(MethodImplOptions.NoInlining)]
-        private RegexRunnerFactory Compile(RegexCode code, RegexOptions roptions)
-        {
-            return RegexCompiler.Compile(code, roptions);
-        }
-
-        /// <summary>
-        /// Escapes a minimal set of metacharacters (\, *, +, ?, |, {, [, (, ), ^, $, ., #, and
-        /// whitespace) by replacing them with their \ codes. This converts a string so that
-        /// it can be used as a constant within a regular expression safely. (Note that the
-        /// reason # and whitespace must be escaped is so the string can be used safely
-        /// within an expression parsed with x mode. If future Regex features add
-        /// additional metacharacters, developers should depend on Escape to escape those
-        /// characters as well.)
-        /// </summary>
-        public static string Escape(string str)
-        {
-            if (str == null)
-                throw new ArgumentNullException(nameof(str));
-
-            return RegexParser.Escape(str);
-        }
-
-        /// <summary>
-        /// Unescapes any escaped characters in the input string.
-        /// </summary>
-        public static string Unescape(string str)
-        {
-            if (str == null)
-                throw new ArgumentNullException(nameof(str));
-
-            return RegexParser.Unescape(str);
-        }
-
-        /// <summary>
-        /// Returns the options passed into the constructor
-        /// </summary>
-        public RegexOptions Options => roptions;
 
         /// <summary>
         /// Indicates whether the regular expression matches from right to left.
@@ -181,77 +104,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         /// Returns the regular expression pattern passed into the constructor
         /// </summary>
         public override string ToString() => pattern;
-
-        /*
-         * Returns an array of the group names that are used to capture groups
-         * in the regular expression. Only needed if the regex is not known until
-         * runtime, and one wants to extract captured groups. (Probably unusual,
-         * but supplied for completeness.)
-         */
-        /// <summary>
-        /// Returns the GroupNameCollection for the regular expression. This collection contains the
-        /// set of strings used to name capturing groups in the expression.
-        /// </summary>
-        public string[] GetGroupNames()
-        {
-            string[] result;
-
-            if (capslist == null)
-            {
-                int max = capsize;
-                result = new string[max];
-
-                for (int i = 0; i < max; i++)
-                {
-                    result[i] = Convert.ToString(i, CultureInfo.InvariantCulture);
-                }
-            }
-            else
-            {
-                result = new string[capslist.Length];
-                Array.Copy(capslist, 0, result, 0, capslist.Length);
-            }
-
-            return result;
-        }
-
-        /*
-         * Returns an array of the group numbers that are used to capture groups
-         * in the regular expression. Only needed if the regex is not known until
-         * runtime, and one wants to extract captured groups. (Probably unusual,
-         * but supplied for completeness.)
-         */
-        /// <summary>
-        /// Returns the integer group number corresponding to a group name.
-        /// </summary>
-        public int[] GetGroupNumbers()
-        {
-            int[] result;
-
-            if (caps == null)
-            {
-                int max = capsize;
-                result = new int[max];
-
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = i;
-                }
-            }
-            else
-            {
-                result = new int[caps.Count];
-
-                // Manual use of IDictionaryEnumerator instead of foreach to avoid DictionaryEntry box allocations.
-                IDictionaryEnumerator de = caps.GetEnumerator();
-                while (de.MoveNext())
-                {
-                    result[(int)de.Value] = (int)de.Key;
-                }
-            }
-
-            return result;
-        }
 
         /*
          * Given a group number, maps it to a group name. Note that numbered

@@ -354,7 +354,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             Debug.WriteLine("Direction:  " + (RightToLeft ? "right-to-left" : "left-to-right"));
             Debug.WriteLine("Firstchars: " + (FCPrefix == null ? "n/a" : RegexCharClass.SetDescription(FCPrefix.GetValueOrDefault().Prefix)));
-            Debug.WriteLine("Prefix:     " + (BMPrefix == null ? "n/a" : Regex.Escape(BMPrefix.ToString())));
+            Debug.WriteLine("Prefix:     " + (BMPrefix == null ? "n/a" : RegexParser.Escape(BMPrefix.ToString())));
             Debug.WriteLine("Anchors:    " + RegexFCD.AnchorDescription(Anchors));
             Debug.WriteLine("");
             if (BMPrefix != null)

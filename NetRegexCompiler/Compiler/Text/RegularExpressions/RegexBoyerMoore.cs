@@ -373,7 +373,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     if (NegativeASCII[i] != Pattern.Length)
                     {
-                        sb.Append(indent + "  " + Regex.Escape(Convert.ToString((char)i, CultureInfo.InvariantCulture)) + " " + NegativeASCII[i].ToString(CultureInfo.InvariantCulture) + "\n");
+                        sb.Append(indent + "  " + RegexParser.Escape(Convert.ToString((char)i, CultureInfo.InvariantCulture)) + " " + NegativeASCII[i].ToString(CultureInfo.InvariantCulture) + "\n");
                     }
                 }
             }
