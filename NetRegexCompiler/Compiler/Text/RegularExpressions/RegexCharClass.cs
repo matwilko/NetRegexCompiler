@@ -685,29 +685,29 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             if (startsWithNulls)
                 strLength -= 2;
 
-            return string.Create(strLength, (set, category, startsWithNulls), (span, state) =>
+            var span = new char[strLength];
+            
+            int index;
+            if (startsWithNulls)
             {
-                int index;
+                span[0] = (char)0x1;
+                span[1] = (char)(set.Length - 2);
+                span[2] = (char)category.Length;
+                set.CopyTo(2, span, 3, set.Length - 2);
+                index = 3 + set.Length - 2;
+            }
+            else
+            {
+                span[0] = (char)0x0;
+                span[1] = (char)set.Length;
+                span[2] = (char)category.Length;
+                set.CopyTo(0, span, 3, set.Length);
+                index = 3 + set.Length;
+            }
 
-                if (state.startsWithNulls)
-                {
-                    span[0] = (char)0x1;
-                    span[1] = (char)(state.set.Length - 2);
-                    span[2] = (char)state.category.Length;
-                    state.set.AsSpan(2).CopyTo(span.Slice(3));
-                    index = 3 + state.set.Length - 2;
-                }
-                else
-                {
-                    span[0] = (char)0x0;
-                    span[1] = (char)state.set.Length;
-                    span[2] = (char)state.category.Length;
-                    state.set.AsSpan().CopyTo(span.Slice(3));
-                    index = 3 + state.set.Length;
-                }
+            category.CopyTo(0, span, index, category.Length);
 
-                state.category.AsSpan().CopyTo(span.Slice(index));
-            });
+            return new string(span);
         }
 
         /// <summary>
@@ -961,14 +961,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             if (category == null)
                 return null;
 
-            return string.Create(category.Length, category, (span, _category) =>
+            var span = new char[category.Length];
+            for (int i = 0; i < category.Length; i++)
             {
-                for (int i = 0; i < _category.Length; i++)
-                {
-                    short ch = (short)_category[i];
-                    span[i] = unchecked((char)-ch);
-                }
-            });
+                short ch = (short)category[i];
+                span[i] = unchecked((char)-ch);
+            }
+
+            return new string(span);
         }
 
         public static RegexCharClass Parse(string charClass)

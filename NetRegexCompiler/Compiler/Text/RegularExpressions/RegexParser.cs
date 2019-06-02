@@ -1994,8 +1994,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 string str;
                 if (UseOptionI() && !isReplacement)
                 {
-                    str = string.Create(cch, (_pattern, _culture, pos, cch), (span, state) =>
-                        state._pattern.AsSpan(state.pos, state.cch).ToLower(span, state._culture));
+                    str = _pattern.Substring(pos, cch).ToLower(_culture);
                 }
                 else
                 {
