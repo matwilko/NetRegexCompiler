@@ -91,7 +91,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             InitializeReferences();
 
-            factory = RegexCompiler.Compile(_code, roptions);
+            //factory = RegexCompiler.Compile(_code, roptions);
             _code = null;
         }
 
