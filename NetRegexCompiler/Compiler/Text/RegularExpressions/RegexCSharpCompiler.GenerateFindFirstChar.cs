@@ -71,197 +71,148 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 if (Anchors.Beginning && Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextbeg || runtextpos > runtextstart)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
+                    //        if (runtextpos < runtextend - 1)
                     //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
+                    //        else if (runtextpos < runtextend)
                     //            runtextpos = runtextend;
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.EndZ)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextbeg || runtextpos > runtextstart)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
+                    //        if (runtextpos < runtextend - 1)
                     //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
-                    //            runtextpos = runtextend;
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.End)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextbeg || runtextpos > runtextstart)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
+                    //        if (runtextpos < runtextend)
                     //            runtextpos = runtextend;
                 }
                 else if (Anchors.Beginning && Anchors.Start)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextbeg || runtextpos > runtextstart)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
-                    //            runtextpos = runtextend;
                 }
                 else if (Anchors.Beginning && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextbeg)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
+                    //        if (runtextpos < runtextend - 1)
                     //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
+                    //        else if (runtextpos < runtextend)
                     //            runtextpos = runtextend;
                 }
                 else if (Anchors.Beginning && Anchors.EndZ)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextbeg)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
+                    //        if (runtextpos < runtextend - 1)
                     //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
-                    //            runtextpos = runtextend;
                 }
                 else if (Anchors.Beginning && Anchors.End)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextbeg))
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
+                    //        if (runtextpos < runtextend)
                     //            runtextpos = runtextend;
                 }
                 else if (Anchors.Beginning)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextbeg)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
-                    //            runtextpos = runtextend;
                 }
                 else if (Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextstart)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
+                    //        if (runtextpos < runtextend - 1)
                     //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
+                    //        else if (runtextpos < runtextend)
                     //            runtextpos = runtextend;
                 }
                 else if (Anchors.Start && Anchors.EndZ)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextstart)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
+                    //        if (runtextpos < runtextend - 1)
                     //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
-                    //            runtextpos = runtextend;
                 }
                 else if (Anchors.Start && Anchors.End)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextstart)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
+                    //        if (runtextpos < runtextend)
                     //            runtextpos = runtextend;
                 }
                 else if (Anchors.Start)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
+                    //        if (runtextpos > runtextstart)
                     //        {
                     //            runtextpos = runtextend;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
-                    //            runtextpos = runtextend;
                 }
                 else if (Anchors.EndZ && Anchors.End)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
-
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
+                    //        if (runtextpos < runtextend - 1)
                     //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
+                    //        else if (runtextpos < runtextend)
                     //            runtextpos = runtextend;
                 }
                 else if (Anchors.EndZ)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
-
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
+                    //        if (runtextpos < runtextend - 1)
                     //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
-                    //            runtextpos = runtextend;
                 }
                 else if (Anchors.End)
                 {
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg) || (Anchors.Start && runtextpos > runtextstart))
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
-
-                    //        if (Anchors.EndZ && runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (Anchors.End && runtextpos < runtextend)
+                    //        if (runtextpos < runtextend)
                     //            runtextpos = runtextend;
                 }
 
@@ -270,168 +221,141 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 if (Anchors.Beginning && Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend || (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')) || runtextpos < runtextstart)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
+                    //        if (runtextpos > runtextbeg)
                     //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.EndZ)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if ((runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')) || runtextpos < runtextstart)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
+                    //        if (runtextpos > runtextbeg)
                     //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.End)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend || runtextpos < runtextstart)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
+                    //        if (runtextpos > runtextbeg)
                     //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Beginning && Anchors.Start)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextstart)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
+                    //        if (runtextpos > runtextbeg)
                     //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Beginning && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend || (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')))
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
+                    //        if (runtextpos > runtextbeg)
                     //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Beginning && Anchors.EndZ)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
+                    //        if (runtextpos > runtextbeg)
                     //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Beginning && Anchors.End)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
 
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
+                    //        if (runtextpos > runtextbeg)
                     //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Beginning)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
-
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
+                    //        if (runtextpos > runtextbeg)
                     //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend || (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')) || runtextpos < runtextstart)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Start && Anchors.EndZ)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if ((runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')) || runtextpos < runtextstart)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Start && Anchors.End)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend || runtextpos < runtextstart)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.Start)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextstart)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.EndZ && Anchors.End)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend || (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')))
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.EndZ)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
                 }
                 else if (Anchors.End)
                 {
-                    //        if (Anchors.End && runtextpos < runtextend) || (Anchors.EndZ && (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))) || (.Anchors.Start && runtextpos < runtextstart))
+                    //        if (runtextpos < runtextend)
                     //        {
                     //            runtextpos = runtextbeg;
                     //            return false;
                     //        }
-
-                    //        if (Anchors.Beginning && runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
                 }
             }
 
