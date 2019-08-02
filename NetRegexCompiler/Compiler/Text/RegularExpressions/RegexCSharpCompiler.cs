@@ -3,7 +3,7 @@ using System.IO;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    internal sealed class RegexCSharpCompiler : IDisposable
+    internal sealed partial class RegexCSharpCompiler : IDisposable
     {
         private CSharpWriter Writer { get; }
         private RegexCode Code { get; }
@@ -79,22 +79,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             using (Writer.Method("protected override void InitTrackCount()"))
                 Writer.Write($"{runtrackcount} = {Code.TrackCount};");
-        }
-
-        private void GenerateFindFirstChar()
-        {
-            using (Writer.Method("protected override bool FindFirstChar()"))
-            {
-
-            }
-        }
-
-        private void GenerateGo()
-        {
-            using (Writer.Method("protected override void Go()"))
-            {
-                
-            }
         }
     }
 }
