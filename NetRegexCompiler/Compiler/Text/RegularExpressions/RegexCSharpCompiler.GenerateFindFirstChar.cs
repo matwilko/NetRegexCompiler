@@ -81,7 +81,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     var i = Writer.ReferenceLocal("i");
                     using (Writer.For($"int {i} = {Forwardchars()}; {i} > 0; {i}--"))
                     {
-                        using (Writer.If($"{ch} == {Forwardcharnext()}"))
+                        using (Writer.If($"'{ch}' == {Forwardcharnext()}"))
                         {
                             Backwardnext();
                             Writer.Write($"return true;");
