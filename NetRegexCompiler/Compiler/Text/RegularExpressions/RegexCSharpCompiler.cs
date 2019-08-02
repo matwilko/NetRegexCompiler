@@ -86,9 +86,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private Local DeclareCulture()
         {
             if (IsCultureInvariant)
-                return Writer.DeclareLocal($"var culture = {"CultureInfo.InvariantCulture"};");
+                return Writer.DeclareLocal($"var culture = CultureInfo.InvariantCulture;");
             else
-                return Writer.DeclareLocal($"var culture = {"CultureInfo.CurrentCulture"};");
+                return Writer.DeclareLocal($"var culture = CultureInfo.CurrentCulture;");
         }
 
         private FormattableString Forwardchars()
