@@ -15,6 +15,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private int TrackCount { get; }
         private RegexOptions Options { get; }
 
+        private bool IsRightToLeft => (Options & RegexOptions.RightToLeft) != 0;
+        private bool IsCultureInvariant => (Options & RegexOptions.CultureInvariant) != 0;
+        private bool IsCaseInsensitive => (Options & RegexOptions.IgnoreCase) != 0;
+
         public void Dispose()
         {
             Writer.Dispose();
