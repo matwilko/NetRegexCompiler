@@ -10,7 +10,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private string[] Strings { get; }
         private RegexPrefix? FirstCharacterPrefix { get; }
         private RegexBoyerMoore BoyerMoorePrefix { get; }
-        private int Anchors { get; }
+        private Anchors Anchors { get; }
         private int TrackCount { get; }
         private RegexOptions Options { get; }
 
@@ -22,7 +22,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Strings = code.Strings;
             FirstCharacterPrefix = code.FCPrefix;
             BoyerMoorePrefix = code.BMPrefix;
-            Anchors = code.Anchors;
+            Anchors = new Anchors(code.Anchors);
             TrackCount = code.TrackCount;
             Options = options;
         }
