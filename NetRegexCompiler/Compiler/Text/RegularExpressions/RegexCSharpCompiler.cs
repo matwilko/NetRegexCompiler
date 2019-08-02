@@ -1,10 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    internal sealed class RegexCSharpCompiler
+    internal sealed class RegexCSharpCompiler : IDisposable
     {
-        private TextWriter Writer { get; }
+        private CSharpWriter Writer { get; }
         private RegexCode Code { get; }
         private int[] Codes { get; }
         private string[] Strings { get; }
@@ -14,9 +15,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private int TrackCount { get; }
         private RegexOptions Options { get; }
 
+        public void Dispose()
+        {
+            Writer.Dispose();
+        }
+
         private RegexCSharpCompiler(TextWriter writer, RegexCode code, RegexOptions options)
         {
-            Writer = writer;
+            Writer = new CSharpWriter(writer);
             Code = code;
             Codes = code.Codes;
             Strings = code.Strings;
