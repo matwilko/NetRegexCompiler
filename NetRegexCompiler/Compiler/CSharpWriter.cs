@@ -42,14 +42,14 @@ namespace NetRegexCompiler.Compiler
         public CloseScope Type(string typeDecl) => OpenScope(typeDecl, requireBraces: true, clearLine: true);
         public CloseScope Method(string methodDecl) => OpenScope(methodDecl, requireBraces: true, clearLine: true);
 
-        public CloseScope If(string expr) => OpenScope($"if ({expr})", clearLine: true);
+        public CloseScope If(FormattableString expr) => OpenScope($"if ({FormatExpression(expr)})", clearLine: true);
 
-        public CloseScope ElseIf(string expr)
+        public CloseScope ElseIf(FormattableString expr)
         {
             if (CurrentScope.Last() == string.Empty)
                 CurrentScope.Last().Remove(CurrentScope.Count - 1);
             
-            return OpenScope($"else if ({expr})", clearLine: true);
+            return OpenScope($"else if ({FormatExpression(expr)})", clearLine: true);
         }
         
         public CloseScope Else()
@@ -60,7 +60,8 @@ namespace NetRegexCompiler.Compiler
             return OpenScope($"else", clearLine: true);
         }
 
-        public CloseScope While(string expr) => OpenScope($"while ({expr})", clearLine: true);
+        public CloseScope While(FormattableString expr) => OpenScope($"while ({FormatExpression(expr)})", clearLine: true);
+        public CloseScope For(FormattableString expr) => OpenScope($"for ({FormatExpression(expr)})", clearLine: true);
 
         public Field DeclareField(FormattableString declaration)
         {
@@ -77,15 +78,22 @@ namespace NetRegexCompiler.Compiler
             Write(declaration);
             return local;
         }
+
+        public Local ReferenceLocal(string localName) => Local.Parse(localName);
         
         public CSharpWriter Write(FormattableString code)
         {
-            var arguments = code.GetArguments();
+            CurrentScope.Add(FormatExpression(code));
+            return this;
+        }
+
+        private static string FormatExpression(FormattableString expr)
+        {
+            var arguments = expr.GetArguments();
             for (var i = 0; i < arguments.Length; i++)
                 arguments[i] = ConvertFormatArgument(arguments[i]);
 
-            CurrentScope.Add(string.Format(CultureInfo.InvariantCulture, code.Format, arguments));
-            return this;
+            return string.Format(CultureInfo.InvariantCulture, expr.Format, arguments);
         }
 
         private static HashSet<char> VerbatimChars { get; } = new HashSet<char>(new[] { ' ', '-', '[', ']', '*', '(', ')', '=', ',', ':' });
@@ -114,6 +122,7 @@ namespace NetRegexCompiler.Compiler
                 case Field f: return f.Name;
                 case Method m: return m.Name;
                 case Local l: return l.Name;
+                case FormattableString fs: return FormatExpression(fs);
 
                 default: throw new FormatException("Unknown type for formatting");
             }
@@ -217,6 +226,7 @@ namespace NetRegexCompiler.Compiler
     internal sealed class Local
     {
         private static Regex DefinitionCheck { get; } = new Regex("^((var|[a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*) = \\{0\\};|([a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*);)$", RegexOptions.Compiled);
+        private static Regex Validation { get; } = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
 
         public string Name { get; }
 
@@ -234,6 +244,14 @@ namespace NetRegexCompiler.Compiler
             return match.Groups[3].Success
                 ? new Local(match.Groups[3].Value)
                 : new Local(match.Groups[5].Value);
+        }
+
+        public static Local Parse(string localName)
+        {
+            if (!Validation.IsMatch(localName))
+                throw new FormatException("Bad local name");
+            
+            return new Local(localName);
         }
     }
 }
