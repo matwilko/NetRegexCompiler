@@ -10,6 +10,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             using (Writer.Method("protected override bool FindFirstChar()"))
             {
+                var culture = DeclareCulture();
+
                 if (Anchors.Beginning || Anchors.Start || Anchors.EndZ || Anchors.End)
                 {
                     //    if (!_code.RightToLeft)
@@ -75,30 +77,31 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 if (RegexCharClass.IsSingleton(set))
                 {
-                //    char ch = RegexCharClass.SingletonChar(set);
-
-                //    for (int i = Forwardchars(); i > 0; i--)
-                //    {
-                //        if (ch == Forwardcharnext())
-                //        {
-                //            Backwardnext();
-                //            return true;
-                //        }
-                //    }
+                    var ch = RegexCharClass.SingletonChar(set);
+                    var i = Writer.ReferenceLocal("i");
+                    using (Writer.For($"int {i} = {Forwardchars()}; {i} > 0; {i}--"))
+                    {
+                        using (Writer.If($"{ch} == {Forwardcharnext()}"))
+                        {
+                            Backwardnext();
+                            Writer.Write($"return true;");
+                        }
+                    }
                 }
                 else
                 {
-                //    for (int i = Forwardchars(); i > 0; i--)
-                //    {
-                //        if (RegexCharClass.CharInClass(Forwardcharnext(), set))
-                //        {
-                //            Backwardnext();
-                //            return true;
-                //        }
-                //    }
+                    var i = Writer.ReferenceLocal("i");
+                    using (Writer.For($"int {i} = {Forwardchars()}; i > 0; i--"))
+                    {
+                        using (Writer.If($@"RegexCharClass.CharInClass({Forwardcharnext()}, ""{set}"")"))
+                        {
+                            Backwardnext();
+                            Writer.Write($"return true;");
+                        }
+                    }
                 }
 
-                //return false;
+                Writer.Write($"return false;");
             }
         }
     }

@@ -17,7 +17,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private bool IsRightToLeft => (Options & RegexOptions.RightToLeft) != 0;
         private bool IsCultureInvariant => (Options & RegexOptions.CultureInvariant) != 0;
-        private bool IsCaseInsensitive => (Options & RegexOptions.IgnoreCase) != 0;
+        private bool IsCaseInsensitive => FirstCharacterPrefix.GetValueOrDefault().CaseInsensitive;
 
         public void Dispose()
         {
@@ -75,10 +75,54 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private readonly Field runmatch      = Field.Parse("runmatch");
         private readonly Field runregex      = Field.Parse("runregex");
 
+        private readonly Local culture = Local.Parse("culture");
+
         private void GenerateInitTrackCount()
         {
             using (Writer.Method("protected override void InitTrackCount()"))
                 Writer.Write($"{runtrackcount} = {Code.TrackCount};");
+        }
+
+        private Local DeclareCulture()
+        {
+            if (IsCultureInvariant)
+                return Writer.DeclareLocal($"var culture = {"CultureInfo.InvariantCulture"};");
+            else
+                return Writer.DeclareLocal($"var culture = {"CultureInfo.CurrentCulture"};");
+        }
+
+        private FormattableString Forwardchars()
+        {
+            if (IsRightToLeft)
+                return $"{runtextpos} - {runtextbeg}";
+            else
+                return $"{runtextend} - {runtextpos}";
+        }
+
+        private FormattableString Forwardcharnext()
+        {
+            if (IsCaseInsensitive)
+            {
+                if (IsRightToLeft)
+                    return $"{culture}.TextInfo.ToLower({runtext}[--{runtextpos}])";
+                else
+                    return $"{culture}.TextInfo.ToLower({runtext}[{runtextpos}++])";
+            }
+            else
+            {
+                if (IsRightToLeft)
+                    return $"{runtext}[--{runtextpos}]";
+                else
+                    return $"{runtext}[{runtextpos}++]";
+            }
+        }
+
+        private void Backwardnext()
+        {
+            if (IsRightToLeft)
+                Writer.Write($"{runtextpos} += 1;");
+            else
+                Writer.Write($"{runtextpos} += -1;");
         }
     }
 }
