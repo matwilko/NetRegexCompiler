@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
     internal sealed partial class RegexCSharpCompiler
     {
+        private Method BoyerMoorePrefixScan { get; } = new Method("BoyerMoorePrefixScan");
+
         private void GenerateFindFirstChar()
         {
             using (Writer.Method("protected override bool FindFirstChar()"))
@@ -17,16 +20,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     GenerateAnchorChecks();
                 }
                 else if (BoyerMoorePrefix != null)
-                { 
-                    //    runtextpos = _code.BMPrefix.Scan(runtext, runtextpos, runtextbeg, runtextend);
-
-                    //    if (runtextpos == -1)
-                    //    {
-                    //        runtextpos = (_code.RightToLeft ? runtextbeg : runtextend);
-                    //        return false;
-                    //    }
-
-                    //    return true;
+                {
+                    GenerateBoyerMoorePrefixScanCheck();
                 }
                 else if (FirstCharacterPrefix == null)
                 {
@@ -65,6 +60,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     Writer.Write($"return false;");
                 }
             }
+
+            if (BoyerMoorePrefix != null) 
+                GenerateBoyerMoorePrefixScan();
         }
 
         private void GenerateAnchorChecks()
@@ -367,6 +365,123 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
 
             Writer.Write($"return true;"); // found a valid start or end anchor
+        }
+
+        private void GenerateBoyerMoorePrefixScanCheck()
+        {
+            using (Writer.If($"{BoyerMoorePrefixScan}() == -1"))
+            {
+                if (IsRightToLeft)
+                    Writer.Write($"{runtextpos} = {runtextbeg}");
+                else
+                    Writer.Write($"{runtextpos} = {runtextend}");
+                Writer.Write($"return false");
+            }
+
+            Writer.Write($"return true");
+        }
+
+        private void GenerateBoyerMoorePrefixScan()
+        {
+            using (Writer.Method($"private int {BoyerMoorePrefixScan}()"))
+            {
+                // var text = runtext;
+                // var index = runtextpos;
+                // var beglimit = runtextbeg;
+                // var endlimit = runtextend;
+                   
+                // int defadv;
+                // int test;
+                // int startmatch;
+                // int endmatch;
+                // int bump;
+                   
+                // if (!RightToLeft)
+                // {
+                //     defadv = Pattern.Length;
+                //     startmatch = Pattern.Length - 1;
+                //     endmatch = 0;
+                //     test = index + defadv - 1;
+                //     bump = 1;
+                // }
+                // else
+                // {
+                //     defadv = -Pattern.Length;
+                //     startmatch = 0;
+                //     endmatch = -defadv - 1;
+                //     test = index + defadv;
+                //     bump = -1;
+                // }
+                   
+                // char chMatch = Pattern[startmatch];
+                // char chTest;
+                // int test2;
+                // int match;
+                // int advance;
+                // int[] unicodeLookup;
+                   
+                // for (; ; )
+                // {
+                //     if (test >= endlimit || test < beglimit)
+                //         return -1;
+                   
+                //     chTest = text[test];
+                   
+                //     if (CaseInsensitive)
+                //         chTest = _culture.TextInfo.ToLower(chTest);
+                   
+                //     if (chTest != chMatch)
+                //     {
+                //         if (chTest < 128)
+                //             advance = NegativeASCII[chTest];
+                //         else if (null != NegativeUnicode && (null != (unicodeLookup = NegativeUnicode[chTest >> 8])))
+                //             advance = unicodeLookup[chTest & 0xFF];
+                //         else
+                //             advance = defadv;
+                   
+                //         test += advance;
+                //     }
+                //     else
+                //     { // if (chTest == chMatch)
+                //         test2 = test;
+                //         match = startmatch;
+                   
+                //         for (; ; )
+                //         {
+                //             if (match == endmatch)
+                //                 return (RightToLeft ? test2 + 1 : test2);
+                   
+                //             match -= bump;
+                //             test2 -= bump;
+                   
+                //             chTest = text[test2];
+                   
+                //             if (CaseInsensitive)
+                //                 chTest = _culture.TextInfo.ToLower(chTest);
+                   
+                //             if (chTest != Pattern[match])
+                //             {
+                //                 advance = Positive[match];
+                //                 if ((chTest & 0xFF80) == 0)
+                //                     test2 = (match - startmatch) + NegativeASCII[chTest];
+                //                 else if (null != NegativeUnicode && (null != (unicodeLookup = NegativeUnicode[chTest >> 8])))
+                //                     test2 = (match - startmatch) + unicodeLookup[chTest & 0xFF];
+                //                 else
+                //                 {
+                //                     test += advance;
+                //                     break;
+                //                 }
+                   
+                //                 if (RightToLeft ? test2 < advance : test2 > advance)
+                //                     advance = test2;
+                   
+                //                 test += advance;
+                //                 break;
+                //             }
+                //         }
+                //     }
+                // }
+            }
         }
     }
 }
