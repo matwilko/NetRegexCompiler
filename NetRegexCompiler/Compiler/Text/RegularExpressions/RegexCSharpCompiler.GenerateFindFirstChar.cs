@@ -383,12 +383,20 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private void GenerateBoyerMoorePrefixScan()
         {
+            var positive = Writer.DeclareField($"private static readonly int[] positive = new int[] {{ {string.Join(", ", BoyerMoorePrefix.Positive.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }};");
+            var negativeAscii = Writer.DeclareField($"private static readonly int[] negativeAscii = new int[] {{ {string.Join(", ", BoyerMoorePrefix.NegativeASCII.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }};");
+            var negativeUnicode = BoyerMoorePrefix.NegativeUnicode != null
+                ? Writer.DeclareField($"private static readonly int[][] negativeUnicode = new int[][] {{ {string.Join(", ", BoyerMoorePrefix.NegativeUnicode.Select(ia => $"new int[] {{ {string.Join(", ", ia.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }}"))} }};")
+                : default(Field);
+            
             using (Writer.Method($"private int {BoyerMoorePrefixScan}()"))
             {
                 var text = Writer.DeclareLocal($"var text = {runtext};");
                 var index = Writer.DeclareLocal($"var index = {runtextpos};");
                 var beglimit = Writer.DeclareLocal($"var beglimit = {runtextbeg};");
                 var endlimit = Writer.DeclareLocal($"var endlimit = {runtextend};");
+                
+                var pattern = Writer.DeclareLocal($@"var pattern = ""{BoyerMoorePrefix.Pattern}"";");
                 
                 // int defadv;
                 // int test;
