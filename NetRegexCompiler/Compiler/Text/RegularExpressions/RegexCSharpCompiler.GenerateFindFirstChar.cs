@@ -398,36 +398,29 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 
                 var pattern = Writer.DeclareLocal($@"var pattern = ""{BoyerMoorePrefix.Pattern}"";");
                 
-                // int defadv;
-                // int test;
-                // int startmatch;
-                // int endmatch;
-                // int bump;
-                   
-                // if (!RightToLeft)
-                // {
-                //     defadv = Pattern.Length;
-                //     startmatch = Pattern.Length - 1;
-                //     endmatch = 0;
-                //     test = index + defadv - 1;
-                //     bump = 1;
-                // }
-                // else
-                // {
-                //     defadv = -Pattern.Length;
-                //     startmatch = 0;
-                //     endmatch = -defadv - 1;
-                //     test = index + defadv;
-                //     bump = -1;
-                // }
-                   
-                // char chMatch = Pattern[startmatch];
-                // char chTest;
-                // int test2;
-                // int match;
-                // int advance;
-                // int[] unicodeLookup;
-                   
+                var defadv = !IsRightToLeft
+                    ? Writer.DeclareLocal($"var defadv = {pattern}.Length;")
+                    : Writer.DeclareLocal($"var defadv = -{pattern}.Length;");
+                var startMatch = !IsRightToLeft
+                    ? Writer.DeclareLocal($"var startMatch = {pattern}.Length - 1;")
+                    : Writer.DeclareLocal($"var startMatch = 0;");
+                var endMatch = !IsRightToLeft
+                    ? Writer.DeclareLocal($"var endMatch = 0;")
+                    : Writer.DeclareLocal($"var endMatch = -{defadv} - 1;");
+                var test = !IsRightToLeft
+                    ? Writer.DeclareLocal($"var test = {index} + {defadv} - 1;")
+                    : Writer.DeclareLocal($"var test = {index} + {defadv};");
+                var bump = !IsRightToLeft
+                    ? Writer.DeclareLocal($"var bump = 1;")
+                    : Writer.DeclareLocal($"var bump = -1;");
+
+                var chMatch = Writer.DeclareLocal($"char chMatch = Pattern[{startMatch}];");
+                var chTest = Writer.DeclareLocal($"char chTest;");
+                var test2 = Writer.DeclareLocal($"int test2;");
+                var match = Writer.DeclareLocal($"int match;");
+                var advance = Writer.DeclareLocal($"int advance;");
+                var unicodeLookup = Writer.DeclareLocal($"int[] unicodeLookup;");
+
                 // for (; ; )
                 // {
                 //     if (test >= endlimit || test < beglimit)
