@@ -32,36 +32,38 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     Writer.Write($"return true;");
                 }
-                
-                var set = FirstCharacterPrefix.GetValueOrDefault().Prefix;
-
-                if (RegexCharClass.IsSingleton(set))
-                {
-                    var ch = RegexCharClass.SingletonChar(set);
-                    var i = Writer.ReferenceLocal("i");
-                    using (Writer.For($"int {i} = {Forwardchars()}; {i} > 0; {i}--"))
-                    {
-                        using (Writer.If($"'{ch}' == {Forwardcharnext()}"))
-                        {
-                            Backwardnext();
-                            Writer.Write($"return true;");
-                        }
-                    }
-                }
                 else
                 {
-                    var i = Writer.ReferenceLocal("i");
-                    using (Writer.For($"int {i} = {Forwardchars()}; i > 0; i--"))
+                    var set = FirstCharacterPrefix.GetValueOrDefault().Prefix;
+
+                    if (RegexCharClass.IsSingleton(set))
                     {
-                        using (Writer.If($@"RegexCharClass.CharInClass({Forwardcharnext()}, ""{set}"")"))
+                        var ch = RegexCharClass.SingletonChar(set);
+                        var i = Writer.ReferenceLocal("i");
+                        using (Writer.For($"int {i} = {Forwardchars()}; {i} > 0; {i}--"))
                         {
-                            Backwardnext();
-                            Writer.Write($"return true;");
+                            using (Writer.If($"'{ch}' == {Forwardcharnext()}"))
+                            {
+                                Backwardnext();
+                                Writer.Write($"return true;");
+                            }
                         }
                     }
-                }
+                    else
+                    {
+                        var i = Writer.ReferenceLocal("i");
+                        using (Writer.For($"int {i} = {Forwardchars()}; i > 0; i--"))
+                        {
+                            using (Writer.If($@"RegexCharClass.CharInClass({Forwardcharnext()}, ""{set}"")"))
+                            {
+                                Backwardnext();
+                                Writer.Write($"return true;");
+                            }
+                        }
+                    }
 
-                Writer.Write($"return false;");
+                    Writer.Write($"return false;");
+                }
             }
         }
 
