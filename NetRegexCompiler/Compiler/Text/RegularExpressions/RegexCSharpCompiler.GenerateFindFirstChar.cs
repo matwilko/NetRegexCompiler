@@ -385,11 +385,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             using (Writer.Method($"private int {BoyerMoorePrefixScan}()"))
             {
-                // var text = runtext;
-                // var index = runtextpos;
-                // var beglimit = runtextbeg;
-                // var endlimit = runtextend;
-                   
+                var text = Writer.DeclareLocal($"var text = {runtext};");
+                var index = Writer.DeclareLocal($"var index = {runtextpos};");
+                var beglimit = Writer.DeclareLocal($"var beglimit = {runtextbeg};");
+                var endlimit = Writer.DeclareLocal($"var endlimit = {runtextend};");
+                
                 // int defadv;
                 // int test;
                 // int startmatch;
