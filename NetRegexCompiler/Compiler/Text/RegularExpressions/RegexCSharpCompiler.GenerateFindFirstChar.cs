@@ -71,149 +71,149 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 if (Anchors.Beginning && Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (runtextpos > runtextbeg || runtextpos > runtextstart)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextbeg} || {runtextpos} > {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (runtextpos < runtextend)
-                    //            runtextpos = runtextend;
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1"))
+                        Writer.Write($"{runtextpos} = {runtextend} - 1");
+                    using (Writer.ElseIf($"{runtextpos} < {runtextend}"))
+                        Writer.Write($"{runtextpos} = {runtextend}");
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.EndZ)
                 {
-                    //        if (runtextpos > runtextbeg || runtextpos > runtextstart)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextbeg} ||{runtextpos} > {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1"))
+                        Writer.Write($"{runtextpos} = {runtextend} - 1");
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.End)
                 {
-                    //        if (runtextpos > runtextbeg || runtextpos > runtextstart)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextbeg} || {runtextpos} > {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend)
-                    //            runtextpos = runtextend;
+                    using (Writer.If($"{runtextpos} < {runtextend}"))
+                        Writer.Write($"{runtextpos} = {runtextend}");
                 }
                 else if (Anchors.Beginning && Anchors.Start)
                 {
-                    //        if (runtextpos > runtextbeg || runtextpos > runtextstart)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextbeg} || {runtextpos} > {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.Beginning && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (runtextpos > runtextbeg)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (runtextpos < runtextend)
-                    //            runtextpos = runtextend;
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1"))
+                        Writer.Write($"{runtextpos} = {runtextend} - 1");
+                    using (Writer.ElseIf($"{runtextpos} < {runtextend}"))
+                        Writer.Write($"{runtextpos} = {runtextend}");
                 }
                 else if (Anchors.Beginning && Anchors.EndZ)
                 {
-                    //        if (runtextpos > runtextbeg)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1"))
+                        Writer.Write($"{runtextpos} = {runtextend} - 1");
                 }
                 else if (Anchors.Beginning && Anchors.End)
                 {
-                    //        if (runtextpos > runtextbeg))
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend)
-                    //            runtextpos = runtextend;
+                    using (Writer.If($"{runtextpos} < {runtextend}"))
+                        Writer.Write($"{runtextpos} = {runtextend}");
                 }
                 else if (Anchors.Beginning)
                 {
-                    //        if (runtextpos > runtextbeg)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (runtextpos > runtextstart)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (runtextpos < runtextend)
-                    //            runtextpos = runtextend;
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1"))
+                        Writer.Write($"{runtextpos} = {runtextend} - 1");
+                    using (Writer.ElseIf($"{runtextpos} < {runtextend}"))
+                        Writer.Write($"{runtextpos} = {runtextend}");
                 }
                 else if (Anchors.Start && Anchors.EndZ)
                 {
-                    //        if (runtextpos > runtextstart)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1"))
+                        Writer.Write($"{runtextpos} = {runtextend} - 1");
                 }
                 else if (Anchors.Start && Anchors.End)
                 {
-                    //        if (runtextpos > runtextstart)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos < runtextend)
-                    //            runtextpos = runtextend;
+                    using (Writer.If($"{runtextpos} < {runtextend}"))
+                        Writer.Write($"{runtextpos} = {runtextend}");
                 }
                 else if (Anchors.Start)
                 {
-                    //        if (runtextpos > runtextstart)
-                    //        {
-                    //            runtextpos = runtextend;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} > {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextend}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.EndZ && Anchors.End)
                 {
-                    //        if (runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
-                    //        else if (runtextpos < runtextend)
-                    //            runtextpos = runtextend;
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1"))
+                        Writer.Write($"{runtextpos} = {runtextend} - 1");
+                    using (Writer.ElseIf($"{runtextpos} < {runtextend}"))
+                        Writer.Write($"{runtextpos} = {runtextend}");
                 }
                 else if (Anchors.EndZ)
                 {
-                    //        if (runtextpos < runtextend - 1)
-                    //            runtextpos = runtextend - 1;
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1"))
+                        Writer.Write($"{runtextpos} = {runtextend} - 1");
                 }
                 else if (Anchors.End)
                 {
-                    //        if (runtextpos < runtextend)
-                    //            runtextpos = runtextend;
+                    using (Writer.If($"{runtextpos} < {runtextend}"))
+                        Writer.Write($"{runtextpos} = {runtextend}");
                 }
 
             }
@@ -221,141 +221,141 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 if (Anchors.Beginning && Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (runtextpos < runtextend || (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')) || runtextpos < runtextstart)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')) || {runtextpos} < {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.EndZ)
                 {
-                    //        if ((runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')) || runtextpos < runtextstart)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')) || {runtextpos} < {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.End)
                 {
-                    //        if (runtextpos < runtextend || runtextpos < runtextstart)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend} || {runtextpos} < {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
                 }
                 else if (Anchors.Beginning && Anchors.Start)
                 {
-                    //        if (runtextpos < runtextstart)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
                 }
                 else if (Anchors.Beginning && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (runtextpos < runtextend || (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')))
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n'))"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
                 }
                 else if (Anchors.Beginning && Anchors.EndZ)
                 {
-                    //        if (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
                 }
                 else if (Anchors.Beginning && Anchors.End)
                 {
-                    //        if (runtextpos < runtextend)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
 
-                    //        if (runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
                 }
                 else if (Anchors.Beginning)
                 {
-                    //        if (runtextpos > runtextbeg)
-                    //            runtextpos = runtextbeg;
+                    using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
                 }
                 else if (Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    //        if (runtextpos < runtextend || (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')) || runtextpos < runtextstart)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')) || {runtextpos} < {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.Start && Anchors.EndZ)
                 {
-                    //        if ((runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')) || runtextpos < runtextstart)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')) || {runtextpos} < {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.Start && Anchors.End)
                 {
-                    //        if (runtextpos < runtextend || runtextpos < runtextstart)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend} || {runtextpos} < {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.Start)
                 {
-                    //        if (runtextpos < runtextstart)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextstart}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.EndZ && Anchors.End)
                 {
-                    //        if (runtextpos < runtextend || (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n')))
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n'))"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.EndZ)
                 {
-                    //        if (runtextpos < runtextend - 1 || (runtextpos == runtextend - 1 && CharAt(runtextpos) != '\n'))
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
                 }
                 else if (Anchors.End)
                 {
-                    //        if (runtextpos < runtextend)
-                    //        {
-                    //            runtextpos = runtextbeg;
-                    //            return false;
-                    //        }
+                    using (Writer.If($"{runtextpos} < {runtextend}"))
+                    {
+                        Writer.Write($"{runtextpos} = {runtextbeg}");
+                        Writer.Write($"return false");
+                    }
                 }
             }
 
