@@ -362,44 +362,47 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             if (BoyerMoorePrefix != null)
             {
-                var text = Writer.DeclareLocal($"var text = {runtext};");
-                var index = Writer.DeclareLocal($"var index = {runtextpos};");
-                var beglimit = Writer.DeclareLocal($"var beglimit = {runtextbeg};");
-                var endlimit = Writer.DeclareLocal($"var endlimit = {runtextend};");
-
-                if (!IsRightToLeft)
+                using (Writer.OpenScope(null, requireBraces: true, clearLine: true))
                 {
-                    using (Writer.If($"{index} < {beglimit} || {endlimit} - {index} < {BoyerMoorePrefix.Pattern.Length}"))
-                        Writer.Write($"return false");
+                    var text = Writer.DeclareLocal($"var text = {runtext};");
+                    var index = Writer.DeclareLocal($"var index = {runtextpos};");
+                    var beglimit = Writer.DeclareLocal($"var beglimit = {runtextbeg};");
+                    var endlimit = Writer.DeclareLocal($"var endlimit = {runtextend};");
 
-                    if (IsCaseInsensitive)
+                    if (!IsRightToLeft)
                     {
-                        using (Writer.If($"{text}.Length - {index} < {BoyerMoorePrefix.Pattern.Length}"))
+                        using (Writer.If($"{index} < {beglimit} || {endlimit} - {index} < {BoyerMoorePrefix.Pattern.Length}"))
                             Writer.Write($"return false");
 
-                        Writer.Write($@"return 0 == string.Compare(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length}, true, {boyerMooreCulture})");
+                        if (IsCaseInsensitive)
+                        {
+                            using (Writer.If($"{text}.Length - {index} < {BoyerMoorePrefix.Pattern.Length}"))
+                                Writer.Write($"return false");
+
+                            Writer.Write($@"return 0 == string.Compare(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length}, true, {boyerMooreCulture})");
+                        }
+                        else
+                        {
+                            Writer.Write($@"return 0 == string.CompareOrdinal(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length})");
+                        }
                     }
                     else
                     {
-                        Writer.Write($@"return 0 == string.CompareOrdinal(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length})");
-                    }
-                }
-                else
-                {
-                    using (Writer.If($"{index} > {endlimit} || {index} - {beglimit} < {BoyerMoorePrefix.Pattern.Length}"))
-                        Writer.Write($"return false");
-
-                    Writer.Write($"{index} -= {BoyerMoorePrefix.Pattern.Length}");
-                    if (IsCaseInsensitive)
-                    {
-                        using (Writer.If($"{text}.Length - {index} < {BoyerMoorePrefix.Pattern.Length}"))
+                        using (Writer.If($"{index} > {endlimit} || {index} - {beglimit} < {BoyerMoorePrefix.Pattern.Length}"))
                             Writer.Write($"return false");
 
-                        Writer.Write($@"return 0 == string.Compare(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length}, false, {boyerMooreCulture})");
-                    }
-                    else
-                    {
-                        Writer.Write($@"return 0 == string.CompareOrdinal(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length})");
+                        Writer.Write($"{index} -= {BoyerMoorePrefix.Pattern.Length}");
+                        if (IsCaseInsensitive)
+                        {
+                            using (Writer.If($"{text}.Length - {index} < {BoyerMoorePrefix.Pattern.Length}"))
+                                Writer.Write($"return false");
+
+                            Writer.Write($@"return 0 == string.Compare(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length}, false, {boyerMooreCulture})");
+                        }
+                        else
+                        {
+                            Writer.Write($@"return 0 == string.CompareOrdinal(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length})");
+                        }
                     }
                 }
             }
