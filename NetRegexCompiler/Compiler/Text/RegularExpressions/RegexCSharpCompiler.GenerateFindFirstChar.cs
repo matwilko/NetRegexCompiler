@@ -12,13 +12,20 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private void GenerateFindFirstChar()
         {
+            var boyerMooreCulture = BoyerMoorePrefix != null
+                ? Writer.DeclareField($@"private static readonly CultureInfo BoyerMooreCulture = CultureInfo.GetCultureInfo(""{BoyerMoorePrefix._culture.ToString()}"");")
+                : null;
+
+            if (BoyerMoorePrefix != null)
+                GenerateBoyerMoorePrefixScan(boyerMooreCulture);
+
             using (Writer.Method("protected override bool FindFirstChar()"))
             {
                 var culture = DeclareCulture();
 
                 if (Anchors.Beginning || Anchors.Start || Anchors.EndZ || Anchors.End)
                 {
-                    GenerateAnchorChecks();
+                    GenerateAnchorChecks(boyerMooreCulture);
                 }
                 else if (BoyerMoorePrefix != null)
                 {
@@ -61,12 +68,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     Writer.Write($"return false;");
                 }
             }
-
-            if (BoyerMoorePrefix != null) 
-                GenerateBoyerMoorePrefixScan();
         }
 
-        private void GenerateAnchorChecks()
+        private void GenerateAnchorChecks(Field boyerMooreCulture)
         {
             if (!IsRightToLeft)
             {
@@ -424,14 +428,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Write($"return true");
         }
 
-        private void GenerateBoyerMoorePrefixScan()
+        private void GenerateBoyerMoorePrefixScan(Field boyerMooreCulture)
         {
             var positive = Writer.DeclareField($"private static readonly int[] positive = new int[] {{ {string.Join(", ", BoyerMoorePrefix.Positive.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }};");
             var negativeAscii = Writer.DeclareField($"private static readonly int[] negativeAscii = new int[] {{ {string.Join(", ", BoyerMoorePrefix.NegativeASCII.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }};");
             var negativeUnicode = BoyerMoorePrefix.NegativeUnicode != null
                 ? Writer.DeclareField($"private static readonly int[][] negativeUnicode = new int[][] {{ {string.Join(", ", BoyerMoorePrefix.NegativeUnicode.Select(ia => $"new int[] {{ {string.Join(", ", ia.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }}"))} }};")
                 : default(Field);
-            var culture = Writer.DeclareField($@"private static readonly CultureInfo BoyerMooreCulture = CultureInfo.GetCultureInfo(""{BoyerMoorePrefix._culture.ToString()}"");");
+            
             
             using (Writer.Method($"private int {BoyerMoorePrefixScan}()"))
             {
@@ -473,7 +477,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                      if (!IsCaseInsensitive)
                         Writer.Write($"{chTest} = {text}[{test}]");
                      else
-                        Writer.Write($"{chTest} = {culture}.TextInfo.ToLower({text}[{test}]))");
+                        Writer.Write($"{chTest} = {boyerMooreCulture}.TextInfo.ToLower({text}[{test}]))");
 
                      using (Writer.If($"{chTest} != {chMatch}"))
                      {
@@ -508,7 +512,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                              if (!IsCaseInsensitive)
                                  Writer.Write($"{chTest} = {text}[{test2}]");
                              else
-                                 Writer.Write($"{chTest} = {culture}.TextInfo.ToLower({text}[{test2}])");
+                                 Writer.Write($"{chTest} = {boyerMooreCulture}.TextInfo.ToLower({text}[{test2}])");
 
                              using (Writer.If($"{chTest} != {pattern}[{match}]"))
                              {
