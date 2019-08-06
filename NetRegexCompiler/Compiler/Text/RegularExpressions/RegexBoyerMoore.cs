@@ -28,7 +28,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         public readonly int HighASCII;
         public readonly bool RightToLeft;
         public readonly bool CaseInsensitive;
-        private readonly CultureInfo _culture;
+        public readonly CultureInfo _culture;
 
         /// <summary>
         /// Constructs a Boyer-Moore state machine for searching for the string
