@@ -43,22 +43,8 @@ namespace NetRegexCompiler.Compiler
         public CloseScope Method(string methodDecl) => OpenScope(methodDecl, requireBraces: true, clearLine: true);
 
         public CloseScope If(FormattableString expr) => OpenScope($"if ({FormatExpression(expr)})", clearLine: true);
-
-        public CloseScope ElseIf(FormattableString expr)
-        {
-            if (CurrentScope.Last() == string.Empty)
-                CurrentScope.Last().Remove(CurrentScope.Count - 1);
-            
-            return OpenScope($"else if ({FormatExpression(expr)})", clearLine: true);
-        }
-        
-        public CloseScope Else()
-        {
-            if (CurrentScope.Last() == string.Empty)
-                CurrentScope.Last().Remove(CurrentScope.Count - 1);
-
-            return OpenScope($"else", clearLine: true);
-        }
+        public CloseScope ElseIf(FormattableString expr) => OpenScope($"else if ({FormatExpression(expr)})", clearLine: true);
+        public CloseScope Else() => OpenScope($"else", clearLine: true);
 
         public CloseScope While(FormattableString expr) => OpenScope($"while ({FormatExpression(expr)})", clearLine: true);
         public CloseScope For(FormattableString expr) => OpenScope($"for ({FormatExpression(expr)})", clearLine: true);
@@ -83,7 +69,11 @@ namespace NetRegexCompiler.Compiler
         
         public CSharpWriter Write(FormattableString code)
         {
-            CurrentScope.Add(FormatExpression(code));
+            if (code.Format.Last() == ';')
+                CurrentScope.Add(FormatExpression(code));
+            else
+                CurrentScope.Add(FormatExpression(code) + ";");
+
             return this;
         }
 
@@ -97,8 +87,14 @@ namespace NetRegexCompiler.Compiler
         }
 
         private static HashSet<char> VerbatimChars { get; } = new HashSet<char>(new[] { ' ', '-', '[', ']', '*', '(', ')', '=', ',', ':' });
-        
-        private static object ConvertFormatArgument(object o)
+
+        private static Dictionary<char, string> EscapedChars { get; } = new Dictionary<char, string>
+        {
+            { '\n', "\\n" },
+            { '\t', "\\t" }
+        };
+
+        public static string ConvertFormatArgument(object o)
         {
             switch (o)
             {
@@ -114,6 +110,7 @@ namespace NetRegexCompiler.Compiler
                     return sb.ToString();
                 }
 
+                case bool b: return b ? "true" : "false";
                 case char c: return FormatChar(c);
                 case byte i: return i.ToString("D", CultureInfo.InvariantCulture);
                 case short i: return i.ToString("D", CultureInfo.InvariantCulture);
@@ -122,16 +119,23 @@ namespace NetRegexCompiler.Compiler
                 case Field f: return f.Name;
                 case Method m: return m.Name;
                 case Local l: return l.Name;
+
                 case FormattableString fs: return FormatExpression(fs);
 
                 default: throw new FormatException("Unknown type for formatting");
             }
 
-            string FormatChar(char c) => char.IsLetterOrDigit(c) || VerbatimChars.Contains(c)
-                                            ? c.ToString()
-                                            : $"\\x{((int)c):X4}";
+            string FormatChar(char c)
+            {
+                if (char.IsLetterOrDigit(c) ||  VerbatimChars.Contains(c))
+                    return c.ToString();
+                else if (EscapedChars.TryGetValue(c, out var str))
+                    return str;
+                else
+                    return $"\\x{((int) c):X4}";
+            }
         }
-
+        
         public void Dispose()
         {
             Debug.Assert(Scopes.Count == 1);
@@ -182,7 +186,7 @@ namespace NetRegexCompiler.Compiler
 
     internal sealed class Field
     {
-        private static Regex DefinitionCheck { get; } = new Regex("^(private|protected|internal)( static)?( readonly)? ([a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*)( = .*?)?;$", RegexOptions.Compiled);
+        private static Regex DefinitionCheck { get; } = new Regex("^(private|protected|internal)( static)?( readonly)? ([a-zA-Z_][a-zA-Z0-9_]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*)( = .*)?;$", RegexOptions.Compiled);
         private static Regex NameCheck { get; } = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
         public string Name { get; }
 
@@ -197,7 +201,7 @@ namespace NetRegexCompiler.Compiler
             if (!match.Success)
                 throw new InvalidOperationException("Bad field declaration");
 
-            return new Field(match.Groups[5].Value);
+            return new Field(match.Groups[6].Value);
         }
 
         public static Field Parse(string name)
@@ -221,11 +225,13 @@ namespace NetRegexCompiler.Compiler
 
             Name = name;
         }
+
+        public override string ToString() => Name;
     }
 
     internal sealed class Local
     {
-        private static Regex DefinitionCheck { get; } = new Regex("^((var|[a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*) = .*?;|([a-zA-Z_][a-zA-Z0-9_]*) ([a-zA-Z_][a-zA-Z0-9_]*);)$", RegexOptions.Compiled);
+        private static Regex DefinitionCheck { get; } = new Regex("^((var|[a-zA-Z_][a-zA-Z0-9_]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*) = .*?;|([a-zA-Z_][a-zA-Z0-9_]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*);)$", RegexOptions.Compiled);
         private static Regex Validation { get; } = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
 
         public string Name { get; }
@@ -241,9 +247,9 @@ namespace NetRegexCompiler.Compiler
             if (!match.Success)
                 throw new FormatException("Bad local declaration");
 
-            return match.Groups[3].Success
-                ? new Local(match.Groups[3].Value)
-                : new Local(match.Groups[5].Value);
+            return match.Groups[4].Success
+                ? new Local(match.Groups[4].Value)
+                : new Local(match.Groups[7].Value);
         }
 
         public static Local Parse(string localName)
