@@ -16,7 +16,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 ? Writer.DeclareField($@"private static readonly CultureInfo BoyerMooreCulture = CultureInfo.GetCultureInfo(""{BoyerMoorePrefix._culture.ToString()}"");")
                 : null;
 
-            if (BoyerMoorePrefix != null)
+            if (!(Anchors.Beginning || Anchors.Start || Anchors.EndZ || Anchors.End) && BoyerMoorePrefix != null)
                 GenerateBoyerMoorePrefixScan(boyerMooreCulture);
 
             using (Writer.Method("protected override bool FindFirstChar()"))
