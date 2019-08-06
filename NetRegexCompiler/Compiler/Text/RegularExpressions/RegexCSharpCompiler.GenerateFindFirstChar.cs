@@ -222,7 +222,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 if (Anchors.Beginning && Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')) || {runtextpos} < {runtextstart}"))
+                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && {CharAt(runtextpos)} != '{'\n'}')) || {runtextpos} < {runtextstart}"))
                     {
                         Writer.Write($"{runtextpos} = {runtextbeg}");
                         Writer.Write($"return false");
@@ -233,7 +233,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 else if (Anchors.Beginning && Anchors.Start && Anchors.EndZ)
                 {
-                    using (Writer.If($"({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')) || {runtextpos} < {runtextstart}"))
+                    using (Writer.If($"({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && {CharAt(runtextpos)} != '{'\n'}')) || {runtextpos} < {runtextstart}"))
                     {
                         Writer.Write($"{runtextpos} = {runtextbeg}");
                         Writer.Write($"return false");
@@ -266,7 +266,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 else if (Anchors.Beginning && Anchors.EndZ && Anchors.End)
                 {
-                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n'))"))
+                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && {CharAt(runtextpos)} != '{'\n'}'))"))
                     {
                         Writer.Write($"{runtextpos} = {runtextbeg}");
                         Writer.Write($"return false");
@@ -277,7 +277,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 else if (Anchors.Beginning && Anchors.EndZ)
                 {
-                    using (Writer.If($"{runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')"))
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && {CharAt(runtextpos)} != '{'\n'}')"))
                     {
                         Writer.Write($"{runtextpos} = {runtextbeg}");
                         Writer.Write($"return false");
@@ -304,7 +304,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 else if (Anchors.Start && Anchors.EndZ && Anchors.End)
                 {
-                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')) || {runtextpos} < {runtextstart}"))
+                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && {CharAt(runtextpos)} != '{'\n'}') || {runtextpos} < {runtextstart}"))
                     {
                         Writer.Write($"{runtextpos} = {runtextbeg}");
                         Writer.Write($"return false");
@@ -312,7 +312,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 else if (Anchors.Start && Anchors.EndZ)
                 {
-                    using (Writer.If($"({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')) || {runtextpos} < {runtextstart}"))
+                    using (Writer.If($"({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && {CharAt(runtextpos)} != '{'\n'}')) || {runtextpos} < {runtextstart}"))
                     {
                         Writer.Write($"{runtextpos} = {runtextbeg}");
                         Writer.Write($"return false");
@@ -336,7 +336,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 else if (Anchors.EndZ && Anchors.End)
                 {
-                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n'))"))
+                    using (Writer.If($"{runtextpos} < {runtextend} || ({runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && {CharAt(runtextpos)} != '{'\n'}'))"))
                     {
                         Writer.Write($"{runtextpos} = {runtextbeg}");
                         Writer.Write($"return false");
@@ -344,7 +344,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 else if (Anchors.EndZ)
                 {
-                    using (Writer.If($"{runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && CharAt({runtextpos}) != '\n')"))
+                    using (Writer.If($"{runtextpos} < {runtextend} - 1 || ({runtextpos} == {runtextend} - 1 && {CharAt(runtextpos)} != '{'\n'}')"))
                     {
                         Writer.Write($"{runtextpos} = {runtextbeg}");
                         Writer.Write($"return false");

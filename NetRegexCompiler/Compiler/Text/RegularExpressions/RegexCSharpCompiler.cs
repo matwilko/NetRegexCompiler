@@ -122,5 +122,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             else
                 Writer.Write($"{runtextpos} += -1;");
         }
+
+        private FormattableString CharAt(object expr) => $"{runtext}[{expr}]";
     }
 }
