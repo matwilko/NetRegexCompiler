@@ -362,7 +362,49 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             if (BoyerMoorePrefix != null)
             {
-            //        return _code.BMPrefix.IsMatch(runtext, runtextpos, runtextbeg, runtextend);
+                // var text = runtext;
+                // var index = runtextpos;
+                // var beglimit = runtextbeg;
+                // var endlimit = runtextend;
+                //if (!RightToLeft)
+                //{
+                //    if (index < beglimit || endlimit - index < Pattern.Length)
+                //        return false;
+
+                //    if (CaseInsensitive)
+                //    {
+                //        if (text.Length - index < Pattern.Length)
+                //        {
+                //        return false;
+                //        }
+                //        
+                //        return (0 == string.Compare(Pattern, 0, text, index, Pattern.Length, CaseInsensitive, _culture));
+                //    }
+                //    else
+                //    {
+                //        return (0 == string.CompareOrdinal(Pattern, 0, text, index, Pattern.Length));
+                //    }
+                //}
+                //else
+                //{
+                //    if (index > endlimit || index - beglimit < Pattern.Length)
+                //        return false;
+
+                //    var index = index - Pattern.Length;
+                //    if (CaseInsensitive)
+                //    {
+                //        if (text.Length - index < Pattern.Length)
+                //        {
+                //            return false;
+                //        }
+                      
+                //        return (0 == string.Compare(Pattern, 0, text, index, Pattern.Length, CaseInsensitive, _culture));
+                //    }
+                //    else
+                //    {
+                //        return (0 == string.CompareOrdinal(Pattern, 0, text, index, Pattern.Length));
+                //    }
+                //}
             }
 
             Writer.Write($"return true;"); // found a valid start or end anchor
