@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -388,6 +389,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             var negativeUnicode = BoyerMoorePrefix.NegativeUnicode != null
                 ? Writer.DeclareField($"private static readonly int[][] negativeUnicode = new int[][] {{ {string.Join(", ", BoyerMoorePrefix.NegativeUnicode.Select(ia => $"new int[] {{ {string.Join(", ", ia.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }}"))} }};")
                 : default(Field);
+            var culture = Writer.DeclareField($@"private static readonly CultureInfo BoyerMooreCulture = CultureInfo.GetCultureInfo(""{BoyerMoorePrefix._culture.ToString()}"");");
             
             using (Writer.Method($"private int {BoyerMoorePrefixScan}()"))
             {
@@ -421,67 +423,82 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 var advance = Writer.DeclareLocal($"int advance;");
                 var unicodeLookup = Writer.DeclareLocal($"int[] unicodeLookup;");
 
-                // for (; ; )
-                // {
-                //     if (test >= endlimit || test < beglimit)
-                //         return -1;
-                   
-                //     chTest = text[test];
-                   
-                //     if (CaseInsensitive)
-                //         chTest = _culture.TextInfo.ToLower(chTest);
-                   
-                //     if (chTest != chMatch)
-                //     {
-                //         if (chTest < 128)
-                //             advance = NegativeASCII[chTest];
-                //         else if (null != NegativeUnicode && (null != (unicodeLookup = NegativeUnicode[chTest >> 8])))
-                //             advance = unicodeLookup[chTest & 0xFF];
-                //         else
-                //             advance = defadv;
-                   
-                //         test += advance;
-                //     }
-                //     else
-                //     { // if (chTest == chMatch)
-                //         test2 = test;
-                //         match = startmatch;
-                   
-                //         for (; ; )
-                //         {
-                //             if (match == endmatch)
-                //                 return (RightToLeft ? test2 + 1 : test2);
-                   
-                //             match -= bump;
-                //             test2 -= bump;
-                   
-                //             chTest = text[test2];
-                   
-                //             if (CaseInsensitive)
-                //                 chTest = _culture.TextInfo.ToLower(chTest);
-                   
-                //             if (chTest != Pattern[match])
-                //             {
-                //                 advance = Positive[match];
-                //                 if ((chTest & 0xFF80) == 0)
-                //                     test2 = (match - startmatch) + NegativeASCII[chTest];
-                //                 else if (null != NegativeUnicode && (null != (unicodeLookup = NegativeUnicode[chTest >> 8])))
-                //                     test2 = (match - startmatch) + unicodeLookup[chTest & 0xFF];
-                //                 else
-                //                 {
-                //                     test += advance;
-                //                     break;
-                //                 }
-                   
-                //                 if (RightToLeft ? test2 < advance : test2 > advance)
-                //                     advance = test2;
-                   
-                //                 test += advance;
-                //                 break;
-                //             }
-                //         }
-                //     }
-                // }
+                using (Writer.For($";;"))
+                {
+                     using (Writer.If($"{test} >= {endlimit} || {test} < {beglimit}"))
+                         Writer.Write($"return -1");
+
+                     if (!IsCaseInsensitive)
+                        Writer.Write($"{chTest} = {text}[{test}]");
+                     else
+                        Writer.Write($"{chTest} = {culture}.TextInfo.ToLower({text}[{test}]))");
+
+                     using (Writer.If($"{chTest} != {chMatch}"))
+                     {
+                         using (Writer.If($"{chTest} < 128"))
+                             Writer.Write($"{advance} = {negativeAscii}[{chTest}]");
+                         if (negativeUnicode != null)
+                         using (Writer.ElseIf($"null != ({unicodeLookup} = {negativeUnicode}[{chTest} >> 8]))"))
+                            Writer.Write($"{advance} = {unicodeLookup}[{chTest} & 0xFF]");
+                         using (Writer.Else())
+                            Writer.Write($"{advance} = {defadv}");
+
+                         Writer.Write($"{test} += {advance}");
+                     }
+                     using (Writer.Else())
+                     {
+                         Writer.Write($"{test2} = {test}");
+                         Writer.Write($"{match} = {startMatch}");
+
+                         using (Writer.For($";;"))
+                         {
+                             using (Writer.If($"{match} == {endMatch}"))
+                             {
+                                 if (IsRightToLeft)
+                                     Writer.Write($"return test2 + 1");
+                                 else
+                                     Writer.Write($"return test2");
+                             }
+
+                             Writer.Write($"{match} -= {bump}");
+                             Writer.Write($"{test2} -= {bump}");
+
+                             if (!IsCaseInsensitive)
+                                 Writer.Write($"{chTest} = {text}[{test2}]");
+                             else
+                                 Writer.Write($"{chTest} = {culture}.TextInfo.ToLower({text}[{test2}])");
+
+                             using (Writer.If($"{chTest} != {pattern}[{match}]"))
+                             {
+                                 Writer.Write($"{advance} = {positive}[{match}]");
+                                 using (Writer.If($"({chTest} & 0xFF80) == 0"))
+                                     Writer.Write($"{test2} = ({match} - {startMatch}) + {negativeAscii}[{chTest}]");
+                                 if (negativeUnicode != null)
+                                     using (Writer.ElseIf($"null != ({unicodeLookup} = {negativeUnicode}[{chTest} >> 8])"))
+                                         Writer.Write($"{test2} = ({match} - {startMatch}) + {unicodeLookup}[{chTest} & 0xFF]");
+                                 using (Writer.Else())
+                                 {
+                                     Writer.Write($"{test} += {advance}");
+                                     Writer.Write($"break");
+                                 }
+
+                                 if (!IsRightToLeft)
+                                 {
+                                     using (Writer.If($"{test2} > {advance}"))
+                                         Writer.Write($"{advance} = {test2}");
+                                 }
+                                 else
+                                 {
+                                     using (Writer.If($"{test2} < {advance}"))
+                                         Writer.Write($"{advance} = {test2}");
+                                 }
+
+                                 Writer.Write($"{test} += {advance}");
+                                 Writer.Write($"break");
+                             }
+                         }
+                     }
+                }
             }
         }
     }
