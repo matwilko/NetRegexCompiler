@@ -74,9 +74,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private readonly Field runtrackcount = Field.Parse("runtrackcount");
         private readonly Field runmatch      = Field.Parse("runmatch");
         private readonly Field runregex      = Field.Parse("runregex");
-
-        private readonly Local culture = Local.Parse("culture");
-
+        
         private void GenerateInitTrackCount()
         {
             using (Writer.Method("protected override void InitTrackCount()"))
@@ -99,7 +97,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 return $"{runtextend} - {runtextpos}";
         }
 
-        private FormattableString Forwardcharnext()
+        private FormattableString Forwardcharnext(Local culture)
         {
             if (IsCaseInsensitive)
             {
