@@ -53,7 +53,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         var i = Writer.ReferenceLocal("i");
                         using (Writer.For($"int {i} = {Forwardchars()}; i > 0; i--"))
                         {
-                            using (Writer.If($@"RegexCharClass.CharInClass({Forwardcharnext()}, ""{set}"")"))
+                            using (Writer.If($@"RegexCharClass.CharInClass({Forwardcharnext(culture)}, ""{set}"")"))
                             {
                                 Backwardnext();
                                 Writer.Write($"return true;");
