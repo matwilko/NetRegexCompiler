@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -8,6 +9,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private CSharpWriter Writer { get; }
         private RegexCode Code { get; }
         private int[] Codes { get; }
+        private Operation[] Operations { get; }
         private string[] Strings { get; }
         private RegexPrefix? FirstCharacterPrefix { get; }
         private RegexBoyerMoore BoyerMoorePrefix { get; }
@@ -29,6 +31,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer = new CSharpWriter(writer);
             Code = code;
             Codes = code.Codes;
+            Operations = Operation.GenerateFromCodes(Codes);
             Strings = code.Strings;
             FirstCharacterPrefix = code.FCPrefix;
             BoyerMoorePrefix = code.BMPrefix;
@@ -124,5 +127,65 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         }
 
         private FormattableString CharAt(object expr) => $"{runtext}[{expr}]";
+
+        private readonly struct Operation
+        {
+            public int Id { get; }
+            public int Index { get; }
+            public int Code { get; }
+            public int[] Operands { get; }
+
+            public string Label => $"op_{Index}";
+            public string CodeName => CodeNames[Code];
+
+            private Operation(int id, int index, int code, int[] operands)
+            {
+                Id = id;
+                Index = index;
+                Code = code;
+                Operands = operands;
+            }
+
+            public static Operation[] GenerateFromCodes(int[] codes)
+            {
+                return Get().ToArray();
+
+                IEnumerable<Operation> Get()
+                {
+                    var id = 0;
+                    for (var i = 0; i < codes.Length; i += RegexCode.OpcodeSize(codes[i]))
+                    {
+                        var code = codes[i] & ~(RegexCode.Rtl | RegexCode.Ci);
+                        var operandCount = RegexCode.OpcodeSize(codes[i]) - 1;
+                        if (operandCount == 0)
+                        {
+                            yield return new Operation(id++, i, code, new int[0]);
+                            continue;
+                        }
+
+                        var operands = new int[operandCount];
+                        Array.Copy(codes, i + 1, operands, 0, operands.Length);
+                        yield return new Operation(id++, i, code, operands);
+                    }
+                }
+            }
+
+            private static readonly string[] CodeNames =
+            {
+                "Onerep", "Notonerep", "Setrep",
+                "Oneloop", "Notoneloop", "Setloop",
+                "Onelazy", "Notonelazy", "Setlazy",
+                "One", "Notone", "Set",
+                "Multi", "Ref",
+                "Bol", "Eol", "Boundary", "Nonboundary", "Beginning", "Start", "EndZ", "End",
+                "Nothing",
+                "Lazybranch", "Branchmark", "Lazybranchmark",
+                "Nullcount", "Setcount", "Branchcount", "Lazybranchcount",
+                "Nullmark", "Setmark", "Capturemark", "Getmark",
+                "Setjump", "Backjump", "Forejump", "Testref", "Goto",
+                "Prune", "Stop",
+                "ECMABoundary", "NonECMABoundary"
+            };
+        }
     }
 }
