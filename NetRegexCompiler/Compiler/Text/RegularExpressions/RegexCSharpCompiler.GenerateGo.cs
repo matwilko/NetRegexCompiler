@@ -188,6 +188,29 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                case RegexCode.Lazybranchcount:
+                    // StackPush:
+                    //  0: Mark
+                    //  1: Count
+                {
+                    StackPop(2);
+                    var mark = Writer.DeclareLocal($"int mark = {StackPeek()};");
+                    var count = Writer.DeclareLocal($"int count = {StackPeek(1)}");
+
+                    using (Writer.If($"{count} < 0"))
+                    {                        // Negative count -> loop now
+                        TrackPush2(mark);                        // Save old mark
+                        StackPush(Textpos(), $"{count} + 1");    // Make new mark, incr count
+                        Goto(Operand(0));                        // Loop
+                    }
+                    using (Writer.Else())
+                    {                                  // Nonneg count -> straight now
+                        TrackPush(mark, count, Textpos());  // Save mark, count, position
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -301,6 +324,44 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     StackPush(TrackPeek(), TrackPeek(1));           // Recall old mark, old count
                     Backtrack();
                     break;
+
+                case RegexCode.Lazybranchcount | RegexCode.Back:
+                    // TrackPush:
+                    //  0: Mark
+                    //  1: Count
+                    //  2: Textpos
+                {
+                    TrackPop(3);
+                    var mark = Writer.DeclareLocal($"int mark = {TrackPeek()};");
+                    var textpos = Writer.DeclareLocal($"int textpos = {TrackPeek(2)};");
+
+                    using (Writer.If($"{TrackPeek(1)} < {Operand(1)} && {textpos} != {mark}"))
+                    { // Under limit and not empty match -> loop
+                        Textto(textpos);                            // Recall position
+                        StackPush(textpos, $"{TrackPeek(1)} + 1");  // Make new mark, incr count
+                        TrackPush2(mark);                           // Save old mark
+                        Goto(Operand(0));                           // Loop
+                    }
+                    using (Writer.Else())
+                    {                                          // Max loops or empty match -> backtrack
+                        StackPush(TrackPeek(), TrackPeek(1));       // Recall old mark, count
+                        Backtrack();
+                    }
+
+                    break;
+                }
+
+                case RegexCode.Lazybranchcount | RegexCode.Back2:
+                    // TrackPush:
+                    //  0: Previous mark
+                    // StackPush:
+                    //  0: Mark (== current pos, discarded)
+                    //  1: Count
+                    TrackPop();
+                    StackPop(2);
+                    StackPush(TrackPeek(), $"{StackPeek(1)} - 1");   // Recall old mark, count
+                    Backtrack();
+                    break;                                           // Backtrack
             }
         }
     }
