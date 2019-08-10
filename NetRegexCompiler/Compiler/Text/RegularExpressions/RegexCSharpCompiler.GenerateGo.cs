@@ -153,6 +153,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                case RegexCode.Setcount:
+                    StackPush(Textpos(), Operand(0));
+                    TrackPush();
+                    break;
+
+                case RegexCode.Nullcount:
+                    StackPush(-1, Operand(0));
+                    TrackPush();
+                    break;
             }
         }
 
@@ -225,6 +235,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     StackPop();
                     TrackPop();
                     StackPush(TrackPeek());                      // Recall old mark
+                    Backtrack();
+                    break;
+
+                case RegexCode.Setcount | RegexCode.Back:
+                    StackPop(2);
+                    Backtrack();
+                    break;
+
+                case RegexCode.Nullcount | RegexCode.Back:
+                    StackPop(2);
                     Backtrack();
                     break;
             }

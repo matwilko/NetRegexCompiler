@@ -25,16 +25,20 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         
         private FormattableString IsMatched(int cap) => $"{runmatch}.IsMatched({cap})";
 
-        private void StackPop()
+        private void StackPop(int framesize = 1)
         {
-            Writer.Write($"runstackpos++");
+            if (framesize == 1)
+                Writer.Write($"{runstackpos}++");
+            else
+                Writer.Write($"{runstackpos} += {framesize}");
         }
 
         private FormattableString StackPeek() => $"{runstack}[{runstackpos} - 1]";
 
-        private void StackPush(object I1)
+        private void StackPush(params object[] IX)
         {
-            Writer.Write($"{runstack}[--{runstackpos}] = {I1}");
+            foreach (var I in IX)
+                Writer.Write($"{runstack}[--{runstackpos}] = {I}");
         }
         
         private void TrackPop(int framesize = 1)
