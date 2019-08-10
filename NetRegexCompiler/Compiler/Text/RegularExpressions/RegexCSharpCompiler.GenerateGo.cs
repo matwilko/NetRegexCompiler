@@ -78,6 +78,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     // advance = 0;
                     // continue;
                     break;
+
+                case RegexCode.Getmark:
+                    StackPop();
+                    TrackPush(StackPeek());
+                    Textto(StackPeek());
+                    // advance = 0;
+                    // continue;
+                    break;
+
+
             }
         }
 
@@ -94,6 +104,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 case RegexCode.Setmark | RegexCode.Back:
                 case RegexCode.Nullmark | RegexCode.Back:
                     StackPop();
+                    Backtrack();
+                    break;
+
+                case RegexCode.Getmark | RegexCode.Back:
+                    TrackPop();
+                    StackPush(TrackPeek());
                     Backtrack();
                     break;
             }

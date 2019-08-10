@@ -25,6 +25,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Write($"runstackpos++");
         }
 
+        private FormattableString StackPeek() => $"{runstack}[{runstackpos} - 1]";
+
         private void StackPush(FormattableString I1)
         {
             Writer.Write($"{runstack}[--{runstackpos}] = {I1}");
