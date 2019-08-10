@@ -30,7 +30,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                 {
                                     CurrentOperation = operation.Operation;
                                     GenerateBacktrackOpCode(operation, culture);
-                                    Writer.Write($"break");
                                 }
                         }
                     }
