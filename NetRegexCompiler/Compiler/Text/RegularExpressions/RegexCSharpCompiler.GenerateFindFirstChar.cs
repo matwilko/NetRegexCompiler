@@ -37,7 +37,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     if (RegexCharClass.IsSingleton(set))
                     {
                         var ch = RegexCharClass.SingletonChar(set);
-                        var i = Writer.ReferenceLocal("i");
+                        var i = Local.Parse("i");
                         using (Writer.For($"int {i} = {Forwardchars()}; {i} > 0; {i}--"))
                         {
                             using (Writer.If($"'{ch}' == {Forwardcharnext(culture)}"))
@@ -49,7 +49,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     }
                     else
                     {
-                        var i = Writer.ReferenceLocal("i");
+                        var i = Local.Parse("i");
                         using (Writer.For($"int {i} = {Forwardchars()}; i > 0; i--"))
                         {
                             using (Writer.If($@"RegexCharClass.CharInClass({Forwardcharnext(culture)}, ""{set}"")"))

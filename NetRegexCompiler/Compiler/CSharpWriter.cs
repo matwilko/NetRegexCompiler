@@ -56,17 +56,13 @@ namespace NetRegexCompiler.Compiler
             Write(declaration);
             return field;
         }
-
-        public Method ReferenceMethod(string methodName) => new Method(methodName);
-
+        
         public Local DeclareLocal(FormattableString declaration)
         {
             var local = Local.Parse(declaration);
             Write(declaration);
             return local;
         }
-
-        public Local ReferenceLocal(string localName) => Local.Parse(localName);
         
         public CSharpWriter Write(FormattableString code)
         {
@@ -238,6 +234,8 @@ namespace NetRegexCompiler.Compiler
 
             Name = name;
         }
+
+        public static Method Parse(string methodName) => new Method(methodName);
 
         public override string ToString() => Name;
     }
