@@ -73,7 +73,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     //continue;
                     break;
 
-
+                case RegexCode.Nullmark:
+                    StackPush(-1);
+                    TrackPush();
+                    // advance = 0;
+                    // continue;
+                    break;
             }
         }
 

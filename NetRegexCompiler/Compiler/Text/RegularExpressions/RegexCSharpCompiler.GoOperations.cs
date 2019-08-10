@@ -22,6 +22,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Write($"{stack}.Push({I1})");
         }
 
+        private void StackPush(int I1)
+        {
+            StackPush($"{I1}");
+        }
+
         private FormattableString TrackPop() => $"{track}.Pop()";
 
         private void TrackPush()
