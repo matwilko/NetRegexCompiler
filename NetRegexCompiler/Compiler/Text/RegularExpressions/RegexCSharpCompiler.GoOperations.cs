@@ -33,7 +33,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 Writer.Write($"{runstackpos} += {framesize}");
         }
 
-        private FormattableString StackPeek() => $"{runstack}[{runstackpos} - 1]";
+        private FormattableString StackPeek(int i = 0) => $"{runstack}[{runstackpos} - {i + 1}]";
 
         private void StackPush(params object[] IX)
         {

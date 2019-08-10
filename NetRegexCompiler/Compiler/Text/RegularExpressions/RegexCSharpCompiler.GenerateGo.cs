@@ -163,6 +163,31 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     StackPush(-1, Operand(0));
                     TrackPush();
                     break;
+
+                case RegexCode.Branchcount:
+                    // StackPush:
+                    //  0: Mark
+                    //  1: Count
+                {
+                    StackPop(2);
+                    var mark = Writer.DeclareLocal($"int mark = {StackPeek()};");
+                    var count = Writer.DeclareLocal($"int count = {StackPeek(1)};");
+                    var matched = Writer.DeclareLocal($"int matched = {Textpos()} - {mark};");
+
+                    using (Writer.If($"{count} >= {Operand(1)} || ({matched} == 0 && {count} >= 0)"))
+                    {                                   // Max loops or empty match -> straight now
+                        TrackPush2(mark, count);            // Save old mark, count
+                        //advance = 2;                      // Straight
+                    }
+                    using (Writer.Else())
+                    {                                  // Nonempty match -> count+loop now
+                        TrackPush(mark);                       // remember mark
+                        StackPush(Textpos(), $"{count} + 1");  // Make new mark, incr count
+                        Goto(Operand(0));                      // Loop
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -245,6 +270,35 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 case RegexCode.Nullcount | RegexCode.Back:
                     StackPop(2);
+                    Backtrack();
+                    break;
+
+                case RegexCode.Branchcount | RegexCode.Back:
+                    // TrackPush:
+                    //  0: Previous mark
+                    // StackPush:
+                    //  0: Mark (= current pos, discarded)
+                    //  1: Count
+                    TrackPop();
+                    StackPop(2);
+                    using (Writer.If($"{StackPeek(1)} > 0"))
+                    {                         // Positive -> can go straight
+                        Textto(StackPeek());                             // Zap to mark
+                        TrackPush2(TrackPeek(), $"{StackPeek(1)} - 1");  // Save old mark, old count
+                        GotoNextOperation();
+                    }
+
+                    StackPush(TrackPeek(), $"{StackPeek(1)} - 1");       // recall old mark, old count
+                    
+                    Backtrack();
+                    break;
+
+                case RegexCode.Branchcount | RegexCode.Back2:
+                    // TrackPush:
+                    //  0: Previous mark
+                    //  1: Previous count
+                    TrackPop(2);
+                    StackPush(TrackPeek(), TrackPeek(1));           // Recall old mark, old count
                     Backtrack();
                     break;
             }
