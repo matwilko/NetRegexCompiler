@@ -353,6 +353,69 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                case RegexCode.Ref:
+                {
+                    int capnum = Operand(0);
+
+
+                    using (Writer.If(IsMatched(capnum)))
+                    {
+                        //if (!Refmatch(MatchIndex(capnum), MatchLength(capnum)))
+                        //break;
+                        // Refmatch inlined as it's only used here
+                        // return false => Backtrack();
+
+                        var index = Writer.DeclareLocal($"var index = {MatchIndex(capnum)};");
+                        var len = Writer.DeclareLocal($"var len = {MatchLength(capnum)};");
+                        var pos = Writer.DeclareLocal($"int pos;");
+
+                        if (!IsRightToLeft)
+                        {
+                            using (Writer.If($"{runtextend} - {runtextpos} < {len}"))
+                                Backtrack();
+
+                            Writer.Write($"{pos} = {runtextpos} + {len}");
+                        }
+                        else
+                        {
+                            using (Writer.If($"{runtextpos} - {runtextbeg} < {len}"))
+                                Backtrack();
+
+                            Writer.Write($"{pos} = {runtextpos}");
+                        }
+
+                        var cmpos = Writer.DeclareLocal($"int cmpos = {index} + {len};");
+                        var c = Writer.DeclareLocal($"int c = len;");
+
+                        if (!IsCaseInsensitive)
+                        {
+                            using (Writer.While($"{c}-- != 0"))
+                                using (Writer.If($"{runtext}[--{cmpos}] != {runtext}[--{pos}]"))
+                                    Backtrack();
+                        }
+                        else
+                        {
+                            using (Writer.While($"{c}-- != 0"))
+                                using (Writer.If($"{culture}.TextInfo.ToLower({runtext}[--{cmpos}]) != {culture}.TextInfo.ToLower({runtext}[--{pos}])"))
+                                    Backtrack();
+                        }
+
+                        if (!IsRightToLeft)
+                            Writer.Write($"{runtextpos} = {pos} + {len}");
+                        else
+                            Writer.Write($"{runtextpos} = {pos}");
+
+                    }
+
+                    if (!IsECMA)
+                    using (Writer.Else())
+                        Backtrack();
+
+                    break;
+                }
+
+
             }
         }
 

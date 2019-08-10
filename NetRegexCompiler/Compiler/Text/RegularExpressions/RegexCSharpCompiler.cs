@@ -24,6 +24,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private bool IsRightToLeft => (Options & RegexOptions.RightToLeft) != 0;
         private bool IsCultureInvariant => (Options & RegexOptions.CultureInvariant) != 0;
         private bool IsCaseInsensitive => FirstCharacterPrefix.GetValueOrDefault().CaseInsensitive;
+        private bool IsECMA => (Options & RegexOptions.ECMAScript) != 0;
 
         public void Dispose()
         {

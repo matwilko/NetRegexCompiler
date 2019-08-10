@@ -24,6 +24,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         }
         
         private FormattableString IsMatched(int cap) => $"{runmatch}.IsMatched({cap})";
+        private FormattableString MatchIndex(int cap) => $"{runmatch}.MatchIndex({cap})";
+        private FormattableString MatchLength(int cap) => $"{runmatch}.MatchLength({cap})";
 
         private void StackPop(int framesize = 1)
         {
