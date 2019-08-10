@@ -55,6 +55,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     Goto(Operand(0));
                     break;
 
+                case RegexCode.Testref:
+                    using (Writer.If($"!{IsMatched(Operand(0))}"))
+                        Backtrack(); // break;
+                    // advance = 1;
+                    // continue;
+                    break;
 
             }
         }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -11,5 +12,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             var operation = Operations.Single(op => op.Index == operationPos);
             Writer.Write($"goto {operation.Label};");
         }
+        
+        private FormattableString IsMatched(int cap) => $"{runmatch}.IsMatched({cap})";
     }
 }
