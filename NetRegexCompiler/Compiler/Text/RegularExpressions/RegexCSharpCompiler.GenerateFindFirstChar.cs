@@ -443,10 +443,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 var pattern = Writer.DeclareLocal($@"var pattern = ""{BoyerMoorePrefix.Pattern}"";");
                 
                 var defadv = !IsRightToLeft
-                    ? Writer.DeclareLocal($"var defadv = {pattern}.Length;")
-                    : Writer.DeclareLocal($"var defadv = -{pattern}.Length;");
+                    ? Writer.DeclareLocal($"var defadv = {BoyerMoorePrefix.Pattern.Length};")
+                    : Writer.DeclareLocal($"var defadv = -{BoyerMoorePrefix.Pattern.Length};");
                 var startMatch = !IsRightToLeft
-                    ? Writer.DeclareLocal($"var startMatch = {pattern}.Length - 1;")
+                    ? Writer.DeclareLocal($"var startMatch = {BoyerMoorePrefix.Pattern.Length - 1};")
                     : Writer.DeclareLocal($"var startMatch = 0;");
                 var endMatch = !IsRightToLeft
                     ? Writer.DeclareLocal($"var endMatch = 0;")
@@ -454,16 +454,17 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 var test = !IsRightToLeft
                     ? Writer.DeclareLocal($"var test = {index} + {defadv} - 1;")
                     : Writer.DeclareLocal($"var test = {index} + {defadv};");
-                var bump = !IsRightToLeft
-                    ? Writer.DeclareLocal($"var bump = 1;")
-                    : Writer.DeclareLocal($"var bump = -1;");
 
-                var chMatch = Writer.DeclareLocal($"char chMatch = Pattern[{startMatch}];");
+                var chMatch = !IsRightToLeft
+                    ? Writer.DeclareLocal($"char chMatch = '{BoyerMoorePrefix.Pattern[BoyerMoorePrefix.Pattern.Length - 1]}';")
+                    : Writer.DeclareLocal($"char chMatch = '{BoyerMoorePrefix.Pattern[0]}';");
                 var chTest = Writer.DeclareLocal($"char chTest;");
                 var test2 = Writer.DeclareLocal($"int test2;");
                 var match = Writer.DeclareLocal($"int match;");
                 var advance = Writer.DeclareLocal($"int advance;");
-                var unicodeLookup = Writer.DeclareLocal($"int[] unicodeLookup;");
+                var unicodeLookup = negativeUnicode != null
+                    ? Writer.DeclareLocal($"int[] unicodeLookup;")
+                    : null;
 
                 using (Writer.For($";;"))
                 {
@@ -497,13 +498,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                              using (Writer.If($"{match} == {endMatch}"))
                              {
                                  if (IsRightToLeft)
-                                     Writer.Write($"return test2 + 1");
+                                     Writer.Write($"return {test2} + 1");
                                  else
-                                     Writer.Write($"return test2");
+                                     Writer.Write($"return {test2}");
                              }
 
-                             Writer.Write($"{match} -= {bump}");
-                             Writer.Write($"{test2} -= {bump}");
+                             Writer.Write($"{match} -= {Bump()}");
+                             Writer.Write($"{test2} -= {Bump()}");
 
                              if (!IsCaseInsensitive)
                                  Writer.Write($"{chTest} = {text}[{test2}]");
