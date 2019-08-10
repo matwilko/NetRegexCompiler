@@ -24,7 +24,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.OpenScope("backtrack:"))
                     {
                         Writer.Write($"{EnsureStorage}()");
-                        using (Writer.Switch($"{runtrack}[{runtrackpos}++])"))
+                        using (Writer.Switch($"{runtrack}[{runtrackpos}++]"))
                         {
                             foreach (var operation in BacktrackOperations)
                                 using (Writer.OpenScope($"case {operation.Id}: // {operation.Operation.Label}, {operation.CodeName} ({(!operation.IsBack2 ? "Back" : "Back2")})"))
