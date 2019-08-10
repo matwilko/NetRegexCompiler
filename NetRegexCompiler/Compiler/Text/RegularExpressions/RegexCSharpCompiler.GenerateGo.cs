@@ -235,6 +235,28 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.If($"{Rightchars()} > 0 && {CharAt(Textpos())} != '{'\n'}'"))
                         Backtrack();
                     break;
+
+                case RegexCode.Boundary:
+                    using (Writer.If($"!{IsBoundary(Textpos(), runtextbeg, runtextend)}"))
+                        Backtrack();
+                    break;
+
+                case RegexCode.Nonboundary:
+                    using (Writer.If($"{IsBoundary(Textpos(), runtextbeg, runtextend)}"))
+                        Backtrack();
+                    break;
+
+                case RegexCode.ECMABoundary:
+                    using (Writer.If($"!{IsECMABoundary(Textpos(), runtextbeg, runtextend)}"))
+                        Backtrack();
+                    break;
+
+                case RegexCode.NonECMABoundary:
+                    using (Writer.If($"{IsECMABoundary(Textpos(), runtextbeg, runtextend)}"))
+                        Backtrack();
+                    break;
+
+
             }
         }
 

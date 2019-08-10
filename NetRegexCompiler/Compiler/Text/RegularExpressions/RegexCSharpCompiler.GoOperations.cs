@@ -133,5 +133,19 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString Leftchars() => $"{runtextpos} - {runtextbeg}";
         private FormattableString Rightchars() => $"{runtextend} - {runtextpos}";
+
+        private FormattableString IsBoundary(FormattableString index, object startpos, object endpos)
+        {
+            return $"({index} > {startpos} && {IsWordChar($"{runtext}[{index} - 1]")}) != ({index} < {endpos} && {IsWordChar($"{runtext}[{index}]")})";
+        }
+
+        private FormattableString IsECMABoundary(FormattableString index, object startpos, object endpos)
+        {
+            return $"({index} > {startpos} && {IsECMAWordChar($"{runtext}[{index} - 1]")}) != ({index} < {endpos} && {IsECMAWordChar($"{runtext}[{index}]")})";
+        }
+
+        // TODO: We can almost certainly do some work to improve IsWordChar
+        private FormattableString IsWordChar(FormattableString expr) => $"RegexCharClass.IsWordChar({expr})";
+        private FormattableString IsECMAWordChar(FormattableString expr) => $"RegexCharClass.IsECMAWordChar({expr})";
     }
 }
