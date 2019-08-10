@@ -150,6 +150,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private FormattableString IsECMAWordChar(FormattableString expr) => $"RegexCharClass.IsECMAWordChar({expr})";
 
         // TODO: Definitely stuff we can do to pre-preprocess the class here to eliminate work
-        private FormattableString CharInClass(FormattableString expr, string str) => $"RegexCharClass.CharInClass({expr}, {str})";
+        private FormattableString CharInClass(FormattableString expr, string str) => $@"RegexCharClass.CharInClass({expr}, ""{str}"")";
+
+
     }
 }
