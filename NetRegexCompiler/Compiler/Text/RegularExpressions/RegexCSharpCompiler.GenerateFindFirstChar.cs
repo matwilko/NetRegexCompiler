@@ -17,8 +17,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             using (Writer.Method("protected override bool FindFirstChar()"))
             {
-                var culture = DeclareCulture();
-
                 if (Anchors.Beginning || Anchors.Start || Anchors.EndZ || Anchors.End)
                 {
                     GenerateAnchorChecks(boyerMooreCulture);
@@ -33,6 +31,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
                 else
                 {
+                    var culture = DeclareCulture();
                     var set = FirstCharacterPrefix.GetValueOrDefault().Prefix;
 
                     if (RegexCharClass.IsSingleton(set))

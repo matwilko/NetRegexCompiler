@@ -56,6 +56,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 Writer.Write($"protected internal override RegexRunner CreateInstance() => new CompiledRegexRunner();");
                 using (Writer.Type("private sealed class CompiledRegexRunner : RegexRunner"))
                 {
+                    track = Writer.DeclareField($"private Stack<int> track;");
                     GenerateInitTrackCount();
                     GenerateFindFirstChar();
                     GenerateGo();
@@ -68,6 +69,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private readonly Field runtextstart  = Field.Parse("runtextstart");
         private readonly Field runtext       = Field.Parse("runtext");
         private readonly Field runtextpos    = Field.Parse("runtextpos");
+        private Field track;
         private readonly Field runtrack      = Field.Parse("runtrack");
         private readonly Field runtrackpos   = Field.Parse("runtrackpos");
         private readonly Field runstack      = Field.Parse("runstack");
