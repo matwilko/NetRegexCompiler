@@ -25,11 +25,10 @@ namespace NetRegexCompiler.Compiler
         private Stack<List<string>> Scopes { get; }
         private List<string> CurrentScope => Scopes.Peek();
 
-        public CloseScope OpenScope(string declaration, bool requireBraces = false, bool clearLine = false)
+        public CloseScope OpenScope(string declaration, bool requireBraces = false, bool clearLine = false, bool collapseLine = false)
         {
-            CurrentScope.Add(declaration);
             Scopes.Push(new List<string>());
-            return new CloseScope(this, requireBraces, clearLine);
+            return new CloseScope(this, declaration, requireBraces, clearLine, collapseLine);
         }
 
         public CSharpWriter Using(string ns)
@@ -43,11 +42,13 @@ namespace NetRegexCompiler.Compiler
         public CloseScope Method(string methodDecl) => OpenScope(methodDecl, requireBraces: true, clearLine: true);
 
         public CloseScope If(FormattableString expr) => OpenScope($"if ({FormatExpression(expr)})", clearLine: true);
-        public CloseScope ElseIf(FormattableString expr) => OpenScope($"else if ({FormatExpression(expr)})", clearLine: true);
-        public CloseScope Else() => OpenScope($"else", clearLine: true);
+        public CloseScope ElseIf(FormattableString expr) => OpenScope($"else if ({FormatExpression(expr)})", clearLine: true, collapseLine: true);
+        public CloseScope Else() => OpenScope($"else", clearLine: true, collapseLine: true);
 
         public CloseScope While(FormattableString expr) => OpenScope($"while ({FormatExpression(expr)})", clearLine: true);
         public CloseScope For(FormattableString expr) => OpenScope($"for ({FormatExpression(expr)})", clearLine: true);
+
+        public CloseScope Switch(FormattableString expr) => OpenScope($"switch ({FormatExpression(expr)})", requireBraces: true, clearLine: true);
 
         public Field DeclareField(FormattableString declaration)
         {
@@ -147,35 +148,47 @@ namespace NetRegexCompiler.Compiler
         public readonly struct CloseScope : IDisposable
         {
             private CSharpWriter Writer { get; }
+            private string Declaration { get; }
             private bool RequireBraces { get; }
             private bool ClearLine { get; }
+            private bool CollapseLine { get; }
 
-            public CloseScope(CSharpWriter writer, bool requireBraces, bool clearLine)
+            public CloseScope(CSharpWriter writer, string declaration, bool requireBraces, bool clearLine, bool collapseLine)
             {
                 Writer = writer;
+                Declaration = declaration;
                 RequireBraces = requireBraces;
                 ClearLine = clearLine;
+                CollapseLine = collapseLine;
             }
 
             public void Dispose()
             {
                 var closingScope = Writer.Scopes.Pop();
                 var parentScope = Writer.Scopes.Peek();
-                if (RequireBraces || closingScope.Count > 1)
+
+                if (CollapseLine)
+                {
+                    if (string.IsNullOrWhiteSpace(parentScope.Last()))
+                        parentScope.RemoveAt(parentScope.Count - 1);
+                }
+
+                parentScope.Add(Declaration);
+
+                if (RequireBraces || closingScope.Count > 1 || string.IsNullOrWhiteSpace(closingScope.Single()))
                 {
                     parentScope.Add("{");
                     foreach (var line in closingScope)
                         parentScope.Add(Indent + line);
 
-                    if (string.IsNullOrWhiteSpace(parentScope.Last()))
+                    while(string.IsNullOrWhiteSpace(parentScope.Last()))
                         parentScope.RemoveAt(parentScope.Count - 1);
 
                     parentScope.Add("}");
                 }
                 else
                 {
-                    foreach (var line in closingScope)
-                        parentScope.Add(Indent + line);
+                    parentScope.Add(Indent + closingScope.Single());
                 }
 
                 if (ClearLine)
@@ -186,7 +199,7 @@ namespace NetRegexCompiler.Compiler
 
     internal sealed class Field
     {
-        private static Regex DefinitionCheck { get; } = new Regex("^(private|protected|internal)( static)?( readonly)? ([a-zA-Z_][a-zA-Z0-9_]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*)( = .*)?;$", RegexOptions.Compiled);
+        private static Regex DefinitionCheck { get; } = new Regex("^(private|protected|internal)( static)?( readonly)? ([a-zA-Z_][a-zA-Z0-9_<>]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_<>]*)( = .*)?;$", RegexOptions.Compiled);
         private static Regex NameCheck { get; } = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
         public string Name { get; }
 
@@ -231,7 +244,7 @@ namespace NetRegexCompiler.Compiler
 
     internal sealed class Local
     {
-        private static Regex DefinitionCheck { get; } = new Regex("^((var|[a-zA-Z_][a-zA-Z0-9_]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*) = .*?;|([a-zA-Z_][a-zA-Z0-9_]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*);)$", RegexOptions.Compiled);
+        private static Regex DefinitionCheck { get; } = new Regex("^((var|[a-zA-Z_][a-zA-Z0-9_<>]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*) = .*?;|([a-zA-Z_][a-zA-Z0-9_<>]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*);)$", RegexOptions.Compiled);
         private static Regex Validation { get; } = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
 
         public string Name { get; }
