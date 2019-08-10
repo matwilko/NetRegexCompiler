@@ -95,6 +95,7 @@ namespace NetRegexCompiler.Compiler
         {
             switch (o)
             {
+                case NetRegexCompiler.Compiler.Text.RegularExpressions.Argument arg: return ConvertFormatArgument(arg.Arg);
                 case string s:
                 {
                     if (s.All(char.IsLetterOrDigit))

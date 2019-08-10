@@ -35,6 +35,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString StackPeek(int i = 0) => $"{runstack}[{runstackpos} - {i + 1}]";
 
+        private void StackPush(FormattableString I1) => StackPush((object)I1);
+        private void StackPush(FormattableString I1, FormattableString I2) => StackPush((object)I1, (object)I2);
+        private void StackPush(FormattableString I1, object I2) => StackPush((object)I1, (object)I2);
+        private void StackPush(object I1, FormattableString I2) => StackPush((object)I1, (object)I2);
         private void StackPush(params object[] IX)
         {
             foreach (var I in IX)
@@ -51,6 +55,17 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString TrackPeek(int i = 0) => $"{runtrack}[{runtrackpos} - {i + 1}]";
 
+        private void TrackPush(FormattableString I1) => TrackPush((object)I1);
+        private void TrackPush(FormattableString I1, FormattableString I2) => TrackPush((object)I1, (object)I2);
+        private void TrackPush(FormattableString I1, object I2) => TrackPush((object)I1, (object)I2);
+        private void TrackPush(object I1, FormattableString I2) => TrackPush((object)I1, (object)I2);
+        private void TrackPush(FormattableString I1, FormattableString I2, FormattableString I3) => TrackPush((object)I1, (object)I2, (object)I3);
+        private void TrackPush(FormattableString I1, FormattableString I2, object I3) => TrackPush((object)I1, (object)I2, (object)I3);
+        private void TrackPush(FormattableString I1, object I2, FormattableString I3) => TrackPush((object)I1, (object)I2, (object)I3);
+        private void TrackPush(FormattableString I1, object I2, object I3) => TrackPush((object)I1, (object)I2, (object)I3);
+        private void TrackPush(object I1, FormattableString I2, FormattableString I3) => TrackPush((object)I1, (object)I2, (object)I3);
+        private void TrackPush(object I1, FormattableString I2, object I3) => TrackPush((object)I1, (object)I2, (object)I3);
+        private void TrackPush(object I1, object I2, FormattableString I3) => TrackPush((object)I1, (object)I2, (object)I3);
         private void TrackPush(params object[] IX)
         {
             var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: false);
@@ -59,6 +74,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Write($"{runtrack}[--{runtrackpos}] = {backtrackOp.Id}");
         }
 
+        private void TrackPush2(FormattableString I1) => TrackPush2((object)I1);
+        private void TrackPush2(FormattableString I1, FormattableString I2) => TrackPush2((object)I1, (object)I2);
+        private void TrackPush2(FormattableString I1, object I2) => TrackPush2((object)I1, (object)I2);
+        private void TrackPush2(object I1, FormattableString I2) => TrackPush2((object)I1, (object)I2);
         private void TrackPush2(params object[] IX)
         {
             var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: true);
@@ -71,6 +90,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString Textpos() => $"{runtextpos}";
 
+        private void Textto(FormattableString pos) => Textto((object) pos);
         private void Textto(object pos)
         {
             Writer.Write($"{runtextpos} = {pos}");
