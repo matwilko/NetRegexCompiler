@@ -123,6 +123,36 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                case RegexCode.Lazybranchmark:
+                {
+                    // We hit this the first time through a lazy loop and after each
+                    // successful match of the inner expression.  It simply continues
+                    // on and doesn't loop.
+                    StackPop();
+
+                    var oldMarkPos = Writer.DeclareLocal($"int oldMarkPos = {StackPeek()};");
+
+                    using (Writer.If($"{Textpos()} != {oldMarkPos}"))
+                    {              // Nonempty match -> try to loop again by going to 'back' state
+                        using (Writer.If($"{oldMarkPos} != -1"))
+                            TrackPush(oldMarkPos, Textpos());   // Save old mark, textpos
+                        using (Writer.Else())
+                            TrackPush(Textpos(), Textpos());
+                    }
+                    using (Writer.Else())
+                    {
+                        // The inner expression found an empty match, so we'll go directly to 'back2' if we
+                        // backtrack.  In this case, we need to push something on the stack, since back2 pops.
+                        // However, in the case of ()+? or similar, this empty match may be legitimate, so push the text
+                        // position associated with that empty match.
+                        StackPush(oldMarkPos);
+
+                        TrackPush2(StackPeek());                // Save old mark
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -170,6 +200,32 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     TrackPop();
                     StackPush(TrackPeek());                     // Recall old mark
                     Backtrack();                                // Backtrack
+                    break;
+
+                case RegexCode.Lazybranchmark | RegexCode.Back:
+                {
+                    // After the first time, Lazybranchmark | RegexCode.Back occurs
+                    // with each iteration of the loop, and therefore with every attempted
+                    // match of the inner expression.  We'll try to match the inner expression,
+                    // then go back to Lazybranchmark if successful.  If the inner expression
+                    // fails, we go to Lazybranchmark | RegexCode.Back2
+                    
+                    TrackPop(2);
+                    var pos = Writer.DeclareLocal($"int pos = {TrackPeek(1)};");
+                    TrackPush2(TrackPeek());                // Save old mark
+                    StackPush(pos);                         // Make new mark
+                    Textto(pos);                            // Recall position
+                    Goto(Operand(0));                       // Loop
+                    break;
+                }
+
+                case RegexCode.Lazybranchmark | RegexCode.Back2:
+                    // The lazy loop has failed.  We'll do a true backtrack and
+                    // start over before the lazy loop.
+                    StackPop();
+                    TrackPop();
+                    StackPush(TrackPeek());                      // Recall old mark
+                    Backtrack();
                     break;
             }
         }

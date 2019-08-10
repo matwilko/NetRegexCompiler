@@ -32,16 +32,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString StackPeek() => $"{runstack}[{runstackpos} - 1]";
 
-        private void StackPush(FormattableString I1)
+        private void StackPush(object I1)
         {
             Writer.Write($"{runstack}[--{runstackpos}] = {I1}");
         }
-
-        private void StackPush(int I1)
-        {
-            StackPush($"{I1}");
-        }
-
+        
         private void TrackPop(int framesize = 1)
         {
             if (framesize == 1)
@@ -52,7 +47,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString TrackPeek(int i = 0) => $"{runtrack}[{runtrackpos} - {i + 1}]";
 
-        private void TrackPush(params FormattableString[] IX)
+        private void TrackPush(params object[] IX)
         {
             var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: false);
             foreach (var I in IX)
@@ -60,7 +55,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Write($"{runtrack}[--{runtrackpos}] = {backtrackOp.Id}");
         }
 
-        private void TrackPush2(params FormattableString[] IX)
+        private void TrackPush2(params object[] IX)
         {
             var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: true);
             foreach (var I in IX)
@@ -72,7 +67,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString Textpos() => $"{runtextpos}";
 
-        private void Textto(FormattableString pos)
+        private void Textto(object pos)
         {
             Writer.Write($"{runtextpos} = {pos}");
         }
