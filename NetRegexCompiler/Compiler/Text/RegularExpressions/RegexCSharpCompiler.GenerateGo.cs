@@ -28,6 +28,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         foreach (var operation in BacktrackOperations)
                             using (Writer.OpenScope($"case {operation.Id}: // {operation.Operation.Label}, {operation.CodeName} ({(!operation.IsBack2 ? "Back" : "Back2")})"))
                             {
+                                CurrentOperation = operation.Operation;
                                 GenerateBacktrackOpCode(operation);
                                 Writer.Write($"break");
                             }
@@ -73,6 +74,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             switch (operation.CombinedCode)
             {
+                case RegexCode.Lazybranch | RegexCode.Back:
+                    //TrackPop();
+                    Textto(TrackPop()); // Textto(TrackPeek());
+                    Goto(Operand(0));
+                    break;
 
             }
         }

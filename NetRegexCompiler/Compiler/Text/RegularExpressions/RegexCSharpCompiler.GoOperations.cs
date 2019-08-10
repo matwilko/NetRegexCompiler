@@ -17,6 +17,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         
         private FormattableString IsMatched(int cap) => $"{runmatch}.IsMatched({cap})";
 
+        private FormattableString TrackPop() => $"{track}.Pop()";
+
         private void TrackPush(FormattableString I1)
         {
             var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: false);
@@ -25,5 +27,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         }
 
         private FormattableString Textpos() => $"{runtextpos}";
+
+        private void Textto(FormattableString pos)
+        {
+            Writer.Write($"{runtextpos} = {pos};");
+        }
     }
 }
