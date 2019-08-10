@@ -39,6 +39,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private void GenerateOpCode(Operation operation, BacktrackOperations backtrackOperations)
         {
+            int Operand(int i) => operation.Operands[i];
+
             switch (operation.Code)
             {
                 case RegexCode.Stop:
@@ -47,6 +49,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 case RegexCode.Nothing:
                     Backtrack();
+                    break;
+
+                case RegexCode.Goto:
+                    Goto(Operand(0));
                     break;
 
 
@@ -60,9 +66,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             }
         }
-
-        private void Backtrack() => Writer.Write($"goto backtrack;");
-
+        
         private sealed class BacktrackOperations : IEnumerable<BacktrackOperation>
         {
             private Dictionary<(int operationId, bool isBack2), (int id, Operation operation)> Operations { get; } = new Dictionary<(int operationId, bool isBack2), (int, Operation)>();
