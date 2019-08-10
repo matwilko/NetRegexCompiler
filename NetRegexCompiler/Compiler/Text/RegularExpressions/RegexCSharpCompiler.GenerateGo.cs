@@ -66,6 +66,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     // continue;
                     break;
 
+                case RegexCode.Setmark:
+                    StackPush(Textpos());
+                    TrackPush();
+                    // advance = 0;
+                    //continue;
+                    break;
+
 
             }
         }

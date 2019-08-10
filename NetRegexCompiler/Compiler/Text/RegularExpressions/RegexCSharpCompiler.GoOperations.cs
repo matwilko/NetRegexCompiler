@@ -17,20 +17,31 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         
         private FormattableString IsMatched(int cap) => $"{runmatch}.IsMatched({cap})";
 
+        private void StackPush(FormattableString I1)
+        {
+            Writer.Write($"{stack}.Push({I1})");
+        }
+
         private FormattableString TrackPop() => $"{track}.Pop()";
+
+        private void TrackPush()
+        {
+            var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: false);
+            Writer.Write($"{track}.Push({backtrackOp.Id})");
+        }
 
         private void TrackPush(FormattableString I1)
         {
             var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: false);
-            Writer.Write($"{track}.Push({I1});");
-            Writer.Write($"{track}.Push({backtrackOp.Id});");
+            Writer.Write($"{track}.Push({I1})");
+            Writer.Write($"{track}.Push({backtrackOp.Id})");
         }
 
         private FormattableString Textpos() => $"{runtextpos}";
 
         private void Textto(FormattableString pos)
         {
-            Writer.Write($"{runtextpos} = {pos};");
+            Writer.Write($"{runtextpos} = {pos}");
         }
     }
 }
