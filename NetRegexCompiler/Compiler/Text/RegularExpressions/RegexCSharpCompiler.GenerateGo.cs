@@ -104,7 +104,26 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     //continue;
                     break;
 
+                case RegexCode.Branchmark:
+                {
+                    StackPop();
 
+                    var matched = Writer.DeclareLocal($"var matched = {Textpos()} - {StackPeek()});");
+
+                    using (Writer.If($"{matched} != 0"))
+                    {                     // Nonempty match -> loop now
+                        TrackPush(StackPeek(), Textpos());  // Save old mark, textpos
+                        StackPush(Textpos());               // Make new mark
+                        Goto(Operand(0));                   // Loop
+                    }
+                    using (Writer.Else())
+                    {                                  // Empty match -> straight now
+                        TrackPush2(StackPeek());            // Save old mark
+                        //advance = 1;                      // Straight
+                    }
+
+                    break;
+                }
             }
         }
 
@@ -136,7 +155,22 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     Uncapture();
                     if (Operand(0) != -1 && Operand(1) != -1)
                         Uncapture();
+                    
+                    Backtrack();
+                    break;
 
+                case RegexCode.Branchmark | RegexCode.Back:
+                    TrackPop(2);
+                    StackPop();
+                    Textto(TrackPeek(1));                       // Recall position
+                    TrackPush2(TrackPeek());                    // Save old mark
+                    GotoNextOperation(); // advance = 1;        // Straight
+                    break;
+
+                case RegexCode.Branchmark | RegexCode.Back2:
+                    TrackPop();
+                    StackPush(TrackPeek());                     // Recall old mark
+                    Backtrack();                                // Backtrack
                     break;
             }
         }
