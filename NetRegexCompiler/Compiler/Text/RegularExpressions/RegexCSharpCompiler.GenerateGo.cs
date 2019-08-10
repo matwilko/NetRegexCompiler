@@ -286,6 +286,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.If($"{Forwardchars()} < 1 || {Forwardcharnext(culture)} == '{(char)Operand(0)}'"))
                         Backtrack();
                     break;
+
+                case RegexCode.Set:
+                    using (Writer.If($"{Forwardchars()} < 1 || !{CharInClass(Forwardcharnext(culture), Strings[Operand(0)])}"))
+                        Backtrack();
+                    break;
+
             }
         }
 
