@@ -13,7 +13,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     CurrentOperation = operation;
                     GenerateOpCode();
-                    Writer.Write($"break");
                 }
             }
 
