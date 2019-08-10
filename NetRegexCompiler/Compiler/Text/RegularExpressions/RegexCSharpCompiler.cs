@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -10,6 +12,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private RegexCode Code { get; }
         private int[] Codes { get; }
         private Operation[] Operations { get; }
+        private BacktrackOperationList BacktrackOperations { get; } = new BacktrackOperationList();
+        private Operation CurrentOperation { get; set; }
         private string[] Strings { get; }
         private RegexPrefix? FirstCharacterPrefix { get; }
         private RegexBoyerMoore BoyerMoorePrefix { get; }
@@ -188,6 +192,46 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 "Prune", "Stop",
                 "ECMABoundary", "NonECMABoundary"
             };
+        }
+
+        private sealed class BacktrackOperationList : IEnumerable<BacktrackOperation>
+        {
+            private Dictionary<(int operationId, bool isBack2), (int id, Operation operation)> Operations { get; } = new Dictionary<(int operationId, bool isBack2), (int, Operation)>();
+            private int Id { get; set; }
+
+            public BacktrackOperation Add(Operation operation, bool isBack2)
+            {
+                (int id, Operation operation) op;
+                if (Operations.TryGetValue((operation.Id, isBack2), out op))
+                    return new BacktrackOperation(op.id, op.operation, isBack2);
+
+                op = (Id++, operation);
+                Operations.Add((operation.Id, isBack2), op);
+                return new BacktrackOperation(op.id, operation, isBack2);
+            }
+
+            public IEnumerator<BacktrackOperation> GetEnumerator() => Operations.Select(kvp => new BacktrackOperation(kvp.Value.id, kvp.Value.operation, kvp.Key.isBack2)).OrderBy(bo => bo.Id).GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        private readonly struct BacktrackOperation
+        {
+            public int Id { get; }
+            public Operation Operation { get; }
+            public bool IsBack2 { get; }
+
+            public int CombinedCode => !IsBack2
+                ? Operation.Code | RegexCode.Back
+                : Operation.Code | RegexCode.Back2;
+
+            public string CodeName => Operation.CodeName;
+
+            public BacktrackOperation(int id, Operation operation, bool isBack2)
+            {
+                Id = id;
+                Operation = operation;
+                IsBack2 = isBack2;
+            }
         }
     }
 }

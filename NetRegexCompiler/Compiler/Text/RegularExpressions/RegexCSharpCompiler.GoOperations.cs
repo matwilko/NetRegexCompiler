@@ -5,6 +5,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
     internal sealed partial class RegexCSharpCompiler
     {
+        private int Operand(int i) => CurrentOperation.Operands[i];
+
         private void Backtrack() => Writer.Write($"goto backtrack;");
 
         private void Goto(int operationPos)
