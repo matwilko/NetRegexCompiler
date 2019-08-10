@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -292,6 +295,64 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         Backtrack();
                     break;
 
+                case RegexCode.Multi:
+                {
+                    //if (!Stringmatch(_code.Strings[Operand(0)]))
+                    //    break;
+                    // Stringmatch inlined here as only place used
+                    // return false => Backtrack()
+                    
+                    //    int c; <- inlined because we know str.Length
+                    var pos = Writer.DeclareLocal($"int pos;");
+
+                    var str = Strings[Operand(0)];
+                    if (!IsRightToLeft)
+                    {
+                        using (Writer.If($"{runtextend} - {runtextpos} < {str.Length}"))
+                            Backtrack();
+
+                        Writer.Write($"{pos} = {runtextpos} + {str.Length}");
+                    }
+                    else
+                    {
+                        using (Writer.If($"{runtextpos} - {runtextbeg} < {str.Length}"))
+                            Backtrack();
+
+                        Writer.Write($"{pos} = {runtextpos}");
+                    }
+
+                    if (!IsCaseInsensitive)
+                    {
+                        // TODO: Measure at what point unrolling the string check loop is bad juju
+                        var conditions = str.AsEnumerable()
+                            .Reverse()
+                            .Select(chr => (FormattableString) $"('{chr}' != {runtext}[--pos])")
+                            .Cast<object>()
+                            .ToArray();
+                        var combinationString = string.Join(" || ", conditions.Select((_, i) => $"{{{i}}}"));
+                        using (Writer.If(FormattableStringFactory.Create(combinationString, conditions)))
+                            Backtrack();
+                    }
+                    else
+                    {
+                        // TODO: Measure at what point unrolling the string check loop is bad juju
+                        var conditions = str.AsEnumerable()
+                            .Reverse()
+                            .Select(chr => (FormattableString)$"({culture}.TextInfo.ToLower('{chr}') != {runtext}[--pos])")
+                            .Cast<object>()
+                            .ToArray();
+                        var combinationString = string.Join(" || ", conditions.Select((_, i) => $"{{{i}}}"));
+                        using (Writer.If(FormattableStringFactory.Create(combinationString, conditions)))
+                            Backtrack();
+                    }
+
+                    if (!IsRightToLeft)
+                        Writer.Write($"{runtextpos} = {pos} + {str.Length}");
+                    else
+                        Writer.Write($"{runtextpos} = {pos}");
+
+                    break;
+                }
             }
         }
 
