@@ -154,6 +154,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         // TODO: Definitely stuff we can do to pre-preprocess the class here to eliminate work
         private FormattableString CharInClass(FormattableString expr, string str) => $@"RegexCharClass.CharInClass({expr}, ""{str}"")";
 
-
+        private int Bump() => IsRightToLeft ? -1 : 1;
     }
 }

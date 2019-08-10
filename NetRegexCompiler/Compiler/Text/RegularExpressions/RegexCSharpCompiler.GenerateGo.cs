@@ -453,6 +453,75 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                case RegexCode.Oneloop:
+                {
+                    var c = Writer.DeclareLocal($"int c = {Operand(1)};");
+
+                    using (Writer.If($"({Operand(1)} > {Forwardchars()}"))
+                        Writer.Write($"{c} = {Forwardchars()}");
+                    
+                    var i = Writer.DeclareLocal($"int i;");
+                    using (Writer.For($"{i} = c; {i} > 0; {i}--"))
+                    {
+                        using (Writer.If($"{Forwardcharnext(culture)} != '{(char)Operand(0)}'"))
+                        {
+                            Backwardnext();
+                            Writer.Write($"break");
+                        }
+                    }
+
+                    using (Writer.If($"{c} > {i}"))
+                        TrackPush($"{c} - {i} - 1", $"{Textpos()} - {Bump()}");
+
+                    break;
+                }
+
+                case RegexCode.Notoneloop:
+                {
+                    var c = Writer.DeclareLocal($"int c = {Operand(1)};");
+
+                    using (Writer.If($"({Operand(1)} > {Forwardchars()}"))
+                        Writer.Write($"{c} = {Forwardchars()}");
+                    
+                    var i = Writer.DeclareLocal($"int i;");
+                    using (Writer.For($"{i} = c; {i} > 0; {i}--"))
+                    {
+                        using (Writer.If($"{Forwardcharnext(culture)} == '{(char)Operand(0)}'"))
+                        {
+                            Backwardnext();
+                            Writer.Write($"break");
+                        }
+                    }
+
+                    using (Writer.If($"{c} > {i}"))
+                        TrackPush($"{c} - {i} - 1", $"{Textpos()} - {Bump()}");
+
+                    break;
+                }
+
+                case RegexCode.Setloop:
+                {
+                    var c = Writer.DeclareLocal($"int c = {Operand(1)};");
+
+                    using (Writer.If($"({Operand(1)} > {Forwardchars()}"))
+                        Writer.Write($"{c} = {Forwardchars()}");
+                    
+                    var i = Writer.DeclareLocal($"int i;");
+                    using (Writer.For($"{i} = c; {i} > 0; {i}--"))
+                    {
+                        using (Writer.If(CharInClass(Forwardcharnext(culture), Strings[Operand(0)])))
+                        {
+                            Backwardnext();
+                            Writer.Write($"break");
+                        }
+                    }
+
+                    using (Writer.If($"{c} > {i}"))
+                        TrackPush($"{c} - {i} - 1", $"{Textpos()} - {Bump()}");
+
+                    break;
+                }
             }
         }
 
@@ -620,6 +689,23 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     Backtrack();
                     break;
+
+                case RegexCode.Oneloop | RegexCode.Back:
+                case RegexCode.Notoneloop | RegexCode.Back:
+                case RegexCode.Setloop | RegexCode.Back:
+                {
+                    TrackPop(2);
+                    var i = Writer.DeclareLocal($"int i = {TrackPeek()};");
+                    var pos = Writer.DeclareLocal($"int pos = {TrackPeek(1)};");
+
+                    Textto(pos);
+
+                    using (Writer.If($"{i} > 0"))
+                        TrackPush($"{i} - 1", $"{pos} - {Bump()}");
+
+                    GotoNextOperation();
+                    break;
+                }
             }
         }
     }
