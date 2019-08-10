@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
@@ -23,7 +21,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 using (Writer.OpenScope("backtrack:"))
                 {
-                    using (Writer.Switch($"{track}.Pop())"))
+                    Writer.Write($"{EnsureStorage}()");
+                    using (Writer.Switch($"{runtrack}[{runtrackpos}++])"))
                     {
                         foreach (var operation in BacktrackOperations)
                             using (Writer.OpenScope($"case {operation.Id}: // {operation.Operation.Label}, {operation.CodeName} ({(!operation.IsBack2 ? "Back" : "Back2")})"))
@@ -87,11 +86,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             switch (operation.CombinedCode)
             {
                 case RegexCode.Lazybranch | RegexCode.Back:
-                    //TrackPop();
-                    Textto(TrackPop()); // Textto(TrackPeek());
+                    TrackPop();
+                    Textto(TrackPeek());
                     Goto(Operand(0));
                     break;
 
+                case RegexCode.Setmark | RegexCode.Back:
+                case RegexCode.Nullmark | RegexCode.Back:
+                    StackPop();
+                    Backtrack();
+                    break;
             }
         }
     }

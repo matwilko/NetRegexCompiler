@@ -12,14 +12,22 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private void Goto(int operationPos)
         {
             var operation = Operations.Single(op => op.Index == operationPos);
+            // when branching backward, ensure storage
+            if (operation.Index < CurrentOperation.Index)
+                Writer.Write($"{EnsureStorage}()");
             Writer.Write($"goto {operation.Label};");
         }
         
         private FormattableString IsMatched(int cap) => $"{runmatch}.IsMatched({cap})";
 
+        private void StackPop()
+        {
+            Writer.Write($"runstackpos++");
+        }
+
         private void StackPush(FormattableString I1)
         {
-            Writer.Write($"{stack}.Push({I1})");
+            Writer.Write($"{runstack}[--{runstackpos}] = {I1}");
         }
 
         private void StackPush(int I1)
@@ -27,19 +35,24 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             StackPush($"{I1}");
         }
 
-        private FormattableString TrackPop() => $"{track}.Pop()";
+        private void TrackPop()
+        {
+            Writer.Write($"{runtrackpos}++");
+        }
+
+        private FormattableString TrackPeek() => $"{runtrack}[{runtrackpos} - 1]";
 
         private void TrackPush()
         {
             var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: false);
-            Writer.Write($"{track}.Push({backtrackOp.Id})");
+            Writer.Write($"{runtrack}[--{runtrackpos}] = {backtrackOp.Id}");
         }
 
         private void TrackPush(FormattableString I1)
         {
             var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: false);
-            Writer.Write($"{track}.Push({I1})");
-            Writer.Write($"{track}.Push({backtrackOp.Id})");
+            Writer.Write($"{runtrack}[--{runtrackpos}] = {I1}");
+            Writer.Write($"{runtrack}[--{runtrackpos}] = {backtrackOp.Id}");
         }
 
         private FormattableString Textpos() => $"{runtextpos}";
