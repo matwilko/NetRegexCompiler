@@ -94,6 +94,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString Textpos() => $"{runtextpos}";
 
+        private void Trackto(FormattableString pos) => Trackto((object) pos);
+        private void Trackto(object pos)
+        {
+            Writer.Write($"{runtrackpos} = {runtrack}.Length - {pos}");
+        }
+
         private void Textto(FormattableString pos) => Textto((object) pos);
         private void Textto(object pos)
         {

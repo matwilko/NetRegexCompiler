@@ -217,6 +217,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     TrackPush();
                     break;
 
+                case RegexCode.Forejump:
+                    // StackPush:
+                    //  0: Saved trackpos
+                    //  1: Crawlpos
+                    StackPop(2);
+                    Trackto(StackPeek());
+                    TrackPush(StackPeek(1));
+                    break;
             }
         }
 
@@ -371,6 +379,17 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 case RegexCode.Setjump | RegexCode.Back:
                     StackPop(2);
+                    Backtrack();
+                    break;
+
+                case RegexCode.Forejump | RegexCode.Back:
+                    // TrackPush:
+                    //  0: Crawlpos
+                    TrackPop();
+
+                    using (Writer.While($"{Crawlpos()} != {TrackPeek()}"))
+                        Uncapture();
+
                     Backtrack();
                     break;
             }
