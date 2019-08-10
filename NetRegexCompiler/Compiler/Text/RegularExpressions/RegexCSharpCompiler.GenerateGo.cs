@@ -522,6 +522,21 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                case RegexCode.Onelazy:
+                case RegexCode.Notonelazy:
+                case RegexCode.Setlazy:
+                {
+                    var c = Writer.DeclareLocal($"int c = {Operand(1)};");
+
+                    using (Writer.If($"({Operand(1)} > {Forwardchars()}"))
+                        Writer.Write($"{c} = {Forwardchars()}");
+
+                    using (Writer.If($"{c} > 0"))
+                        TrackPush($"{c} - 1", Textpos());
+
+                    break;
+                }
             }
         }
 
@@ -702,6 +717,60 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     using (Writer.If($"{i} > 0"))
                         TrackPush($"{i} - 1", $"{pos} - {Bump()}");
+
+                    GotoNextOperation();
+                    break;
+                }
+
+                case RegexCode.Onelazy | RegexCode.Back:
+                {
+                    TrackPop(2);
+                    var pos = Writer.DeclareLocal($"int pos = {TrackPeek(1)};");
+                    Textto(pos);
+
+                    using (Writer.If($"{Forwardcharnext(culture)} != '{(char)Operand(0)}'"))
+                        Backtrack();
+
+                    var i = Writer.DeclareLocal($"int i = {TrackPeek()}");
+
+                    using (Writer.If($"{i} > 0"))
+                        TrackPush($"{i} - 1", $"{pos} + {Bump()}");
+                    
+                    GotoNextOperation();
+                    break;
+                }
+
+                case RegexCode.Notonelazy | RegexCode.Back:
+                {
+                    TrackPop(2);
+                    var pos = Writer.DeclareLocal($"int pos = {TrackPeek(1)};");
+                    Textto(pos);
+
+                    using (Writer.If($"{Forwardcharnext(culture)} == '{(char)Operand(0)}'"))
+                        Backtrack();
+
+                    var i = Writer.DeclareLocal($"int i = {TrackPeek()}");
+
+                    using (Writer.If($"{i} > 0"))
+                        TrackPush($"{i} - 1", $"{pos} + {Bump()}");
+
+                    GotoNextOperation();
+                    break;
+                    }
+
+                case RegexCode.Setlazy | RegexCode.Back:
+                {
+                    TrackPop(2);
+                    var pos = Writer.DeclareLocal($"int pos = {TrackPeek(1)};");
+                    Textto(pos);
+
+                    using (Writer.If(CharInClass(Forwardcharnext(culture), Strings[Operand(0)])))
+                        Backtrack();
+
+                    var i = Writer.DeclareLocal($"int i = {TrackPeek()}");
+
+                    using (Writer.If($"{i} > 0"))
+                        TrackPush($"{i} - 1", $"{pos} + {Bump()}");
 
                     GotoNextOperation();
                     break;
