@@ -415,7 +415,31 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
                 }
 
+                case RegexCode.Onerep:
+                {
+                    using (Writer.If($"{Forwardchars()} < '{Operand(1)})'"))
+                        Backtrack();
 
+                    var c = Writer.DeclareLocal($"int c = '{Operand(1)}';");
+                    using (Writer.While($"{c}-- > 0"))
+                        using (Writer.If($"{Forwardcharnext(culture)} != '{(char) Operand(0)}'"))
+                            Backtrack();
+
+                    break;
+                }
+
+                case RegexCode.Notonerep:
+                {
+                    using (Writer.If($"{Forwardchars()} < {Operand(1)}"))
+                        Backtrack();
+
+                    var c = Writer.DeclareLocal($"int c = '{Operand(1)}';");
+                    using (Writer.While($"{c}-- > 0"))
+                    using (Writer.If($"{Forwardcharnext(culture)} == '{(char)Operand(0)}'"))
+                        Backtrack();
+
+                    break;
+                }
             }
         }
 
