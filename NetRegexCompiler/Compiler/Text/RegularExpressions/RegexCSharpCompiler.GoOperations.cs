@@ -57,11 +57,38 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Write($"{runtrack}[--{runtrackpos}] = {backtrackOp.Id}");
         }
 
+        private FormattableString Popcrawl() => $"{runcrawl}[{runcrawlpos}++]";
+
         private FormattableString Textpos() => $"{runtextpos}";
 
         private void Textto(FormattableString pos)
         {
             Writer.Write($"{runtextpos} = {pos}");
+        }
+
+        private void TransferCapture(int capnum, int uncapnum, FormattableString start, FormattableString end)
+        {
+            Writer.Write($"TransferCapture({capnum}, {uncapnum}, {start}, {end})");
+        }
+
+        private void Capture(int capnum, FormattableString start, FormattableString end)
+        {
+            Writer.Write($"Capture({capnum}, {start}, {end})");
+        }
+
+        private void TransferCapture(FormattableString capnum, FormattableString uncapnum, FormattableString start, FormattableString end)
+        {
+            Writer.Write($"TransferCapture({capnum}, {uncapnum}, {start}, {end})");
+        }
+
+        private void Capture(FormattableString capnum, FormattableString start, FormattableString end)
+        {
+            Writer.Write($"Capture({capnum}, {start}, {end})");
+        }
+
+        private void Uncapture()
+        {
+            Writer.Write($"{runmatch}.RemoveMatch({Popcrawl()})");
         }
     }
 }

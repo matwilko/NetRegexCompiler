@@ -87,6 +87,23 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     // continue;
                     break;
 
+                case RegexCode.Capturemark:
+                    if (Operand(1) != -1)
+                        using (Writer.If($"!{IsMatched(Operand(1))}"))
+                            Backtrack();
+                    StackPop();
+                    // TODO: Can we inline TransferCapture/Capture efficiently?
+                    if (Operand(1) != -1)
+                        TransferCapture(Operand(0), Operand(1), StackPeek(), Textpos());
+                    else
+                        Capture(Operand(0), StackPeek(), Textpos());
+                    TrackPush(StackPeek());
+
+                    // advance = 2;
+
+                    //continue;
+                    break;
+
 
             }
         }
@@ -111,6 +128,15 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     TrackPop();
                     StackPush(TrackPeek());
                     Backtrack();
+                    break;
+
+                case RegexCode.Capturemark | RegexCode.Back:
+                    TrackPop();
+                    StackPush(TrackPeek());
+                    Uncapture();
+                    if (Operand(0) != -1 && Operand(1) != -1)
+                        Uncapture();
+
                     break;
             }
         }
