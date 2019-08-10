@@ -440,6 +440,19 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                case RegexCode.Setrep:
+                {
+                    using (Writer.If($"{Forwardchars()} < {Operand(1)}"))
+                        Backtrack();
+
+                    var c = Writer.DeclareLocal($"int c = '{Operand(1)}';");
+                    using (Writer.While($"{c}-- > 0"))
+                        using (Writer.If($"!{CharInClass(Forwardcharnext(culture), Strings[Operand(0)])}"))
+                            Backtrack();
+
+                    break;
+                }
             }
         }
 
