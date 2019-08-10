@@ -13,27 +13,27 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 var culture = DeclareCulture();
                 foreach (var operation in Operations)
-                using (Writer.OpenScope($"{operation.Label}: // {operation.CodeName}({string.Join(", ", operation.Operands.Select(o => CSharpWriter.ConvertFormatArgument(o)))})", requireBraces: true, clearLine: true))
-                {
-                    CurrentOperation = operation;
-                    GenerateOpCode(culture);
-                }
-            }
-
-            if (BacktrackOperations.Any())
-            {
-                using (Writer.OpenScope("backtrack:"))
-                {
-                    Writer.Write($"{EnsureStorage}()");
-                    using (Writer.Switch($"{runtrack}[{runtrackpos}++])"))
+                    using (Writer.OpenScope($"{operation.Label}: // {operation.CodeName}({string.Join(", ", operation.Operands.Select(o => CSharpWriter.ConvertFormatArgument(o)))})", requireBraces: true, clearLine: true))
                     {
-                        foreach (var operation in BacktrackOperations)
-                            using (Writer.OpenScope($"case {operation.Id}: // {operation.Operation.Label}, {operation.CodeName} ({(!operation.IsBack2 ? "Back" : "Back2")})"))
-                            {
-                                CurrentOperation = operation.Operation;
-                                GenerateBacktrackOpCode(operation);
-                                Writer.Write($"break");
-                            }
+                        CurrentOperation = operation;
+                        GenerateOpCode(culture);
+                    }
+
+                if (BacktrackOperations.Any())
+                {
+                    using (Writer.OpenScope("backtrack:"))
+                    {
+                        Writer.Write($"{EnsureStorage}()");
+                        using (Writer.Switch($"{runtrack}[{runtrackpos}++])"))
+                        {
+                            foreach (var operation in BacktrackOperations)
+                                using (Writer.OpenScope($"case {operation.Id}: // {operation.Operation.Label}, {operation.CodeName} ({(!operation.IsBack2 ? "Back" : "Back2")})"))
+                                {
+                                    CurrentOperation = operation.Operation;
+                                    GenerateBacktrackOpCode(operation, culture);
+                                    Writer.Write($"break");
+                                }
+                        }
                     }
                 }
             }
@@ -525,7 +525,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        private void GenerateBacktrackOpCode(BacktrackOperation operation)
+        private void GenerateBacktrackOpCode(BacktrackOperation operation, Local culture)
         {
             switch (operation.CombinedCode)
             {
