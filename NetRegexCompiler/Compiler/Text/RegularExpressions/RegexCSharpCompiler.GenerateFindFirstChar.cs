@@ -411,7 +411,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private void GenerateBoyerMoorePrefixScanCheck()
         {
-            using (Writer.If($"{BoyerMoorePrefixScan}() == -1"))
+            Writer.Write($"{runtextpos} = {BoyerMoorePrefixScan}();");
+            using (Writer.If($"{runtextpos} == -1"))
             {
                 if (IsRightToLeft)
                     Writer.Write($"{runtextpos} = {runtextbeg}");
