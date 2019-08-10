@@ -8,11 +8,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             using (Writer.Method("protected override void Go()"))
             {
+                var culture = DeclareCulture();
                 foreach (var operation in Operations)
                 using (Writer.OpenScope($"{operation.Label}: // {operation.CodeName}({string.Join(", ", operation.Operands.Select(o => CSharpWriter.ConvertFormatArgument(o)))})", requireBraces: true, clearLine: true))
                 {
                     CurrentOperation = operation;
-                    GenerateOpCode();
+                    GenerateOpCode(culture);
                 }
             }
 
@@ -35,7 +36,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        private void GenerateOpCode()
+        private void GenerateOpCode(Local culture)
         {
             switch (CurrentOperation.Code)
             {
@@ -273,6 +274,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 case RegexCode.End:
                     using (Writer.If($"{Rightchars()} > 0"))
+                        Backtrack();
+                    break;
+
+                case RegexCode.One:
+                    using (Writer.If($"{Forwardchars()} < 1 || {Forwardcharnext(culture)} != '{(char)Operand(0)}'"))
+                        Backtrack();
+                    break;
+
+                case RegexCode.Notone:
+                    using (Writer.If($"{Forwardchars()} < 1 || {Forwardcharnext(culture)} == '{(char)Operand(0)}'"))
                         Backtrack();
                     break;
             }
