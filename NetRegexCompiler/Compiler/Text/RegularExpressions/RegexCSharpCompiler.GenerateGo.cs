@@ -59,6 +59,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     // continue;
                     break;
 
+                case RegexCode.Lazybranch: 
+                    TrackPush(Textpos());
+                    // advance = 1;
+                    // continue;
+                    break;
+
+
             }
         }
 

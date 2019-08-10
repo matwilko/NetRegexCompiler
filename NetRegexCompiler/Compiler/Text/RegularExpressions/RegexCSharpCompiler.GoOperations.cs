@@ -16,5 +16,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         }
         
         private FormattableString IsMatched(int cap) => $"{runmatch}.IsMatched({cap})";
+
+        private void TrackPush(FormattableString I1)
+        {
+            var backtrackOp = BacktrackOperations.Add(CurrentOperation, isBack2: false);
+            Writer.Write($"{track}.Push({I1});");
+            Writer.Write($"{track}.Push({backtrackOp.Id});");
+        }
+
+        private FormattableString Textpos() => $"{runtextpos}";
     }
 }
