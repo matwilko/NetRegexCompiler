@@ -211,6 +211,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                case RegexCode.Setjump:
+                    StackPush(Trackpos(), Crawlpos());
+                    TrackPush();
+                    break;
+
             }
         }
 
@@ -362,6 +368,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     StackPush(TrackPeek(), $"{StackPeek(1)} - 1");   // Recall old mark, count
                     Backtrack();
                     break;                                           // Backtrack
+
+                case RegexCode.Setjump | RegexCode.Back:
+                    StackPop(2);
+                    Backtrack();
+                    break;
             }
         }
     }

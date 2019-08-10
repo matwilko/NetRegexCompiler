@@ -86,7 +86,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Write($"{runtrack}[--{runtrackpos}] = {backtrackOp.Id}");
         }
 
+        private FormattableString Trackpos() => $"{runtrack}.Length - {runtrackpos}";
+
         private FormattableString Popcrawl() => $"{runcrawl}[{runcrawlpos}++]";
+
+        private FormattableString Crawlpos() => $"{runcrawl}.Length - {runcrawlpos}";
 
         private FormattableString Textpos() => $"{runtextpos}";
 
