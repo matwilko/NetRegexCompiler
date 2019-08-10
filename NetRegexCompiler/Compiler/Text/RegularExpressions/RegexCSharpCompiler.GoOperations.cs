@@ -93,6 +93,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private FormattableString Crawlpos() => $"{runcrawl}.Length - {runcrawlpos}";
 
         private FormattableString Textpos() => $"{runtextpos}";
+        private FormattableString Textstart() => $"{runtextstart}";
 
         private void Trackto(FormattableString pos) => Trackto((object) pos);
         private void Trackto(object pos)

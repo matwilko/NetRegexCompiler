@@ -256,7 +256,25 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         Backtrack();
                     break;
 
+                case RegexCode.Beginning:
+                    using (Writer.If($"{Leftchars()} > 0"))
+                        Backtrack();
+                    break;
 
+                case RegexCode.Start:
+                    using (Writer.If($"{Textpos()} != {Textstart()}"))
+                        Backtrack();
+                    break;
+
+                case RegexCode.EndZ:
+                    using (Writer.If($"{Rightchars()} > 1 || {Rightchars()} == 1 && {CharAt(Textpos())} != '{'\n'}')"))
+                        Backtrack();
+                    break;
+
+                case RegexCode.End:
+                    using (Writer.If($"{Rightchars()} > 0"))
+                        Backtrack();
+                    break;
             }
         }
 
