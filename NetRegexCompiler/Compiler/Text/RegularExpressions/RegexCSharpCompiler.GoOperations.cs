@@ -130,5 +130,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             Writer.Write($"{runmatch}.RemoveMatch({Popcrawl()})");
         }
+
+        private FormattableString Leftchars() => $"{runtextpos} - {runtextbeg}";
+        private FormattableString Rightchars() => $"{runtextend} - {runtextpos}";
     }
 }

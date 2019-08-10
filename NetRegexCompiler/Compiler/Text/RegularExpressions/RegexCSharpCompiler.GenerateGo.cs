@@ -225,6 +225,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     Trackto(StackPeek());
                     TrackPush(StackPeek(1));
                     break;
+
+                case RegexCode.Bol:
+                    using (Writer.If($"{Leftchars()} > 0 && {CharAt($"{Textpos()} - 1")} != '{'\n'}"))
+                        Backtrack();
+                    break;
+
+                case RegexCode.Eol:
+                    using (Writer.If($"{Rightchars()} > 0 && {CharAt(Textpos())} != '{'\n'}'"))
+                        Backtrack();
+                    break;
             }
         }
 

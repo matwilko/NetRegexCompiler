@@ -132,6 +132,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 Writer.Write($"{runtextpos} += -1;");
         }
 
+        private FormattableString CharAt(FormattableString expr) => CharAt((object) expr);
         private FormattableString CharAt(object expr) => $"{runtext}[{expr}]";
 
         private readonly struct Operation
