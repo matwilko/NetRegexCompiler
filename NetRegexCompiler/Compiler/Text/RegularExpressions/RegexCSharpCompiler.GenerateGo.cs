@@ -109,7 +109,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     StackPop();
 
-                    var matched = Writer.DeclareLocal($"var matched = {Textpos()} - {StackPeek()});");
+                    var matched = Writer.DeclareLocal($"var matched = {Textpos()} - {StackPeek()};");
 
                     using (Writer.If($"{matched} != 0"))
                     {                     // Nonempty match -> loop now
@@ -456,7 +456,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     var c = Writer.DeclareLocal($"int c = {Operand(1)};");
 
-                    using (Writer.If($"({Operand(1)} > {Forwardchars()}"))
+                    using (Writer.If($"{Operand(1)} > {Forwardchars()}"))
                         Writer.Write($"{c} = {Forwardchars()}");
                     
                     var i = Writer.DeclareLocal($"int i;");
