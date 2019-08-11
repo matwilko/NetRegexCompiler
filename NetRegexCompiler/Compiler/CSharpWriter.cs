@@ -40,6 +40,7 @@ namespace NetRegexCompiler.Compiler
         public CloseScope Namespace(string ns) => OpenScope($"namespace {ns}", requireBraces: true, clearLine: true);
         public CloseScope Type(string typeDecl) => OpenScope(typeDecl, requireBraces: true, clearLine: true);
         public CloseScope Method(string methodDecl) => OpenScope(methodDecl, requireBraces: true, clearLine: true);
+        public CloseScope Constructor(string constructorDecl) => OpenScope(constructorDecl, requireBraces: true, clearLine: true);
 
         public CloseScope If(FormattableString expr) => OpenScope($"if ({FormatExpression(expr)})", clearLine: true);
         public CloseScope ElseIf(FormattableString expr) => OpenScope($"else if ({FormatExpression(expr)})", clearLine: true, collapseLine: true);

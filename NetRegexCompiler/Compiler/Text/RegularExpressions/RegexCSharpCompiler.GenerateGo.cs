@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    internal sealed partial class RegexCSharpCompiler
+    partial class RegexCSharpCompiler
     {
         private void GenerateGo()
         {

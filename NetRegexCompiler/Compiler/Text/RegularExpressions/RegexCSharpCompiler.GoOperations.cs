@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    internal sealed partial class RegexCSharpCompiler
+    partial class RegexCSharpCompiler
     {
         private int Operand(int i) => CurrentOperation.Operands[i];
 

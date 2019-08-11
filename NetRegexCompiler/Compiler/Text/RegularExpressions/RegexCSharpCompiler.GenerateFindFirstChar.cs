@@ -2,7 +2,7 @@
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    internal sealed partial class RegexCSharpCompiler
+    partial class RegexCSharpCompiler
     {
         private Method BoyerMoorePrefixScan { get; } = new Method("BoyerMoorePrefixScan");
 
