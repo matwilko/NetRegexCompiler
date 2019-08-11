@@ -172,7 +172,7 @@ namespace NetRegexCompiler.Compiler
 
                 parentScope.Add(Declaration);
 
-                if (RequireBraces || closingScope.Count > 1 || string.IsNullOrWhiteSpace(closingScope.Single()))
+                if (RequireBraces || closingScope.Count != 1 || closingScope.All(string.IsNullOrWhiteSpace))
                 {
                     parentScope.Add("{");
                     foreach (var line in closingScope)
