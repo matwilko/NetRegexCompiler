@@ -146,7 +146,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             public string Label => $"op_{Index}";
             public string CodeName => CodeNames[Code];
 
-            private Operation(int id, int index, int code, int[] operands)
+            public Operation(int id, int index, int code, int[] operands)
             {
                 Id = id;
                 Index = index;
@@ -201,15 +201,41 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             private Dictionary<(int operationId, bool isBack2), (int id, Operation operation)> Operations { get; } = new Dictionary<(int operationId, bool isBack2), (int, Operation)>();
             private int Id { get; set; }
 
+            // Backtracking code that only depends on runtime state, no dependency on source or destination
+            private static int[] UndifferentiatedBacktrackOperations { get; } =
+            {
+                RegexCode.Nullmark | RegexCode.Back,
+                RegexCode.Setmark | RegexCode.Back,
+                RegexCode.Getmark | RegexCode.Back,
+                RegexCode.Branchmark | RegexCode.Back2,
+                RegexCode.Lazybranchmark | RegexCode.Back2,
+                RegexCode.Setcount | RegexCode.Back,
+                RegexCode.Nullcount | RegexCode.Back,
+                RegexCode.Branchcount | RegexCode.Back2,
+                RegexCode.Lazybranchcount | RegexCode.Back2,
+                RegexCode.Setjump | RegexCode.Back,
+                RegexCode.Forejump | RegexCode.Back
+            };
+
             public BacktrackOperation Add(Operation operation, bool isBack2)
             {
-                (int id, Operation operation) op;
-                if (Operations.TryGetValue((operation.Id, isBack2), out op))
-                    return new BacktrackOperation(op.id, op.operation, isBack2);
+                if (UndifferentiatedBacktrackOperations.Contains(BacktrackOperation.CombineCode(operation.Code, isBack2)))
+                    return HandleUndifferentiatedOperation(operation.Code, isBack2);
 
-                op = (Id++, operation);
-                Operations.Add((operation.Id, isBack2), op);
-                return new BacktrackOperation(op.id, operation, isBack2);
+                if (!Operations.TryGetValue((operation.Id, isBack2), out var op))
+                    op = Operations[(operation.Id, isBack2)] = (Id++, operation);
+
+                return new BacktrackOperation(op.id, op.operation, isBack2);
+            }
+
+            private BacktrackOperation HandleUndifferentiatedOperation(int code, bool isBack2)
+            {
+                var opUniqueId = -Array.IndexOf(UndifferentiatedBacktrackOperations, BacktrackOperation.CombineCode(code, isBack2));
+
+                if (!Operations.TryGetValue((opUniqueId, isBack2), out var op))
+                    op = Operations[(opUniqueId, isBack2)] = (Id++, new Operation(-1, -1, code, new int [0]));
+
+                return new BacktrackOperation(op.id, op.operation, isBack2);
             }
 
             public IEnumerator<BacktrackOperation> GetEnumerator() => Operations.Select(kvp => new BacktrackOperation(kvp.Value.id, kvp.Value.operation, kvp.Key.isBack2)).OrderBy(bo => bo.Id).GetEnumerator();
@@ -222,9 +248,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             public Operation Operation { get; }
             public bool IsBack2 { get; }
 
-            public int CombinedCode => !IsBack2
-                ? Operation.Code | RegexCode.Back
-                : Operation.Code | RegexCode.Back2;
+            public int CombinedCode => CombineCode(Operation.Code, IsBack2);
 
             public string CodeName => Operation.CodeName;
 
@@ -234,6 +258,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 Operation = operation;
                 IsBack2 = isBack2;
             }
+
+            public static int CombineCode(int code, bool isBack2) => !isBack2
+                ? code | RegexCode.Back
+                : code | RegexCode.Back2;
         }
     }
 }

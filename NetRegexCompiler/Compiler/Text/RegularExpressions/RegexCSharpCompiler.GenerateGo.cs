@@ -26,11 +26,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         using (Writer.Switch($"{runtrack}[{runtrackpos}++]"))
                         {
                             foreach (var operation in BacktrackOperations)
-                                using (Writer.OpenScope($"case {operation.Id}: // {operation.Operation.Label}, {operation.CodeName} ({(!operation.IsBack2 ? "Back" : "Back2")})"))
+                            {
+                                var summary = operation.Operation.Id >= 0
+                                    ? $"{operation.Operation.Label}, {operation.CodeName} ({(!operation.IsBack2 ? "Back" : "Back2")})"
+                                    : $"{operation.CodeName} ({(!operation.IsBack2 ? "Back" : "Back2")})";
+                                using (Writer.OpenScope($"case {operation.Id}: // {summary}"))
                                 {
                                     CurrentOperation = operation.Operation;
                                     GenerateBacktrackOpCode(operation, culture);
                                 }
+                            }
                         }
                     }
                 }
