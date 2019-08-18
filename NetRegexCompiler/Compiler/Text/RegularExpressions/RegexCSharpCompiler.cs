@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 {
-    internal sealed partial class RegexCSharpCompiler : IDisposable
+    public sealed partial class RegexCSharpCompiler : IDisposable
     {
+        private string Namespace { get; }
+        private string ClassName { get; }
         private CSharpWriter Writer { get; }
+        private string Pattern { get; }
+        private RegexTree Tree { get; }
         private RegexCode Code { get; }
         private int[] Codes { get; }
         private Operation[] Operations { get; }
@@ -31,40 +37,115 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Dispose();
         }
 
-        private RegexCSharpCompiler(TextWriter writer, RegexCode code, RegexOptions options)
+        private RegexCSharpCompiler(TextWriter writer, string pattern, RegexOptions options, CultureInfo culture, string @namespace, string className)
         {
+            Pattern = pattern;
+            Tree = RegexParser.Parse(pattern, options, culture);
+            Code = RegexWriter.Write(Tree);
             Writer = new CSharpWriter(writer);
-            Code = code;
-            Codes = code.Codes;
+            Codes = Code.Codes;
             Operations = Operation.GenerateFromCodes(Codes);
-            Strings = code.Strings;
-            FirstCharacterPrefix = code.FCPrefix;
-            BoyerMoorePrefix = code.BMPrefix;
-            Anchors = new Anchors(code.Anchors);
-            TrackCount = code.TrackCount;
+            Strings = Code.Strings;
+            FirstCharacterPrefix = Code.FCPrefix;
+            BoyerMoorePrefix = Code.BMPrefix;
+            Anchors = new Anchors(Code.Anchors);
+            TrackCount = Code.TrackCount;
             Options = options;
+            Namespace = @namespace;
+            ClassName = className;
         }
 
-        public static void GenerateCSharpCode(TextWriter writer, RegexCode code, RegexOptions options)
+        public static void GenerateCSharpCode(TextWriter writer, string pattern, RegexOptions options, string @namespace, string className)
         {
-            using(var codeGenerator = new RegexCSharpCompiler(writer, code, options))
+            var culture = (options & RegexOptions.CultureInvariant) != 0
+                ? CultureInfo.InvariantCulture
+                : CultureInfo.CurrentCulture;
+
+            using (var codeGenerator = new RegexCSharpCompiler(writer, pattern, options, culture, @namespace, className))
                 codeGenerator.Generate();
         }
 
         private void Generate()
         {
-            Writer.Using("System.Diagnostics");
-            Writer.Using("System.Globalization");
-            using (Writer.Namespace("NetRegexCompiler.Compiler.Text.RegularExpressions"))
-            using (Writer.Type("public sealed class CompiledRegexRunnerFactory : RegexRunnerFactory"))
+            using (Writer.Namespace(Namespace))
+            using (Writer.DisableWarning("164"))
+            using (Writer.DisableWarning("162"))
             {
-                Writer.Write($"protected internal override RegexRunner CreateInstance() => new CompiledRegexRunner();");
-                using (Writer.Type("private sealed class CompiledRegexRunner : RegexRunner"))
+                Writer.Using("System");
+                Writer.Using("System.Collections");
+                Writer.Using("System.Collections.Generic");
+                Writer.Using("System.Diagnostics");
+                Writer.Using("System.Globalization");
+                Writer.Using("System.Reflection");
+                Writer.Using("System.Text");
+                Writer.Using("System.Text.RegularExpressions");
+                
+                using (Writer.Type($"public sealed class {ClassName} : Regex"))
                 {
-                    GenerateInitTrackCount();
-                    GenerateFindFirstChar();
-                    GenerateGo();
+                    Writer.Write($"public static Regex Instance {{ get; }} = new {ClassName}();");
+
+                    GenerateCompiledFields();
+
+                    using (Writer.Constructor($"public {ClassName}()"))
+                    {
+                        Writer.Write($@"this.pattern = ""{Pattern}""");
+
+                        if (Tree.CapNames != null)
+                            Writer.Write($"this.capnames = compiledCapNames;");
+                        else
+                            Writer.Write($"this.capnames = null;");
+
+                        if (Tree.CapsList != null)
+                            Writer.Write($"this.capslist = compiledCapsList;");
+                        else
+                            Writer.Write($"this.capslist = null;");
+
+                        if (Code.Caps != null)
+                            Writer.Write($"this.caps = compiledCaps;");
+                        else
+                            Writer.Write($"this.caps = null;");
+
+                        Writer.Write($"this.capsize = {Code.CapSize};");
+                        Writer.Write($"this.internalMatchTimeout = TimeSpan.FromMilliseconds(1000)");
+                        Writer.Write($"this.factory = new CompiledRegexRunnerFactory();");
+                        Writer.Write($"InitializeReferences();");
+                    }
+
+                    using (Writer.Type("private sealed class CompiledRegexRunnerFactory : RegexRunnerFactory"))
+                    {
+                        Writer.Write($"protected override RegexRunner CreateInstance() => new CompiledRegexRunner();");
+                    }
+
+                    using (Writer.Type("private sealed class CompiledRegexRunner : RegexRunner"))
+                    {
+                        Writer.Write($"public char CurrentChar => runtext[runtextpos];");
+                        Writer.Write($"public string ForwardStr => runtext.Substring(runtextpos);");
+                        GenerateInitTrackCount();
+                        GenerateFindFirstChar();
+                        GenerateGo();
+                    }
                 }
+            }
+        }
+
+        private void GenerateCompiledFields()
+        {
+            if (Tree.CapNames != null)
+            {
+                var capNames = FormattableStringFactory.Create(string.Join(", ", Tree.CapNames.Select((kvp, i) => $@"{{{{ ""{{{i * 2}}}"", {{{i * 2 + 1}}} }}}}")), Tree.CapNames.SelectMany(kvp => new object[] { kvp.Key, kvp.Value }).ToArray());
+                Writer.DeclareField($"private static readonly Hashtable compiledCapNames = new Hashtable() {{ {capNames} }};");
+            }
+
+            if (Tree.CapsList != null)
+            {
+                var capsList = FormattableStringFactory.Create(string.Join(", ", Tree.CapsList.Select((c, i) => $@"""{i}""")), Tree.CapsList);
+                Writer.DeclareField($"private static readonly string[] compiledCapsList = new string[] {{ {capsList} }};");
+            }
+
+            if (Code.Caps != null)
+            {
+                var caps = FormattableStringFactory.Create(string.Join(", ", Code.Caps.Select((kvp, i) => $@"{{{{ ""{{{i * 2}}}"", {{{i * 2 + 1}}} }}}}")), Code.Caps.SelectMany(kvp => new object[] { kvp.Key, kvp.Value }).ToArray());
+                Writer.DeclareField($"private static readonly Hashtable compiledCaps = new Hashtable() {{ {caps} }};");
             }
         }
 
