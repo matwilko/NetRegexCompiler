@@ -123,6 +123,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         GenerateInitTrackCount();
                         GenerateFindFirstChar();
                         GenerateGo();
+                        //GenerateDebug();
                     }
                 }
             }
@@ -170,6 +171,240 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             using (Writer.Method("protected override void InitTrackCount()"))
                 Writer.Write($"{runtrackcount} = {Code.TrackCount};");
+        }
+
+        private void GenerateDebug()
+        {
+            using (Writer.Method($"private void DumpState()"))
+            {
+                Writer.Write($@"Debug.WriteLine(""Text:  "" + TextposDescription())");
+                Writer.Write($@"Debug.WriteLine(""Track: "" + StackDescription({runtrack}, {runtrackpos}))");
+                Writer.Write($@"Debug.WriteLine(""Stack: "" + StackDescription({runstack}, {runstackpos}))");
+            }
+
+            using (Writer.Method($"private static string StackDescription(int[] a, int index)"))
+            {
+                var sb = Writer.DeclareLocal($"var sb = new StringBuilder();");
+
+                Writer.Write($"{sb}.Append(a.Length - index)");
+                Writer.Write($"{sb}.Append('/')");
+                Writer.Write($"{sb}.Append(a.Length)");
+
+                using (Writer.If($"{sb}.Length < 8"))
+                    Writer.Write($"    {sb}.Append(' ', 8 - {sb}.Length)");
+                
+                Writer.Write($"{sb}.Append('(')");
+
+                var i = Writer.DeclareLocal($"int i;");
+                using (Writer.For($"{i} = index; {i} < a.Length; {i}++"))
+                {
+                    using (Writer.If($"{i} > index"))
+                        Writer.Write($"        {sb}.Append(' ')");
+                    Writer.Write($"    {sb}.Append(a[i])");
+                }
+
+                Writer.Write($"{sb}.Append(')')");
+                
+                Writer.Write($"return {sb}.ToString()");
+            }
+
+            using (Writer.Method($"private string TextposDescription()"))
+            {
+                var sb = Writer.DeclareLocal($"var sb = new StringBuilder();");
+                var remaining = Writer.DeclareLocal($"int remaining;");
+
+                Writer.Write($"{sb}.Append({runtextpos})");
+
+                using (Writer.If($"{sb}.Length < 8"))
+                    Writer.Write($"{sb}.Append(' ', 8 - {sb}.Length)");
+
+                using (Writer.If($"{runtextpos} > {runtextbeg}"))
+                    Writer.Write($"{sb}.Append(CharDescription({runtext}[{runtextpos} - 1]))");
+                using (Writer.Else())
+                    Writer.Write($"{sb}.Append('^')");
+
+                Writer.Write($"{sb}.Append('>')");
+
+                Writer.Write($"{remaining} = {runtextend} - {runtextpos}");
+
+                var i = Writer.DeclareLocal($"int i;");
+                using (Writer.For($"{i} = {runtextpos}; {i} < {runtextend}; {i}++"))
+                {
+                    Writer.Write($"{sb}.Append(CharDescription({runtext}[{i}]))");
+                }
+                using (Writer.If($"{sb}.Length >= 64"))
+                {
+                    Writer.Write($"{sb}.Length = 61");
+                    Writer.Write($@"{sb}.Append(""..."")");
+                }
+                using (Writer.Else())
+                {
+                    Writer.Write($"{sb}.Append('$')");
+                }
+
+                Writer.Write($"return {sb}.ToString()");
+            }
+
+            var s_definedCategories = Writer.DeclareField($@"private static readonly Dictionary<string,string> s_definedCategories = new Dictionary<string, string>() {{ {{ ""Cc"", ""\u000F"" }}, {{ ""Cf"", ""\u0010"" }}, {{ ""Cn"", ""\u001E"" }}, {{ ""Co"", ""\u0012"" }}, {{ ""Cs"", ""\u0011"" }}, {{ ""C"", ""\u0000\u000F\u0010\u001E\u0012\u0011\u0000"" }}, {{ ""Ll"", ""\u0002"" }}, {{ ""Lm"", ""\u0004"" }}, {{ ""Lo"", ""\u0005"" }}, {{ ""Lt"", ""\u0003"" }}, {{ ""Lu"", ""\u0001"" }}, {{ ""L"", ""\u0000\u0002\u0004\u0005\u0003\u0001\u0000"" }}, {{ ""__InternalRegexIgnoreCase__"", ""\u0000\u0002\u0003\u0001\u0000"" }}, {{ ""Mc"", ""\u0007"" }}, {{ ""Me"", ""\u0008"" }}, {{ ""Mn"", ""\u0006"" }}, {{ ""M"", ""\u0000\u0007\u0008\u0006\u0000"" }}, {{ ""Nd"", ""\u0009"" }}, {{ ""Nl"", ""\u000A"" }}, {{ ""No"", ""\u000B"" }}, {{ ""N"", ""\u0000\u0009\u000A\u000B\u0000"" }}, {{ ""Pc"", ""\u0013"" }}, {{ ""Pd"", ""\u0014"" }}, {{ ""Pe"", ""\u0016"" }}, {{ ""Po"", ""\u0019"" }}, {{ ""Ps"", ""\u0015"" }}, {{ ""Pf"", ""\u0018"" }}, {{ ""Pi"", ""\u0017"" }}, {{ ""P"", ""\u0000\u0013\u0014\u0016\u0019\u0015\u0018\u0017\u0000"" }}, {{ ""Sc"", ""\u001B"" }}, {{ ""Sk"", ""\u001C"" }}, {{ ""Sm"", ""\u001A"" }}, {{ ""So"", ""\u001D"" }}, {{ ""S"", ""\u0000\u001B\u001C\u001A\u001D\u0000"" }}, {{ ""Zl"", ""\u000D"" }}, {{ ""Zp"", ""\u000E"" }}, {{ ""Zs"", ""\u000C"" }}, {{ ""Z"", ""\u0000\u000D\u000E\u000C\u0000"" }} }};");
+
+            using (Writer.Method($"private static string SetDescription(string set)"))
+            {
+                const int FLAGS = 0;
+                const int SETLENGTH = 1;
+                const int CATEGORYLENGTH = 2;
+                const int SETSTART = 3;
+                const char LastChar = '\uFFFF';
+                const char GroupChar = (char)0;
+                const string s_word = "\u0000\u0002\u0004\u0005\u0003\u0001\u0006\u0009\u0013\u0000";
+                const string s_notWord = "\u0000\uFFFE\uFFFC\uFFFB\uFFFD\uFFFF\uFFFA\uFFF7\uFFED\u0000";
+
+                var mySetLength = Writer.DeclareLocal($"int mySetLength = set[{SETLENGTH}];");
+                var myCategoryLength = Writer.DeclareLocal($"int myCategoryLength = set[{CATEGORYLENGTH}];");
+                var myEndPosition = Writer.DeclareLocal($"int myEndPosition = {SETSTART} + {mySetLength} + {myCategoryLength};");
+
+                var desc = Writer.DeclareLocal($"StringBuilder desc = new StringBuilder();");
+
+                Writer.Write($"desc.Append('[')");
+
+                var index = Writer.DeclareLocal($"int index = {SETSTART};");
+                var ch1 = Writer.DeclareLocal($"char ch1;");
+                var ch2 = Writer.DeclareLocal($"char ch2;");
+
+                using (Writer.If($"set[{FLAGS}] == 1"))
+                    Writer.Write($"{desc}.Append('^');");
+
+                using (Writer.While($"{index} < {SETSTART} + set[{SETLENGTH}]"))
+                {
+                    Writer.Write($"{ch1} = set[{index}]");
+                    using (Writer.If($"index + 1 < set.Length"))
+                        Writer.Write($"{ch2} = (char)(set[{index} + 1] - 1)");
+                    using (Writer.Else())
+                        Writer.Write($"{ch2} = '{LastChar}'");
+
+                    Writer.Write($"{desc}.Append(CharDescription({ch1}))");
+
+                    using (Writer.If($"{ch2} != {ch1}"))
+                    {
+                        using (Writer.If($"{ch1} + 1 != {ch2}"))
+                            Writer.Write($"{desc}.Append('-')");
+                        Writer.Write($"{desc}.Append(CharDescription({ch2}))");
+                    }
+                    
+                    Writer.Write($"{index} += 2");
+                }
+
+                using (Writer.While($"{index} < {SETSTART} + set[{SETLENGTH}] + set[{CATEGORYLENGTH}]"))
+                {
+                    Writer.Write($"{ch1} = set[{index}]");
+                    using (Writer.If($"{ch1} == 0"))
+                    {
+                        var found = Writer.DeclareLocal($"bool found = false;");
+
+                        var lastindex = Writer.DeclareLocal($"int lastindex = set.IndexOf('{GroupChar}', {index} + 1);");
+                        var group = Writer.DeclareLocal($"string group = set.Substring({index}, {lastindex} - {index} + 1);");
+
+                        using (Writer.OpenScope($"foreach (KeyValuePair<string, string> kvp in s_definedCategories)"))
+                        {
+                            using (Writer.If($"{group}.Equals(kvp.Value)"))
+                            {
+                                using (Writer.If($"(short)set[{index} + 1] > 0"))
+                                    Writer.Write($@"{desc}.Append(""{"\\p{"}"")");
+                                using (Writer.Else())
+                                    Writer.Write($@"{desc}.Append(""{"\\P{"}"")");
+
+                                Writer.Write($"{desc}.Append(kvp.Key)");
+                                Writer.Write($"{desc}.Append('}}')");
+
+                                Writer.Write($"{found} = true");
+                                Writer.Write($"break");
+                            }
+                        }
+
+                        using (Writer.If($"!{found}"))
+                        {
+                            using (Writer.If($@"{group}.Equals(""{s_word}"")"))
+                                Writer.Write($@"{desc}.Append(""{"\\w"}"")");
+                            using (Writer.ElseIf($@"{group}.Equals(""{s_notWord}"")"))
+                                Writer.Write($@"{desc}.Append(""{"\\W"}"")");
+                            using (Writer.Else())
+                                Writer.Write($@"Debug.Assert(false, $""Couldn't find a group to match '{group}'"")");
+                        }
+
+                        Writer.Write($"{index} = {lastindex}");
+                    }
+                    using (Writer.Else())
+                    {
+                        Writer.Write($"{desc}.Append(CategoryDescription({ch1}))");
+                    }
+
+                    Writer.Write($"{index}++");
+                }
+
+                using (Writer.If($"set.Length > {myEndPosition}"))
+                {
+                    Writer.Write($"{desc}.Append('-')");
+                    Writer.Write($"{desc}.Append(SetDescription(set.Substring({myEndPosition})))");
+                }
+
+                Writer.Write($"{desc}.Append(']')");
+
+                Writer.Write($"return {desc}.ToString()");
+            }
+
+            var Categories = Writer.DeclareField($@"private static readonly string[] Categories = new string[] {{""Lu"", ""Ll"", ""Lt"", ""Lm"", ""Lo"", ""__InternalRegexIgnoreCase__"", ""Mn"", ""Mc"", ""Me"", ""Nd"", ""Nl"", ""No"", ""Zs"", ""Zl"", ""Zp"", ""Cc"", ""Cf"", ""Cs"", ""Co"", ""Pc"", ""Pd"", ""Ps"", ""Pe"", ""Pi"", ""Pf"", ""Po"", ""Sm"", ""Sc"", ""Sk"", ""So"", ""Cn"" }};");
+
+            using (Writer.Method($"private static string CategoryDescription(char ch)"))
+            {
+                const short SpaceConst = 100;
+                const short NotSpaceConst = -100;
+                using (Writer.If($"ch == {SpaceConst}"))
+                    Writer.Write($@"return ""{"\\s"}""");
+                using (Writer.ElseIf($"(short)ch == {NotSpaceConst}"))
+                    Writer.Write($@"return ""{"\\S"}""");
+                using (Writer.ElseIf($"(short)ch < 0"))
+                {
+                    Writer.Write($@"return ""{"\\P{"}"" + {Categories}[(-((short)ch) - 1)] + ""}}""");
+                }
+                using (Writer.Else())
+                {
+                    Writer.Write($@"return ""{"\\p{"}"" + {Categories}[(ch - 1)] + ""}}""");
+                }
+            }
+
+            var Hex = Writer.DeclareField($"private static readonly char[] Hex = new char[] {{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' }};");
+
+            using (Writer.Method($"private static string CharDescription(char ch)"))
+            {
+                using (Writer.If($"ch == '{'\\'}'"))
+                    Writer.Write($@"return ""{"\\\\"}""");
+
+                using (Writer.If($"ch >= ' ' && ch <= '~'"))
+                {
+                    Writer.Write($"return ch.ToString()");
+                }
+
+                var sb = Writer.DeclareLocal($"var sb = new StringBuilder();");
+                var shift = Writer.DeclareLocal($"int shift;");
+
+                using (Writer.If($"ch < 256"))
+                {
+                    Writer.Write($@"{sb}.Append(""{"\\x"}"")");
+                    Writer.Write($"{shift} = 8");
+                }
+                using (Writer.Else())
+                {
+                    Writer.Write($@"{sb}.Append(""{"\\u"}"")");
+                    Writer.Write($"{shift} = 16");
+                }
+
+                using (Writer.While($"{shift} > 0"))
+                {
+                    Writer.Write($"{shift} -= 4");
+                    Writer.Write($"{sb}.Append({Hex}[(ch >> {shift}) & 0xF])");
+                }
+
+                Writer.Write($"return {sb}.ToString()");
+            }
         }
 
         private Local DeclareCulture()

@@ -15,6 +15,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.OpenScope($"{operation.Label}: // {operation.CodeName}({string.Join(", ", operation.Operands.Select(o => CSharpWriter.ConvertFormatArgument(o)))})", requireBraces: true, clearLine: true))
                     {
                         CurrentOperation = operation;
+
+                        /*Writer.Write($"DumpState()");
+                        Writer.Write($@"Debug.WriteLine(""       {Code.OpcodeDescription(operation.Index)}"")");
+                        Writer.Write($@"Debug.WriteLine("""")");*/
                         GenerateOpCode(culture);
                     }
 
@@ -33,6 +37,15 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                 using (Writer.OpenScope($"case {operation.Id}: // {summary}"))
                                 {
                                     CurrentOperation = operation.Operation;
+                                    /*if (operation.IsBack2)
+                                        Writer.Write($@"Debug.WriteLine(""       Backtracking (back2) to code position {operation.Operation.Index}"")");
+                                    else
+                                        Writer.Write($@"Debug.WriteLine(""       Backtracking to code position { operation.Operation.Index}"")");
+
+                                    Writer.Write($"DumpState()");
+                                    Writer.Write($@"Debug.WriteLine(""       {Code.OpcodeDescription(operation.Operation.Index)} {(operation.IsBack2 ? "Back2" : "Back")}"")");
+                                    Writer.Write($@"Debug.WriteLine("""")");*/
+
                                     GenerateBacktrackOpCode(operation, culture);
                                 }
                             }
