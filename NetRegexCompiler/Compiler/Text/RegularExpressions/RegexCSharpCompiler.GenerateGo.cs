@@ -19,6 +19,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         /*Writer.Write($"DumpState()");
                         Writer.Write($@"Debug.WriteLine(""       {Code.OpcodeDescription(operation.Index)}"")");
                         Writer.Write($@"Debug.WriteLine("""")");*/
+
+                        Writer.Write($"CheckTimeout()");
                         GenerateOpCode(culture);
                     }
 
