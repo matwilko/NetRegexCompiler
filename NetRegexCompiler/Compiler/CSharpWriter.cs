@@ -37,6 +37,12 @@ namespace NetRegexCompiler.Compiler
             return this;
         }
 
+        public PragmaScope DisableWarning(string code)
+        {
+            Scopes.Push(new List<string>());
+            return new PragmaScope(this, code);
+        }
+
         public CloseScope Namespace(string ns) => OpenScope($"namespace {ns}", requireBraces: true, clearLine: true);
         public CloseScope Type(string typeDecl) => OpenScope(typeDecl, requireBraces: true, clearLine: true);
         public CloseScope Method(string methodDecl) => OpenScope(methodDecl, requireBraces: true, clearLine: true);
@@ -84,7 +90,7 @@ namespace NetRegexCompiler.Compiler
             return string.Format(CultureInfo.InvariantCulture, expr.Format, arguments);
         }
 
-        private static HashSet<char> VerbatimChars { get; } = new HashSet<char>(new[] { ' ', '-', '_', '[', ']', '*', '(', ')', '=', ',', ':' });
+        private static HashSet<char> VerbatimChars { get; } = new HashSet<char>(new[] { ' ', '-', '_', '[', ']', '*', '(', ')', '=', ',', ':', '{', '}', '?', '!', '^', '+', '.' });
 
         private static Dictionary<char, string> EscapedChars { get; } = new Dictionary<char, string>
         {
@@ -193,11 +199,33 @@ namespace NetRegexCompiler.Compiler
                     parentScope.Add(string.Empty);
             }
         }
+
+        public readonly struct PragmaScope : IDisposable
+        {
+            private CSharpWriter Writer { get; }
+            private string Code { get; }
+
+            public PragmaScope(CSharpWriter writer, string code)
+            {
+                Writer = writer;
+                Code = code;
+            }
+
+            public void Dispose()
+            {
+                var closingScope = Writer.Scopes.Pop();
+                var parentScope = Writer.Scopes.Peek();
+
+                parentScope.Add($"#pragma warning disable {Code}");
+                parentScope.AddRange(closingScope);
+                parentScope.Add($"#pragma warning restore {Code}");
+            }
+        }
     }
 
     internal sealed class Field
     {
-        private static Regex DefinitionCheck { get; } = new Regex("^(private|protected|internal)( static)?( readonly)? ([a-zA-Z_][a-zA-Z0-9_<>]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_<>]*)( = .*)?;$", RegexOptions.Compiled);
+        private static Regex DefinitionCheck { get; } = new Regex("^(private|protected|internal)( static)?( readonly)? ([a-zA-Z_][a-zA-Z0-9_<>,\\.]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*)( = .*)?;$", RegexOptions.Compiled);
         private static Regex NameCheck { get; } = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
         public string Name { get; }
 
@@ -244,7 +272,7 @@ namespace NetRegexCompiler.Compiler
 
     internal sealed class Local
     {
-        private static Regex DefinitionCheck { get; } = new Regex("^((var|[a-zA-Z_][a-zA-Z0-9_<>]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*) = .*?;|([a-zA-Z_][a-zA-Z0-9_<>]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*);)$", RegexOptions.Compiled);
+        private static Regex DefinitionCheck { get; } = new Regex("^((var|[a-zA-Z_][a-zA-Z0-9_<>\\.]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*) = .*?;|([a-zA-Z_][a-zA-Z0-9_<>\\.]*(\\[\\])*) ([a-zA-Z_][a-zA-Z0-9_]*);)$", RegexOptions.Compiled);
         private static Regex Validation { get; } = new Regex("^[a-zA-Z_][a-zA-Z0-9_]*$", RegexOptions.Compiled);
 
         public string Name { get; }
