@@ -52,7 +52,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         var i = Local.Parse("i");
                         using (Writer.For($"int {i} = {Forwardchars()}; i > 0; i--"))
                         {
-                            using (Writer.If($@"RegexCharClass.CharInClass({Forwardcharnext(culture)}, ""{set}"")"))
+                            using (Writer.If($@"{CharInClass(Forwardcharnext(culture), set)}"))
                             {
                                 Backwardnext();
                                 Writer.Write($"return true;");
@@ -428,11 +428,19 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             var positive = Writer.DeclareField($"private static readonly int[] positive = new int[] {{ {string.Join(", ", BoyerMoorePrefix.Positive.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }};");
             var negativeAscii = Writer.DeclareField($"private static readonly int[] negativeAscii = new int[] {{ {string.Join(", ", BoyerMoorePrefix.NegativeASCII.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }};");
-            var negativeUnicode = BoyerMoorePrefix.NegativeUnicode != null
-                ? Writer.DeclareField($"private static readonly int[][] negativeUnicode = new int[][] {{ {string.Join(", ", BoyerMoorePrefix.NegativeUnicode.Select(ia => $"new int[] {{ {string.Join(", ", ia.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }}"))} }};")
-                : default(Field);
-            
-            
+
+            Field negativeUnicode = default;
+            if (BoyerMoorePrefix.NegativeUnicode != null)
+            {
+                var values = string.Join(", ", BoyerMoorePrefix.NegativeUnicode.Select(arr =>
+                {
+                    return arr == null
+                        ? "null"
+                        : $"new int[] {{ {string.Join(", ", arr.Select(i => CSharpWriter.ConvertFormatArgument(i)))} }}";
+                }));
+                negativeUnicode = Writer.DeclareField($"private static readonly int[][] negativeUnicode = new int[][] {{ {values} }};");
+            }
+
             using (Writer.Method($"private int {BoyerMoorePrefixScan}()"))
             {
                 var text = Writer.DeclareLocal($"var text = {runtext};");
@@ -474,14 +482,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                      if (!IsCaseInsensitive)
                         Writer.Write($"{chTest} = {text}[{test}]");
                      else
-                        Writer.Write($"{chTest} = {boyerMooreCulture}.TextInfo.ToLower({text}[{test}]))");
+                        Writer.Write($"{chTest} = {boyerMooreCulture}.TextInfo.ToLower({text}[{test}])");
 
                      using (Writer.If($"{chTest} != {chMatch}"))
                      {
                          using (Writer.If($"{chTest} < 128"))
                              Writer.Write($"{advance} = {negativeAscii}[{chTest}]");
                          if (negativeUnicode != null)
-                         using (Writer.ElseIf($"null != ({unicodeLookup} = {negativeUnicode}[{chTest} >> 8]))"))
+                         using (Writer.ElseIf($"null != ({unicodeLookup} = {negativeUnicode}[{chTest} >> 8])"))
                             Writer.Write($"{advance} = {unicodeLookup}[{chTest} & 0xFF]");
                          using (Writer.Else())
                             Writer.Write($"{advance} = {defadv}");
