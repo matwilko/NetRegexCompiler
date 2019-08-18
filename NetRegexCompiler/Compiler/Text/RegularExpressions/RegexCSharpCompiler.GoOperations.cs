@@ -23,9 +23,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Writer.Write($"goto {Operations[CurrentOperation.Id + 1].Label}");
         }
         
-        private FormattableString IsMatched(int cap) => $"{runmatch}.IsMatched({cap})";
-        private FormattableString MatchIndex(int cap) => $"{runmatch}.MatchIndex({cap})";
-        private FormattableString MatchLength(int cap) => $"{runmatch}.MatchLength({cap})";
+        private FormattableString IsMatched(int cap) => $"IsMatched({cap})";
+        private FormattableString MatchIndex(int cap) => $"MatchIndex({cap})";
+        private FormattableString MatchLength(int cap) => $"MatchLength({cap})";
 
         private void StackPop(int framesize = 1)
         {
@@ -131,7 +131,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private void Uncapture()
         {
-            Writer.Write($"{runmatch}.RemoveMatch({Popcrawl()})");
+            Writer.Write($"Uncapture();");
         }
 
         private FormattableString Leftchars() => $"{runtextpos} - {runtextbeg}";
@@ -139,12 +139,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private FormattableString IsBoundary(FormattableString index, object startpos, object endpos)
         {
-            return $"({index} > {startpos} && {IsWordChar($"{runtext}[{index} - 1]")}) != ({index} < {endpos} && {IsWordChar($"{runtext}[{index}]")})";
+            return $"IsBoundary({index}, {startpos}, {endpos})";
+            //return $"({index} > {startpos} && {IsWordChar($"{runtext}[{index} - 1]")}) != ({index} < {endpos} && {IsWordChar($"{runtext}[{index}]")})";
         }
 
         private FormattableString IsECMABoundary(FormattableString index, object startpos, object endpos)
         {
-            return $"({index} > {startpos} && {IsECMAWordChar($"{runtext}[{index} - 1]")}) != ({index} < {endpos} && {IsECMAWordChar($"{runtext}[{index}]")})";
+            return $"IsECMABoundary({index}, {startpos}, {endpos})";
+            //return $"({index} > {startpos} && {IsECMAWordChar($"{runtext}[{index} - 1]")}) != ({index} < {endpos} && {IsECMAWordChar($"{runtext}[{index}]")})";
         }
 
         // TODO: We can almost certainly do some work to improve IsWordChar
@@ -152,7 +154,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private FormattableString IsECMAWordChar(FormattableString expr) => $"RegexCharClass.IsECMAWordChar({expr})";
 
         // TODO: Definitely stuff we can do to pre-preprocess the class here to eliminate work
-        private FormattableString CharInClass(FormattableString expr, string str) => $@"RegexCharClass.CharInClass({expr}, ""{str}"")";
+        private FormattableString CharInClass(FormattableString expr, string str) => $@"CharInClass({expr}, ""{str}"")";
 
         private int Bump() => IsRightToLeft ? -1 : 1;
     }
