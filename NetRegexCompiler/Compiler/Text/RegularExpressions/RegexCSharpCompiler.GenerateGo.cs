@@ -203,7 +203,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     StackPop(2);
                     var mark = Writer.DeclareLocal($"int mark = {StackPeek()};");
-                    var count = Writer.DeclareLocal($"int count = {StackPeek(1)}");
+                    var count = Writer.DeclareLocal($"int count = {StackPeek(1)};");
 
                     using (Writer.If($"{count} < 0"))
                     {                        // Negative count -> loop now
@@ -222,6 +222,19 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 case RegexCode.Setjump:
                     StackPush(Trackpos(), Crawlpos());
                     TrackPush();
+                    break;
+
+                case RegexCode.Backjump:
+                    // StackPush:
+                    //  0: Saved trackpos
+                    //  1: Crawlpos
+                    StackPop(2);
+                    Trackto(StackPeek());
+
+                    using (Writer.While($"{Crawlpos()} != {StackPeek(1)}"))
+                        Uncapture();
+
+                    Backtrack();
                     break;
 
                 case RegexCode.Forejump:
@@ -274,7 +287,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
 
                 case RegexCode.EndZ:
-                    using (Writer.If($"{Rightchars()} > 1 || {Rightchars()} == 1 && {CharAt(Textpos())} != '{'\n'}')"))
+                    using (Writer.If($"{Rightchars()} > 1 || {Rightchars()} == 1 && {CharAt(Textpos())} != '{'\n'}'"))
                         Backtrack();
                     break;
 
@@ -341,7 +354,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         // TODO: Measure at what point unrolling the string check loop is bad juju
                         var conditions = str.AsEnumerable()
                             .Reverse()
-                            .Select(chr => (FormattableString)$"({culture}.TextInfo.ToLower('{chr}') != {runtext}[--pos])")
+                            .Select(chr => (FormattableString)$"('{chr}' != {culture}.TextInfo.ToLower({runtext}[--pos]))")
                             .Cast<object>()
                             .ToArray();
                         var combinationString = string.Join(" || ", conditions.Select((_, i) => $"{{{i}}}"));
@@ -420,10 +433,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 case RegexCode.Onerep:
                 {
-                    using (Writer.If($"{Forwardchars()} < '{Operand(1)})'"))
+                    using (Writer.If($"{Forwardchars()} < {Operand(1)}"))
                         Backtrack();
 
-                    var c = Writer.DeclareLocal($"int c = '{Operand(1)}';");
+                    var c = Writer.DeclareLocal($"int c = {Operand(1)};");
                     using (Writer.While($"{c}-- > 0"))
                         using (Writer.If($"{Forwardcharnext(culture)} != '{(char) Operand(0)}'"))
                             Backtrack();
@@ -436,7 +449,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.If($"{Forwardchars()} < {Operand(1)}"))
                         Backtrack();
 
-                    var c = Writer.DeclareLocal($"int c = '{Operand(1)}';");
+                    var c = Writer.DeclareLocal($"int c = {Operand(1)};");
                     using (Writer.While($"{c}-- > 0"))
                     using (Writer.If($"{Forwardcharnext(culture)} == '{(char)Operand(0)}'"))
                         Backtrack();
@@ -449,7 +462,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.If($"{Forwardchars()} < {Operand(1)}"))
                         Backtrack();
 
-                    var c = Writer.DeclareLocal($"int c = '{Operand(1)}';");
+                    var c = Writer.DeclareLocal($"int c = {Operand(1)};");
                     using (Writer.While($"{c}-- > 0"))
                         using (Writer.If($"!{CharInClass(Forwardcharnext(culture), Strings[Operand(0)])}"))
                             Backtrack();
@@ -484,7 +497,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     var c = Writer.DeclareLocal($"int c = {Operand(1)};");
 
-                    using (Writer.If($"({Operand(1)} > {Forwardchars()}"))
+                    using (Writer.If($"{Operand(1)} > {Forwardchars()}"))
                         Writer.Write($"{c} = {Forwardchars()}");
                     
                     var i = Writer.DeclareLocal($"int i;");
@@ -505,15 +518,17 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 case RegexCode.Setloop:
                 {
+                    // TODO: Optimise for c == int.MaxValue
+                    // TODO: Unroll loop for small c
                     var c = Writer.DeclareLocal($"int c = {Operand(1)};");
 
-                    using (Writer.If($"({Operand(1)} > {Forwardchars()}"))
+                    using (Writer.If($"{Operand(1)} > {Forwardchars()}"))
                         Writer.Write($"{c} = {Forwardchars()}");
                     
                     var i = Writer.DeclareLocal($"int i;");
                     using (Writer.For($"{i} = c; {i} > 0; {i}--"))
                     {
-                        using (Writer.If(CharInClass(Forwardcharnext(culture), Strings[Operand(0)])))
+                        using (Writer.If($"!{CharInClass(Forwardcharnext(culture), Strings[Operand(0)])}"))
                         {
                             Backwardnext();
                             Writer.Write($"break");
@@ -532,7 +547,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     var c = Writer.DeclareLocal($"int c = {Operand(1)};");
 
-                    using (Writer.If($"({Operand(1)} > {Forwardchars()}"))
+                    using (Writer.If($"{Operand(1)} > {Forwardchars()}"))
                         Writer.Write($"{c} = {Forwardchars()}");
 
                     using (Writer.If($"{c} > 0"))
@@ -540,6 +555,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     break;
                 }
+
+                default: throw new InvalidOperationException($"Missing codegen for operator: {CurrentOperation.CodeName}");
             }
         }
 
@@ -576,12 +593,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
 
                 case RegexCode.Branchmark | RegexCode.Back:
+                {
                     TrackPop(2);
                     StackPop();
-                    Textto(TrackPeek(1));                       // Recall position
-                    TrackPush2(TrackPeek());                    // Save old mark
+                    var position = Writer.DeclareLocal($"var position = {TrackPeek(1)};");
+                    var oldMark = Writer.DeclareLocal($"var oldMark = {TrackPeek()};");
+                    Textto(position); // Recall position
+                    TrackPush2(oldMark); // Save old mark
                     GotoNextOperation(); // advance = 1;        // Straight
                     break;
+                }
 
                 case RegexCode.Branchmark | RegexCode.Back2:
                     TrackPop();
@@ -599,7 +620,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     
                     TrackPop(2);
                     var pos = Writer.DeclareLocal($"int pos = {TrackPeek(1)};");
-                    TrackPush2(TrackPeek());                // Save old mark
+                    var oldMark = Writer.DeclareLocal($"int oldMark = {TrackPeek()};");
+                    TrackPush2(oldMark);                // Save old mark
                     StackPush(pos);                         // Make new mark
                     Textto(pos);                            // Recall position
                     Goto(Operand(0));                       // Loop
@@ -626,6 +648,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
 
                 case RegexCode.Branchcount | RegexCode.Back:
+                {
                     // TrackPush:
                     //  0: Previous mark
                     // StackPush:
@@ -633,17 +656,22 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     //  1: Count
                     TrackPop();
                     StackPop(2);
-                    using (Writer.If($"{StackPeek(1)} > 0"))
-                    {                         // Positive -> can go straight
-                        Textto(StackPeek());                             // Zap to mark
-                        TrackPush2(TrackPeek(), $"{StackPeek(1)} - 1");  // Save old mark, old count
+                    var oldMark = Writer.DeclareLocal($"int oldMark = {TrackPeek()};");
+                    var mark = Writer.DeclareLocal($"int mark = {StackPeek()};");
+                    var count = Writer.DeclareLocal($"int count = {StackPeek(1)};");
+                    using (Writer.If($"{count} > 0"))
+                    {
+                        // Positive -> can go straight
+                        Textto(mark); // Zap to mark
+                        TrackPush2(oldMark, $"{count} - 1"); // Save old mark, old count
                         GotoNextOperation();
                     }
 
-                    StackPush(TrackPeek(), $"{StackPeek(1)} - 1");       // recall old mark, old count
-                    
+                    StackPush(oldMark, $"{count} - 1"); // recall old mark, old count
+
                     Backtrack();
                     break;
+                }
 
                 case RegexCode.Branchcount | RegexCode.Back2:
                     // TrackPush:
@@ -681,6 +709,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
 
                 case RegexCode.Lazybranchcount | RegexCode.Back2:
+                {
                     // TrackPush:
                     //  0: Previous mark
                     // StackPush:
@@ -688,9 +717,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     //  1: Count
                     TrackPop();
                     StackPop(2);
-                    StackPush(TrackPeek(), $"{StackPeek(1)} - 1");   // Recall old mark, count
+                    var count = Writer.DeclareLocal($"int count = {StackPeek(1)};");
+                    StackPush(TrackPeek(), $"{count} - 1"); // Recall old mark, count
                     Backtrack();
-                    break;                                           // Backtrack
+                    break;
+                }
 
                 case RegexCode.Setjump | RegexCode.Back:
                     StackPop(2);
@@ -734,7 +765,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.If($"{Forwardcharnext(culture)} != '{(char)Operand(0)}'"))
                         Backtrack();
 
-                    var i = Writer.DeclareLocal($"int i = {TrackPeek()}");
+                    var i = Writer.DeclareLocal($"int i = {TrackPeek()};");
 
                     using (Writer.If($"{i} > 0"))
                         TrackPush($"{i} - 1", $"{pos} + {Bump()}");
@@ -752,7 +783,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.If($"{Forwardcharnext(culture)} == '{(char)Operand(0)}'"))
                         Backtrack();
 
-                    var i = Writer.DeclareLocal($"int i = {TrackPeek()}");
+                    var i = Writer.DeclareLocal($"int i = {TrackPeek()};");
 
                     using (Writer.If($"{i} > 0"))
                         TrackPush($"{i} - 1", $"{pos} + {Bump()}");
@@ -767,10 +798,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     var pos = Writer.DeclareLocal($"int pos = {TrackPeek(1)};");
                     Textto(pos);
 
-                    using (Writer.If(CharInClass(Forwardcharnext(culture), Strings[Operand(0)])))
+                    using (Writer.If($"!{CharInClass(Forwardcharnext(culture), Strings[Operand(0)])}"))
                         Backtrack();
 
-                    var i = Writer.DeclareLocal($"int i = {TrackPeek()}");
+                    var i = Writer.DeclareLocal($"int i = {TrackPeek()};");
 
                     using (Writer.If($"{i} > 0"))
                         TrackPush($"{i} - 1", $"{pos} + {Bump()}");
@@ -778,6 +809,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     GotoNextOperation();
                     break;
                 }
+
+                default: throw new InvalidOperationException($"Missing codegen for operator: {operation.CombinedCode}");
             }
         }
     }

@@ -21,9 +21,9 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private int TrackCount { get; }
         private RegexOptions Options { get; }
 
-        private bool IsRightToLeft => (Options & RegexOptions.RightToLeft) != 0;
+        private bool IsRightToLeft => CurrentOperation.IsRightToLeft ?? (Options & RegexOptions.RightToLeft) != 0;
         private bool IsCultureInvariant => (Options & RegexOptions.CultureInvariant) != 0;
-        private bool IsCaseInsensitive => FirstCharacterPrefix.GetValueOrDefault().CaseInsensitive;
+        private bool IsCaseInsensitive => CurrentOperation.IsCaseInsensitive ?? FirstCharacterPrefix.GetValueOrDefault().CaseInsensitive;
         private bool IsECMA => (Options & RegexOptions.ECMAScript) != 0;
 
         public void Dispose()
@@ -141,16 +141,22 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             public int Id { get; }
             public int Index { get; }
             public int Code { get; }
+
+            public bool? IsCaseInsensitive { get; }
+            public bool? IsRightToLeft { get; }
+
             public int[] Operands { get; }
 
             public string Label => $"op_{Index}";
             public string CodeName => CodeNames[Code];
 
-            public Operation(int id, int index, int code, int[] operands)
+            public Operation(int id, int index, int code, int[] operands, bool? isCaseInsensitive, bool? isRightToLeft)
             {
                 Id = id;
                 Index = index;
                 Code = code;
+                IsCaseInsensitive = isCaseInsensitive;
+                IsRightToLeft = isRightToLeft;
                 Operands = operands;
             }
 
@@ -164,16 +170,18 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     for (var i = 0; i < codes.Length; i += RegexCode.OpcodeSize(codes[i]))
                     {
                         var code = codes[i] & ~(RegexCode.Rtl | RegexCode.Ci);
+                        var isCaseInsensitive = 0 != (codes[i] & RegexCode.Ci);
+                        var isRightToLeft = 0 != (codes[i] & RegexCode.Rtl);
                         var operandCount = RegexCode.OpcodeSize(codes[i]) - 1;
                         if (operandCount == 0)
                         {
-                            yield return new Operation(id++, i, code, new int[0]);
+                            yield return new Operation(id++, i, code, new int[0], isCaseInsensitive, isRightToLeft);
                             continue;
                         }
 
                         var operands = new int[operandCount];
                         Array.Copy(codes, i + 1, operands, 0, operands.Length);
-                        yield return new Operation(id++, i, code, operands);
+                        yield return new Operation(id++, i, code, operands, isCaseInsensitive, isRightToLeft);
                     }
                 }
             }
@@ -219,21 +227,21 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             public BacktrackOperation Add(Operation operation, bool isBack2)
             {
-                if (UndifferentiatedBacktrackOperations.Contains(BacktrackOperation.CombineCode(operation.Code, isBack2)))
-                    return HandleUndifferentiatedOperation(operation.Code, isBack2);
+                 if (UndifferentiatedBacktrackOperations.Contains(BacktrackOperation.CombineCode(operation.Code, isBack2)))
+                     return HandleUndifferentiatedOperation(operation.Code, isBack2);
 
                 if (!Operations.TryGetValue((operation.Id, isBack2), out var op))
                     op = Operations[(operation.Id, isBack2)] = (Id++, operation);
 
-                return new BacktrackOperation(op.id, op.operation, isBack2);
+                    return new BacktrackOperation(op.id, op.operation, isBack2);
             }
 
             private BacktrackOperation HandleUndifferentiatedOperation(int code, bool isBack2)
             {
-                var opUniqueId = -Array.IndexOf(UndifferentiatedBacktrackOperations, BacktrackOperation.CombineCode(code, isBack2));
+                var opUniqueId = -(1 + Array.IndexOf(UndifferentiatedBacktrackOperations, BacktrackOperation.CombineCode(code, isBack2)));
 
                 if (!Operations.TryGetValue((opUniqueId, isBack2), out var op))
-                    op = Operations[(opUniqueId, isBack2)] = (Id++, new Operation(-1, -1, code, new int [0]));
+                    op = Operations[(opUniqueId, isBack2)] = (Id++, new Operation(-1, -1, code, new int [0], null, null));
 
                 return new BacktrackOperation(op.id, op.operation, isBack2);
             }
