@@ -90,7 +90,7 @@ namespace NetRegexCompiler.Compiler
             return string.Format(CultureInfo.InvariantCulture, expr.Format, arguments);
         }
 
-        private static HashSet<char> VerbatimChars { get; } = new HashSet<char>(new[] { ' ', '-', '_', '[', ']', '*', '(', ')', '=', ',', ':', '{', '}', '?', '!', '^', '+', '.' });
+        private static HashSet<char> VerbatimChars { get; } = new HashSet<char>(new[] { ' ', '-', '_', '[', ']', '*', '(', ')', '=', ',', ':', '{', '}', '?', '!', '^', '+', '.', '<', '>' });
 
         private static Dictionary<char, string> EscapedChars { get; } = new Dictionary<char, string>
         {
