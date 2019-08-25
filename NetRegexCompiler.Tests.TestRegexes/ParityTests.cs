@@ -5,6 +5,8 @@ using NetRegexCompiler.Tests.CompiledTestRegexes;
 using Xunit;
 using Xunit.Sdk;
 
+#pragma warning disable xUnit1026
+
 namespace NetRegexCompiler.Tests
 {
     public sealed class ParityTests
@@ -90,3 +92,5 @@ namespace NetRegexCompiler.Tests
         }
     }
 }
+
+#pragma warning restore xUnit1026
