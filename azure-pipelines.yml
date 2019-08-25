@@ -302,6 +302,5 @@ stages:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes'
