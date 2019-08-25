@@ -88,7 +88,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     using (Writer.Constructor($"public {ClassName}()"))
                     {
                         Writer.Write($@"this.pattern = ""{Pattern}""");
-
+                        Writer.Write($"this.roptions = (RegexOptions){(int) Options};");
+                        
                         if (Tree.CapNames != null)
                             Writer.Write($"this.capnames = compiledCapNames;");
                         else
