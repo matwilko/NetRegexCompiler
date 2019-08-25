@@ -70,54 +70,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_ECMAScript
-  displayName: Parity Tests (ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_ExplicitCapture
   displayName: Parity Tests (ExplicitCapture)
   dependsOn: [initial_build]
@@ -159,54 +111,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_ECMAScript
-  displayName: Parity Tests (ExplicitCapture, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -262,54 +166,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_ExplicitCapture
   displayName: Parity Tests (IgnoreCase, ExplicitCapture)
   dependsOn: [initial_build]
@@ -351,54 +207,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -454,54 +262,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnorePatternWhitespace ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_ExplicitCapture_IgnorePatternWhitespace
   displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace)
   dependsOn: [initial_build]
@@ -543,54 +303,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture IgnorePatternWhitespace CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture IgnorePatternWhitespace ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -646,54 +358,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase IgnorePatternWhitespace ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace
   displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace)
   dependsOn: [initial_build]
@@ -735,54 +399,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture IgnorePatternWhitespace CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture IgnorePatternWhitespace ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -838,54 +454,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_ECMAScript
-  displayName: Parity Tests (Multiline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Multiline_ExplicitCapture
   displayName: Parity Tests (Multiline, ExplicitCapture)
   dependsOn: [initial_build]
@@ -927,54 +495,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_ECMAScript
-  displayName: Parity Tests (Multiline, ExplicitCapture, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -1030,54 +550,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Multiline_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Multiline_ExplicitCapture
   displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture)
   dependsOn: [initial_build]
@@ -1119,54 +591,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -1222,54 +646,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (Multiline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline IgnorePatternWhitespace ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace
   displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace)
   dependsOn: [initial_build]
@@ -1311,54 +687,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture IgnorePatternWhitespace CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture IgnorePatternWhitespace ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -1414,54 +742,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Multiline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline IgnorePatternWhitespace ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace
   displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace)
   dependsOn: [initial_build]
@@ -1503,54 +783,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -1606,54 +838,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_RightToLeft_ECMAScript
-  displayName: Parity Tests (RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_ExplicitCapture_RightToLeft
   displayName: Parity Tests (ExplicitCapture, RightToLeft)
   dependsOn: [initial_build]
@@ -1695,54 +879,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_RightToLeft_ECMAScript
-  displayName: Parity Tests (ExplicitCapture, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -1798,54 +934,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_ExplicitCapture_RightToLeft
   displayName: Parity Tests (IgnoreCase, ExplicitCapture, RightToLeft)
   dependsOn: [initial_build]
@@ -1887,54 +975,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -1990,54 +1030,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_ExplicitCapture_IgnorePatternWhitespace_RightToLeft
   displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
   dependsOn: [initial_build]
@@ -2079,54 +1071,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -2182,54 +1126,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft
   displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
   dependsOn: [initial_build]
@@ -2271,54 +1167,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -2374,54 +1222,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_RightToLeft_ECMAScript
-  displayName: Parity Tests (Multiline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Multiline_ExplicitCapture_RightToLeft
   displayName: Parity Tests (Multiline, ExplicitCapture, RightToLeft)
   dependsOn: [initial_build]
@@ -2463,55 +1263,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_RightToLeft_ECMAScript
-  displayName: Parity Tests (Multiline, ExplicitCapture, RightToLeft, ECMAScript)
-
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -2567,54 +1318,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Multiline_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_RightToLeft
   displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, RightToLeft)
   dependsOn: [initial_build]
@@ -2656,54 +1359,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -2759,54 +1414,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (Multiline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft
   displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
   dependsOn: [initial_build]
@@ -2848,54 +1455,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -2951,54 +1510,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Multiline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft
   displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
   dependsOn: [initial_build]
@@ -3040,54 +1551,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -3143,54 +1606,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Singleline_ECMAScript
-  displayName: Parity Tests (Singleline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Singleline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_ExplicitCapture_Singleline
   displayName: Parity Tests (ExplicitCapture, Singleline)
   dependsOn: [initial_build]
@@ -3232,54 +1647,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_ECMAScript
-  displayName: Parity Tests (ExplicitCapture, Singleline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, Singleline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -3335,54 +1702,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Singleline_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Singleline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Singleline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Singleline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Singleline ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_ExplicitCapture_Singleline
   displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline)
   dependsOn: [initial_build]
@@ -3424,54 +1743,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -3527,54 +1798,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Singleline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (Singleline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Singleline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline IgnorePatternWhitespace ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace
   displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace)
   dependsOn: [initial_build]
@@ -3616,54 +1839,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline IgnorePatternWhitespace ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -3719,54 +1894,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Singleline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Singleline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Singleline IgnorePatternWhitespace ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace
   displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace)
   dependsOn: [initial_build]
@@ -3808,54 +1935,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -3911,54 +1990,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_Singleline_ECMAScript
-  displayName: Parity Tests (Multiline, Singleline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, Singleline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Multiline_ExplicitCapture_Singleline
   displayName: Parity Tests (Multiline, ExplicitCapture, Singleline)
   dependsOn: [initial_build]
@@ -4007,54 +2038,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_ECMAScript
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Multiline_Singleline
   displayName: Parity Tests (IgnoreCase, Multiline, Singleline)
   dependsOn: [initial_build]
@@ -4077,7 +2060,6 @@ stages:
       inputs:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-
         arguments: '--configuration Release'
 
 - stage: parity_test_IgnoreCase_Multiline_Singleline_CultureInvariant
@@ -4097,54 +2079,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -4200,54 +2134,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace
   displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace)
   dependsOn: [initial_build]
@@ -4289,54 +2175,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline IgnorePatternWhitespace CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline IgnorePatternWhitespace ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -4392,54 +2230,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline IgnorePatternWhitespace ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace
   displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace)
   dependsOn: [initial_build]
@@ -4481,54 +2271,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline IgnorePatternWhitespace CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline IgnorePatternWhitespace ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -4584,54 +2326,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Singleline_RightToLeft
   displayName: Parity Tests (Singleline, RightToLeft)
   dependsOn: [initial_build]
@@ -4673,54 +2367,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_RightToLeft_ECMAScript
-  displayName: Parity Tests (Singleline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Singleline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -4776,54 +2422,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_ExplicitCapture_Singleline_RightToLeft_ECMAScript
-  displayName: Parity Tests (ExplicitCapture, Singleline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, Singleline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Singleline_RightToLeft
   displayName: Parity Tests (IgnoreCase, Singleline, RightToLeft)
   dependsOn: [initial_build]
@@ -4872,56 +2470,9 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Singleline_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Singleline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Singleline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Singleline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Singleline RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_RightToLeft
   displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, RightToLeft)
+
   dependsOn: [initial_build]
   jobs:
   - job:
@@ -4961,54 +2512,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -5064,54 +2567,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Singleline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft
   displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
   dependsOn: [initial_build]
@@ -5153,54 +2608,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -5256,54 +2663,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Singleline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Singleline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft
   displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
   dependsOn: [initial_build]
@@ -5345,54 +2704,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -5448,54 +2759,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_Singleline_RightToLeft_ECMAScript
-  displayName: Parity Tests (Multiline, Singleline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, Singleline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Multiline_ExplicitCapture_Singleline_RightToLeft
   displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, RightToLeft)
   dependsOn: [initial_build]
@@ -5537,54 +2800,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_RightToLeft_ECMAScript
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -5640,55 +2855,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Multiline_Singleline_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft
   displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, RightToLeft)
   dependsOn: [initial_build]
@@ -5730,54 +2896,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -5833,54 +2951,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline Singleline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft
   displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
   dependsOn: [initial_build]
@@ -5922,54 +2992,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
@@ -6025,54 +3047,6 @@ stages:
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
 
-- stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline Singleline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
 - stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft
   displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
   dependsOn: [initial_build]
@@ -6114,54 +3088,6 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft ECMAScript'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
-        arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_ECMAScript_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, ECMAScript, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
-  - job:
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - checkout: self
-      clean: true
-      lfs: true
-      submodules: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'run'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft ECMAScript CultureInvariant'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
