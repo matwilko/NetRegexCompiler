@@ -106,7 +106,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             Writer.Write($"this.caps = null;");
 
                         Writer.Write($"this.capsize = {Code.CapSize};");
-                        Writer.Write($"this.internalMatchTimeout = TimeSpan.FromMilliseconds(1000)");
+                        Writer.Write($"this.internalMatchTimeout = TimeSpan.FromMilliseconds(2000)");
                         Writer.Write($"this.factory = new CompiledRegexRunnerFactory();");
                         Writer.Write($"InitializeReferences();");
                     }
