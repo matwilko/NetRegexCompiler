@@ -272,7 +272,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
 
                 case RegexCode.Bol:
-                    using (Writer.If($"{Leftchars()} > 0 && {CharAt($"{Textpos()} - 1")} != '{'\n'}"))
+                    using (Writer.If($"{Leftchars()} > 0 && {CharAt($"{Textpos()} - 1")} != '{'\n'}'"))
                         Backtrack();
                     break;
 
