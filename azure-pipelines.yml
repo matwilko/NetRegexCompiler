@@ -288,7 +288,7 @@ stages:
           RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
         IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
           RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-steps:
+    steps:
     - checkout: self
       clean: true
       lfs: true
