@@ -27,6 +27,7 @@ stages:
   dependsOn: [initial_build]
   jobs:
   - job:
+    displayName: Parity Tests
     pool:
       vmImage: 'ubuntu-latest'
     strategy:
@@ -287,8 +288,7 @@ stages:
           RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
         IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
           RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-    displayName: Parity Tests ($(RegexOptions))
-    steps:
+steps:
     - checkout: self
       clean: true
       lfs: true
@@ -302,5 +302,6 @@ stages:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
-        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
+        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes'
