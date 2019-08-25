@@ -17,6 +17,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             using (Writer.Method("protected override bool FindFirstChar()"))
             {
+                #if DEBUG_OUTPUT
+                Writer.Write($@"Debug.WriteLine("""")");
+                Writer.Write($@"Debug.WriteLine($""Search range: from {{{runtextbeg}.ToString(CultureInfo.InvariantCulture)}} to {{{runtextend}.ToString(CultureInfo.InvariantCulture)}}"")");
+                Writer.Write($@"Debug.WriteLine($""Firstchar search starting at {{{runtextpos}.ToString(CultureInfo.InvariantCulture)}} stopping at {{{(IsRightToLeft ? runtextbeg : runtextend)}.ToString(CultureInfo.InvariantCulture)}}"")");
+                #endif
+
                 if (Anchors.Beginning || Anchors.Start || Anchors.EndZ || Anchors.End)
                 {
                     GenerateAnchorChecks(boyerMooreCulture);

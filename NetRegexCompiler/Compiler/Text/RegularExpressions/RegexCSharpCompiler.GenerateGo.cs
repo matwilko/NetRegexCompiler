@@ -10,15 +10,22 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         {
             using (Writer.Method("protected override void Go()"))
             {
+                #if DEBUG_OUTPUT
+                Writer.Write($@"Debug.WriteLine($""Executing engine starting at {{{runtextpos}.ToString(CultureInfo.InvariantCulture)}}"")");
+                Writer.Write($@"Debug.WriteLine("""")");
+                #endif
+
                 var culture = DeclareCulture();
                 foreach (var operation in Operations)
                     using (Writer.OpenScope($"{operation.Label}: // {operation.CodeName}({string.Join(", ", operation.Operands.Select(o => CSharpWriter.ConvertFormatArgument(o)))})", requireBraces: true, clearLine: true))
                     {
                         CurrentOperation = operation;
 
-                        /*Writer.Write($"DumpState()");
+                        #if DEBUG_OUTPUT
+                        Writer.Write($"DumpState()");
                         Writer.Write($@"Debug.WriteLine(""       {Code.OpcodeDescription(operation.Index)}"")");
-                        Writer.Write($@"Debug.WriteLine("""")");*/
+                        Writer.Write($@"Debug.WriteLine("""")");
+                        #endif
 
                         Writer.Write($"CheckTimeout()");
                         GenerateOpCode(culture);
@@ -39,14 +46,17 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                 using (Writer.OpenScope($"case {operation.Id}: // {summary}"))
                                 {
                                     CurrentOperation = operation.Operation;
-                                    /*if (operation.IsBack2)
+                                    
+                                    #if DEBUG_OUTPUT
+                                    if (operation.IsBack2)
                                         Writer.Write($@"Debug.WriteLine(""       Backtracking (back2) to code position {operation.Operation.Index}"")");
                                     else
-                                        Writer.Write($@"Debug.WriteLine(""       Backtracking to code position { operation.Operation.Index}"")");
+                                        Writer.Write($@"Debug.WriteLine(""       Backtracking to code position {operation.Operation.Index}"")");
 
                                     Writer.Write($"DumpState()");
                                     Writer.Write($@"Debug.WriteLine(""       {Code.OpcodeDescription(operation.Operation.Index)} {(operation.IsBack2 ? "Back2" : "Back")}"")");
-                                    Writer.Write($@"Debug.WriteLine("""")");*/
+                                    Writer.Write($@"Debug.WriteLine("""")");
+                                    #endif
 
                                     GenerateBacktrackOpCode(operation, culture);
                                 }

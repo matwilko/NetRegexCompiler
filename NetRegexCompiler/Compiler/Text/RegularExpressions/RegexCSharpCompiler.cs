@@ -82,9 +82,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 
                 using (Writer.Type($"public sealed class {ClassName} : Regex"))
                 {
-                    Writer.Write($"public static Regex Instance {{ get; }} = new {ClassName}();");
-
                     GenerateCompiledFields();
+                    Writer.Write($"public static Regex Instance {{ get; }} = new {ClassName}();");
 
                     using (Writer.Constructor($"public {ClassName}()"))
                     {
@@ -123,7 +122,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         GenerateInitTrackCount();
                         GenerateFindFirstChar();
                         GenerateGo();
-                        //GenerateDebug();
+
+                        #if DEBUG_OUTPUT
+                        GenerateDebug();
+                        #endif
                     }
                 }
             }
@@ -175,11 +177,33 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
         private void GenerateDebug()
         {
+            var _matchcount = Writer.DeclareField($@"private static readonly FieldInfo _matchcount = typeof(Match).GetField(""_matchcount"", BindingFlags.NonPublic | BindingFlags.Instance);");
+            var _matches = Writer.DeclareField($@"private static readonly FieldInfo _matches = typeof(Match).GetField(""_matches"", BindingFlags.NonPublic | BindingFlags.Instance);");
             using (Writer.Method($"private void DumpState()"))
             {
                 Writer.Write($@"Debug.WriteLine(""Text:  "" + TextposDescription())");
                 Writer.Write($@"Debug.WriteLine(""Track: "" + StackDescription({runtrack}, {runtrackpos}))");
                 Writer.Write($@"Debug.WriteLine(""Stack: "" + StackDescription({runstack}, {runstackpos}))");
+                Writer.Write($@"Debug.WriteLine(""Crawl: "" + StackDescription({runcrawl}, {runcrawlpos}))");
+
+                // TODO: Fix this logic to work correctly for balancing matches
+                /*
+                var matchcounts = Writer.DeclareLocal($"var matchCounts = (int[]){_matchcount}.GetValue({runmatch});");
+                var matches = Writer.DeclareLocal($"var matches = (int[][]){_matches}.GetValue({runmatch});");
+                using (Writer.For($"var match = 0; match < {matchcounts}.Length; match++"))
+                {
+                    var matchCount = Writer.DeclareLocal($"var matchCount = {matchcounts}[match];");
+                    Writer.Write($@"Debug.Write($""Match {{match}}: "")");
+                    using (Writer.For($"var j = 0; j < matchCount; j++"))
+                    {
+                        var start = Writer.DeclareLocal($"var start = {matches}[match][j * 2];");
+                        var end = Writer.DeclareLocal($"var end = {matches}[match][j * 2 + 1];");
+                        Writer.Write($@"Debug.Write($"" ({{{start}}} - {{{start} + {end}}}: `{{{runtext}.Substring({start}, {end})}}`)"")");
+                    }
+
+                    Writer.Write($@"Debug.WriteLine("""")");
+                }
+                */
             }
 
             using (Writer.Method($"private static string StackDescription(int[] a, int index)"))
@@ -543,13 +567,19 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             public BacktrackOperation Add(Operation operation, bool isBack2)
             {
-                 if (UndifferentiatedBacktrackOperations.Contains(BacktrackOperation.CombineCode(operation.Code, isBack2)))
+                #if !DEBUG_OUTPUT
+                if (UndifferentiatedBacktrackOperations.Contains(BacktrackOperation.CombineCode(operation.Code, isBack2)))
                      return HandleUndifferentiatedOperation(operation.Code, isBack2);
+                #endif
 
                 if (!Operations.TryGetValue((operation.Id, isBack2), out var op))
+#if DEBUG_OUTPUT
+                    op = Operations[(operation.Id, isBack2)] = (isBack2 ? -operation.Index : operation.Index, operation);
+#else
                     op = Operations[(operation.Id, isBack2)] = (Id++, operation);
+#endif
 
-                    return new BacktrackOperation(op.id, op.operation, isBack2);
+                return new BacktrackOperation(op.id, op.operation, isBack2);
             }
 
             private BacktrackOperation HandleUndifferentiatedOperation(int code, bool isBack2)
