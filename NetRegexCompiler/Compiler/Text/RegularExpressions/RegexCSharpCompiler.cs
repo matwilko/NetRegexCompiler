@@ -142,13 +142,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             if (Tree.CapsList != null)
             {
-                var capsList = FormattableStringFactory.Create(string.Join(", ", Tree.CapsList.Select((c, i) => $@"""{i}""")), Tree.CapsList);
+                var capsList = FormattableStringFactory.Create(string.Join(", ", Tree.CapsList.Select(c => $@"""{c}""")), Tree.CapsList);
                 Writer.DeclareField($"private static readonly string[] compiledCapsList = new string[] {{ {capsList} }};");
             }
 
             if (Code.Caps != null)
             {
-                var caps = FormattableStringFactory.Create(string.Join(", ", Code.Caps.Select((kvp, i) => $@"{{{{ ""{{{i * 2}}}"", {{{i * 2 + 1}}} }}}}")), Code.Caps.SelectMany(kvp => new object[] { kvp.Key, kvp.Value }).ToArray());
+                var caps = FormattableStringFactory.Create(string.Join(", ", Code.Caps.Select((kvp, i) => $@"{{{{ {{{i * 2}}}, {{{i * 2 + 1}}} }}}}")), Code.Caps.SelectMany(kvp => new object[] { kvp.Key, kvp.Value }).ToArray());
                 Writer.DeclareField($"private static readonly Hashtable compiledCaps = new Hashtable() {{ {caps} }};");
             }
         }
