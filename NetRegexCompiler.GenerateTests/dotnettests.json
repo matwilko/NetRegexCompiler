@@ -1,0 +1,2543 @@
+[
+  {
+    "regex": "[abcd-[d]]+",
+    "examples": [
+      "dddaabbccddd"
+    ]
+  },
+  {
+    "regex": "[\\d-[357]]+",
+    "examples": [
+      "33312468955",
+      "51246897",
+      "3312468977"
+    ]
+  },
+  {
+    "regex": "[\\w-[b-y]]+",
+    "examples": [
+      "bbbaaaABCD09zzzyyy"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\d]]+",
+    "examples": [
+      "0AZaz9"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\p{Ll}]]+",
+    "examples": [
+      "a09AZz"
+    ]
+  },
+  {
+    "regex": "[\\d-[13579]]+",
+    "examples": [
+      "1024689",
+      "١02468٠"
+    ]
+  },
+  {
+    "regex": "[\\p{Ll}-[ae-z]]+",
+    "examples": [
+      "aaabbbcccdddeee"
+    ]
+  },
+  {
+    "regex": "[\\p{Nd}-[2468]]+",
+    "examples": [
+      "20135798"
+    ]
+  },
+  {
+    "regex": "[\\P{Lu}-[ae-z]]+",
+    "examples": [
+      "aaabbbcccdddeee"
+    ]
+  },
+  {
+    "regex": "[\\P{Nd}-[\\p{Ll}]]+",
+    "examples": [
+      "az09AZ'[]"
+    ]
+  },
+  {
+    "regex": "[abcd-[def]]+",
+    "examples": [
+      "fedddaabbccddd"
+    ]
+  },
+  {
+    "regex": "[\\d-[357a-z]]+",
+    "examples": [
+      "az33312468955"
+    ]
+  },
+  {
+    "regex": "[\\d-[de357fgA-Z]]+",
+    "examples": [
+      "AZ51246897"
+    ]
+  },
+  {
+    "regex": "[\\d-[357\\p{Ll}]]+",
+    "examples": [
+      "az3312468977"
+    ]
+  },
+  {
+    "regex": "[\\w-[b-y\\s]]+",
+    "examples": [
+      " \tbbbaaaABCD09zzzyyy"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\d\\p{Po}]]+",
+    "examples": [
+      "!#0AZaz9"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\p{Ll}\\s]]+",
+    "examples": [
+      "a09AZz"
+    ]
+  },
+  {
+    "regex": "[\\d-[13579a-zA-Z]]+",
+    "examples": [
+      "AZ1024689"
+    ]
+  },
+  {
+    "regex": "[\\d-[13579abcd]]+",
+    "examples": [
+      "abcd١02468٠"
+    ]
+  },
+  {
+    "regex": "[\\d-[13579\\s]]+",
+    "examples": [
+      " \t١02468٠"
+    ]
+  },
+  {
+    "regex": "[\\w-[b-y\\p{Po}]]+",
+    "examples": [
+      "!#bbbaaaABCD09zzzyyy"
+    ]
+  },
+  {
+    "regex": "[\\w-[b-y!.,]]+",
+    "examples": [
+      "!.,bbbaaaABCD09zzzyyy"
+    ]
+  },
+  {
+    "regex": "[\\w-[b-y\u0000-\u000f]]+",
+    "examples": [
+      "\u0000bbbaaaABCD09zzzyyy"
+    ]
+  },
+  {
+    "regex": "[\\p{Ll}-[ae-z0-9]]+",
+    "examples": [
+      "09aaabbbcccdddeee"
+    ]
+  },
+  {
+    "regex": "[\\p{Nd}-[2468az]]+",
+    "examples": [
+      "az20135798"
+    ]
+  },
+  {
+    "regex": "[\\P{Lu}-[ae-zA-Z]]+",
+    "examples": [
+      "AZaaabbbcccdddeee"
+    ]
+  },
+  {
+    "regex": "[\\P{Nd}-[\\p{Ll}0123456789]]+",
+    "examples": [
+      "09az09AZ'[]"
+    ]
+  },
+  {
+    "regex": "[abc-[defg]]+",
+    "examples": [
+      "dddaabbccddd"
+    ]
+  },
+  {
+    "regex": "[\\d-[abc]]+",
+    "examples": [
+      "abc09abc"
+    ]
+  },
+  {
+    "regex": "[\\d-[a-zA-Z]]+",
+    "examples": [
+      "az09AZ",
+      "azAZ١02468٠"
+    ]
+  },
+  {
+    "regex": "[\\d-[\\p{Ll}]]+",
+    "examples": [
+      "az09az",
+      "١02468٠"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\x00-\\x0F]]+",
+    "examples": [
+      "bbbaaaABYZ09zzzyyy"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\s]]+",
+    "examples": [
+      "0AZaz9"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\W]]+",
+    "examples": [
+      "0AZaz9"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\p{Po}]]+",
+    "examples": [
+      "#a09AZz!"
+    ]
+  },
+  {
+    "regex": "[\\d-[\\D]]+",
+    "examples": [
+      "azAZ1024689"
+    ]
+  },
+  {
+    "regex": "[a-zA-Z0-9-[\\s]]+",
+    "examples": [
+      " \tazAZ09"
+    ]
+  },
+  {
+    "regex": "[a-zA-Z0-9-[\\W]]+",
+    "examples": [
+      "bbbaaaABCD09zzzyyy"
+    ]
+  },
+  {
+    "regex": "[a-zA-Z0-9-[^a-zA-Z0-9]]+",
+    "examples": [
+      "bbbaaaABCD09zzzyyy"
+    ]
+  },
+  {
+    "regex": "[\\p{Ll}-[A-Z]]+",
+    "examples": [
+      "AZaz09"
+    ]
+  },
+  {
+    "regex": "[\\p{Nd}-[a-z]]+",
+    "examples": [
+      "az09"
+    ]
+  },
+  {
+    "regex": "[\\P{Lu}-[\\p{Lu}]]+",
+    "examples": [
+      "AZazAZ"
+    ]
+  },
+  {
+    "regex": "[\\P{Lu}-[A-Z]]+",
+    "examples": [
+      "AZazAZ"
+    ]
+  },
+  {
+    "regex": "[\\P{Nd}-[\\p{Nd}]]+",
+    "examples": [
+      "azAZ09"
+    ]
+  },
+  {
+    "regex": "[\\P{Nd}-[2-8]]+",
+    "examples": [
+      "1234567890azAZ1234567890"
+    ]
+  },
+  {
+    "regex": "([ ]|[\\w-[0-9]])+",
+    "examples": [
+      "09az AZ90"
+    ]
+  },
+  {
+    "regex": "([0-9-[02468]]|[0-9-[13579]])+",
+    "examples": [
+      "az1234567890za"
+    ]
+  },
+  {
+    "regex": "([^0-9-[a-zAE-Z]]|[\\w-[a-zAF-Z]])+",
+    "examples": [
+      "azBCDE1234567890BCDEFza"
+    ]
+  },
+  {
+    "regex": "([\\p{Ll}-[aeiou]]|[^\\w-[\\s]])+",
+    "examples": [
+      "aeiobcdxyz!@#aeio"
+    ]
+  },
+  {
+    "regex": "98[\\d-[9]][\\d-[8]][\\d-[0]]",
+    "examples": [
+      "98911 98881 98870 98871"
+    ]
+  },
+  {
+    "regex": "m[\\w-[^aeiou]][\\w-[^aeiou]]t",
+    "examples": [
+      "mbbt mect meet"
+    ]
+  },
+  {
+    "regex": "[abcdef-[^bce]]+",
+    "examples": [
+      "adfbcefda"
+    ]
+  },
+  {
+    "regex": "[^cde-[ag]]+",
+    "examples": [
+      "agbfxyzga"
+    ]
+  },
+  {
+    "regex": "[\\p{L}-[^\\p{Lu}]]+",
+    "examples": [
+      "09',.abcxyzABCXYZ"
+    ]
+  },
+  {
+    "regex": "[\\p{IsGreek}-[\\P{Lu}]]+",
+    "examples": [
+      "ΐϾΆΈϬϮЀ"
+    ]
+  },
+  {
+    "regex": "[\\p{IsBasicLatin}-[G-L]]+",
+    "examples": [
+      "GAFMZL"
+    ]
+  },
+  {
+    "regex": "[a-zA-Z-[aeiouAEIOU]]+",
+    "examples": [
+      "aeiouAEIOUbcdfghjklmnpqrstvwxyz"
+    ]
+  },
+  {
+    "regex": "^\r\n            (?<octet>^\r\n                (\r\n                    (\r\n                        (?<Octet2xx>[\\d-[013-9]])\r\n                        |\r\n                        [\\d-[2-9]]\r\n                    )\r\n                    (?(Octet2xx)\r\n                        (\r\n                            (?<Octet25x>[\\d-[01-46-9]])\r\n                            |\r\n                            [\\d-[5-9]]\r\n                        )\r\n                        (\r\n                            (?(Octet25x)\r\n                                [\\d-[6-9]]\r\n                                |\r\n                                [\\d]\r\n                            )\r\n                        )\r\n                        |\r\n                        [\\d]{2}\r\n                    )\r\n                )\r\n                |\r\n                ([\\d][\\d])\r\n                |\r\n                [\\d]\r\n            )$",
+    "examples": [
+      "255"
+    ]
+  },
+  {
+    "regex": "[abcd\\-d-[bc]]+",
+    "examples": [
+      "bbbaaa---dddccc"
+    ]
+  },
+  {
+    "regex": "[^a-f-[\\x00-\\x60\\u007B-\\uFFFF]]+",
+    "examples": [
+      "aaafffgggzzz{{{"
+    ]
+  },
+  {
+    "regex": "[\\[\\]a-f-[[]]+",
+    "examples": [
+      "gggaaafff]]][[["
+    ]
+  },
+  {
+    "regex": "[\\[\\]a-f-[]]]+",
+    "examples": [
+      "gggaaafff[[[]]]"
+    ]
+  },
+  {
+    "regex": "[ab\\-\\[cd-[-[]]]]",
+    "examples": [
+      "a]]",
+      "b]]",
+      "c]]",
+      "d]]",
+      "[]]",
+      "-]]",
+      "`]]",
+      "e]]"
+    ]
+  },
+  {
+    "regex": "[ab\\-\\[cd-[[]]]]",
+    "examples": [
+      "a]]",
+      "b]]",
+      "c]]",
+      "d]]",
+      "-]]",
+      "']]",
+      "e]]"
+    ]
+  },
+  {
+    "regex": "[a-[c-e]]+",
+    "examples": [
+      "bbbaaaccc",
+      "```aaaccc"
+    ]
+  },
+  {
+    "regex": "[a-d\\--[bc]]+",
+    "examples": [
+      "cccaaa--dddbbb"
+    ]
+  },
+  {
+    "regex": "[\\0- [bc]+",
+    "examples": [
+      "!!!\u0000\u0000\t\t  [[[[bbbcccaaa"
+    ]
+  },
+  {
+    "regex": "[[abcd]-[bc]]+",
+    "examples": [
+      "a-b]"
+    ]
+  },
+  {
+    "regex": "[-[e-g]+",
+    "examples": [
+      "ddd[[[---eeefffggghhh"
+    ]
+  },
+  {
+    "regex": "[-e-g]+",
+    "examples": [
+      "ddd---eeefffggghhh"
+    ]
+  },
+  {
+    "regex": "[a-e - m-p]+",
+    "examples": [
+      "---a b c d e m n o p---"
+    ]
+  },
+  {
+    "regex": "[^-[bc]]",
+    "examples": [
+      "b] c] -] aaaddd]",
+      "b] c] -] aaa]ddd]"
+    ]
+  },
+  {
+    "regex": "[a\\-[bc]+",
+    "examples": [
+      "```bbbaaa---[[[cccddd"
+    ]
+  },
+  {
+    "regex": "[a\\-[\\-\\-bc]+",
+    "examples": [
+      "```bbbaaa---[[[cccddd"
+    ]
+  },
+  {
+    "regex": "[a\\-\\[\\-\\[\\-bc]+",
+    "examples": [
+      "```bbbaaa---[[[cccddd"
+    ]
+  },
+  {
+    "regex": "[abc\\--[b]]+",
+    "examples": [
+      "[[[```bbbaaa---cccddd"
+    ]
+  },
+  {
+    "regex": "[abc\\-z-[b]]+",
+    "examples": [
+      "```aaaccc---zzzbbb"
+    ]
+  },
+  {
+    "regex": "[a-d\\-[b]+",
+    "examples": [
+      "```aaabbbcccddd----[[[[]]]"
+    ]
+  },
+  {
+    "regex": "[abcd\\-d\\-[bc]+",
+    "examples": [
+      "bbbaaa---[[[dddccc"
+    ]
+  },
+  {
+    "regex": "[a - c - [ b ] ]+",
+    "examples": [
+      "dddaaa   ccc [[[[ bbb ]]]"
+    ]
+  },
+  {
+    "regex": "[a - c - [ b ] +",
+    "examples": [
+      "dddaaa   ccc [[[[ bbb ]]]"
+    ]
+  },
+  {
+    "regex": "(\\p{Lu}\\w*)\\s(\\p{Lu}\\w*)",
+    "examples": [
+      "Hello World"
+    ]
+  },
+  {
+    "regex": "(\\p{Lu}\\p{Ll}*)\\s(\\p{Lu}\\p{Ll}*)",
+    "examples": [
+      "Hello World"
+    ]
+  },
+  {
+    "regex": "(\\P{Ll}\\p{Ll}*)\\s(\\P{Ll}\\p{Ll}*)",
+    "examples": [
+      "Hello World"
+    ]
+  },
+  {
+    "regex": "(\\P{Lu}+\\p{Lu})\\s(\\P{Lu}+\\p{Lu})",
+    "examples": [
+      "hellO worlD"
+    ]
+  },
+  {
+    "regex": "(\\p{Lt}\\w*)\\s(\\p{Lt}*\\w*)",
+    "examples": [
+      "ǅello ǅorld"
+    ]
+  },
+  {
+    "regex": "(\\P{Lt}\\w*)\\s(\\P{Lt}*\\w*)",
+    "examples": [
+      "Hello World"
+    ]
+  },
+  {
+    "regex": "[@-D]+",
+    "examples": [
+      "eE?@ABCDabcdeE"
+    ]
+  },
+  {
+    "regex": "[>-D]+",
+    "examples": [
+      "eE=>?@ABCDabcdeE"
+    ]
+  },
+  {
+    "regex": "[\\u0554-\\u0557]+",
+    "examples": [
+      "փՓՔՕՖքօֆ՗՘"
+    ]
+  },
+  {
+    "regex": "[X-\\]]+",
+    "examples": [
+      "wWXYZxyz[\\]^"
+    ]
+  },
+  {
+    "regex": "[X-\\u0533]+",
+    "examples": [
+      "ՑՔՠAXYZaxyzԱԲԳաբգդ"
+    ]
+  },
+  {
+    "regex": "[X-a]+",
+    "examples": [
+      "wWAXYZaxyz"
+    ]
+  },
+  {
+    "regex": "[X-c]+",
+    "examples": [
+      "wWABCXYZabcxyz"
+    ]
+  },
+  {
+    "regex": "[X-\\u00C0]+",
+    "examples": [
+      "ÁáÀàwWABCXYZabcxyz"
+    ]
+  },
+  {
+    "regex": "[\\u0100\\u0102\\u0104]+",
+    "examples": [
+      "ÿ ĀĂĄāăąĆ"
+    ]
+  },
+  {
+    "regex": "[B-D\\u0130]+",
+    "examples": [
+      "aAeEĩıh BCDbcDİip"
+    ]
+  },
+  {
+    "regex": "[\\u013B\\u013D\\u013F]+",
+    "examples": [
+      "ĺĻĽĿļľŀŁ"
+    ]
+  },
+  {
+    "regex": "(Cat)\r(Dog)",
+    "examples": [
+      "Cat\rDog"
+    ]
+  },
+  {
+    "regex": "(Cat)\t(Dog)",
+    "examples": [
+      "Cat\tDog"
+    ]
+  },
+  {
+    "regex": "(Cat)\f(Dog)",
+    "examples": [
+      "Cat\fDog"
+    ]
+  },
+  {
+    "regex": "{5",
+    "examples": [
+      "hello {5 world"
+    ]
+  },
+  {
+    "regex": "{5,",
+    "examples": [
+      "hello {5, world"
+    ]
+  },
+  {
+    "regex": "{5,6",
+    "examples": [
+      "hello {5,6 world"
+    ]
+  },
+  {
+    "regex": "(?n:(?<cat>cat)(\\s+)(?<dog>dog))",
+    "examples": [
+      "cat   dog"
+    ]
+  },
+  {
+    "regex": "(?n:(cat)(\\s+)(dog))",
+    "examples": [
+      "cat   dog"
+    ]
+  },
+  {
+    "regex": "(?n:(cat)(?<SpaceChars>\\s+)(dog))",
+    "examples": [
+      "cat   dog"
+    ]
+  },
+  {
+    "regex": "(?x:\r\n                            (?<cat>cat) # Cat statement\r\n                            (\\s+) # Whitespace chars\r\n                            (?<dog>dog # Dog statement\r\n                            ))",
+    "examples": [
+      "cat   dog"
+    ]
+  },
+  {
+    "regex": "(?+i:cat)",
+    "examples": [
+      "CAT"
+    ]
+  },
+  {
+    "regex": "cat([\\d]*)dog",
+    "examples": [
+      "hello123cat230927dog1412d"
+    ]
+  },
+  {
+    "regex": "([\\D]*)dog",
+    "examples": [
+      "65498catdog58719"
+    ]
+  },
+  {
+    "regex": "cat([\\s]*)dog",
+    "examples": [
+      "wiocat   dog3270"
+    ]
+  },
+  {
+    "regex": "cat([\\S]*)",
+    "examples": [
+      "sfdcatdog    3270"
+    ]
+  },
+  {
+    "regex": "cat([\\w]*)",
+    "examples": [
+      "sfdcatdog    3270"
+    ]
+  },
+  {
+    "regex": "cat([\\W]*)dog",
+    "examples": [
+      "wiocat   dog3270"
+    ]
+  },
+  {
+    "regex": "([\\p{Lu}]\\w*)\\s([\\p{Lu}]\\w*)",
+    "examples": [
+      "Hello World"
+    ]
+  },
+  {
+    "regex": "([\\P{Ll}][\\p{Ll}]*)\\s([\\P{Ll}][\\p{Ll}]*)",
+    "examples": [
+      "Hello World"
+    ]
+  },
+  {
+    "regex": "(cat)([\\x41]*)(dog)",
+    "examples": [
+      "catAAAdog"
+    ]
+  },
+  {
+    "regex": "(cat)([\\u0041]*)(dog)",
+    "examples": [
+      "catAAAdog"
+    ]
+  },
+  {
+    "regex": "(cat)([\\a]*)(dog)",
+    "examples": [
+      "cat\u0007\u0007\u0007dog"
+    ]
+  },
+  {
+    "regex": "(cat)([\\b]*)(dog)",
+    "examples": [
+      "cat\b\b\bdog"
+    ]
+  },
+  {
+    "regex": "(cat)([\\e]*)(dog)",
+    "examples": [
+      "cat\u001b\u001b\u001bdog"
+    ]
+  },
+  {
+    "regex": "(cat)([\\f]*)(dog)",
+    "examples": [
+      "cat\f\f\fdog"
+    ]
+  },
+  {
+    "regex": "(cat)([\\r]*)(dog)",
+    "examples": [
+      "cat\r\r\rdog"
+    ]
+  },
+  {
+    "regex": "(cat)([\\v]*)(dog)",
+    "examples": [
+      "cat\u000b\u000b\u000bdog"
+    ]
+  },
+  {
+    "regex": "(cat)\\d*dog",
+    "examples": [
+      "hello123cat230927dog1412d"
+    ]
+  },
+  {
+    "regex": "\\D*(dog)",
+    "examples": [
+      "65498catdog58719"
+    ]
+  },
+  {
+    "regex": "(cat)\\s*(dog)",
+    "examples": [
+      "wiocat   dog3270"
+    ]
+  },
+  {
+    "regex": "(cat)\\S*",
+    "examples": [
+      "sfdcatdog    3270"
+    ]
+  },
+  {
+    "regex": "(cat)\\w*",
+    "examples": [
+      "sfdcatdog    3270"
+    ]
+  },
+  {
+    "regex": "(cat)\\W*(dog)",
+    "examples": [
+      "wiocat   dog3270"
+    ]
+  },
+  {
+    "regex": "\\p{Lu}(\\w*)\\s\\p{Lu}(\\w*)",
+    "examples": [
+      "Hello World"
+    ]
+  },
+  {
+    "regex": "\\P{Ll}\\p{Ll}*\\s\\P{Ll}\\p{Ll}*",
+    "examples": [
+      "Hello World"
+    ]
+  },
+  {
+    "regex": "cat(?<dog121>dog)",
+    "examples": [
+      "catcatdogdogcat"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s*(?<cat>dog)",
+    "examples": [
+      "catcat    dogdogcat"
+    ]
+  },
+  {
+    "regex": "(?<1>cat)\\s*(?<1>dog)",
+    "examples": [
+      "catcat    dogdogcat"
+    ]
+  },
+  {
+    "regex": "(?<2048>cat)\\s*(?<2048>dog)",
+    "examples": [
+      "catcat    dogdogcat"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\w+(?<dog-cat>dog)",
+    "examples": [
+      "cat_Hello_World_dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\w+(?<-cat>dog)",
+    "examples": [
+      "cat_Hello_World_dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\w+(?<cat-cat>dog)",
+    "examples": [
+      "cat_Hello_World_dog"
+    ]
+  },
+  {
+    "regex": "(?<1>cat)\\w+(?<dog-1>dog)",
+    "examples": [
+      "cat_Hello_World_dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\w+(?<2-cat>dog)",
+    "examples": [
+      "cat_Hello_World_dog"
+    ]
+  },
+  {
+    "regex": "(?<1>cat)\\w+(?<2-1>dog)",
+    "examples": [
+      "cat_Hello_World_dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat){",
+    "examples": [
+      "STARTcat{"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat){fdsa",
+    "examples": [
+      "STARTcat{fdsa"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat){1",
+    "examples": [
+      "STARTcat{1"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat){1END",
+    "examples": [
+      "STARTcat{1END"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat){1,",
+    "examples": [
+      "STARTcat{1,"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat){1,END",
+    "examples": [
+      "STARTcat{1,END"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat){1,2",
+    "examples": [
+      "STARTcat{1,2"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat){1,2END",
+    "examples": [
+      "STARTcat{1,2END"
+    ]
+  },
+  {
+    "regex": "(cat) #cat\r\n                            \\s+ #followed by 1 or more whitespace\r\n                            (dog)  #followed by dog\r\n                            ",
+    "examples": [
+      "cat    dog"
+    ]
+  },
+  {
+    "regex": "(cat) #cat\r\n                            \\s+ #followed by 1 or more whitespace\r\n                            (dog)  #followed by dog",
+    "examples": [
+      "cat    dog"
+    ]
+  },
+  {
+    "regex": "(cat) (?#cat)    \\s+ (?#followed by 1 or more whitespace) (dog)  (?#followed by dog)",
+    "examples": [
+      "cat    dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)(?<dog>dog)\\k<cat>",
+    "examples": [
+      "asdfcatdogcatdog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\k<cat>",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\k'cat'",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\<cat>",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\'cat'",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\k<1>",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\k'1'",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\<1>",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\'1'",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\1",
+    "examples": [
+      "asdfcat   dogcat   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\k<dog>",
+    "examples": [
+      "asdfcat   dogdog   dog"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\2",
+    "examples": [
+      "asdfcat   dogdog   dog"
+    ]
+  },
+  {
+    "regex": "(cat)(\\077)",
+    "examples": [
+      "hellocat?dogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\77)",
+    "examples": [
+      "hellocat?dogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\176)",
+    "examples": [
+      "hellocat~dogworld",
+      "hellocatcat76dogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\400)",
+    "examples": [
+      "hellocat\u0000dogworld",
+      "hellocat 0Fdogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\300)",
+    "examples": [
+      "hellocatÀdogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\477)",
+    "examples": [
+      "hellocat?dogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\777)",
+    "examples": [
+      "hellocatÿdogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\7770)",
+    "examples": [
+      "hellocatÿ0dogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\7)",
+    "examples": [
+      "hellocat\u0007dogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\40)",
+    "examples": [
+      "hellocat dogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\040)",
+    "examples": [
+      "hellocat dogworld"
+    ]
+  },
+  {
+    "regex": "(cat)(\\377)",
+    "examples": [
+      "hellocatÿdogworld"
+    ]
+  },
+  {
+    "regex": "(cat)\\s+(?<2147483646>dog)",
+    "examples": [
+      "asdlkcat  dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)\\s+(?<2147483647>dog)",
+    "examples": [
+      "asdlkcat  dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2a*)(dog)",
+    "examples": [
+      "asdlkcat***dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2b*)(dog)",
+    "examples": [
+      "asdlkcat+++dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2c*)(dog)",
+    "examples": [
+      "asdlkcat,,,dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2d*)(dog)",
+    "examples": [
+      "asdlkcat---dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2e*)(dog)",
+    "examples": [
+      "asdlkcat...dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2f*)(dog)",
+    "examples": [
+      "asdlkcat///dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2A*)(dog)",
+    "examples": [
+      "asdlkcat***dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2B*)(dog)",
+    "examples": [
+      "asdlkcat+++dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2C*)(dog)",
+    "examples": [
+      "asdlkcat,,,dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2D*)(dog)",
+    "examples": [
+      "asdlkcat---dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2E*)(dog)",
+    "examples": [
+      "asdlkcat...dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\x2F*)(dog)",
+    "examples": [
+      "asdlkcat///dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\c@*)(dog)",
+    "examples": [
+      "asdlkcat\u0000\u0000dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cA*)(dog)",
+    "examples": [
+      "asdlkcat\u0001dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\ca*)(dog)",
+    "examples": [
+      "asdlkcat\u0001dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cC*)(dog)",
+    "examples": [
+      "asdlkcat\u0003dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cc*)(dog)",
+    "examples": [
+      "asdlkcat\u0003dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cD*)(dog)",
+    "examples": [
+      "asdlkcat\u0004dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cd*)(dog)",
+    "examples": [
+      "asdlkcat\u0004dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cX*)(dog)",
+    "examples": [
+      "asdlkcat\u0018dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cx*)(dog)",
+    "examples": [
+      "asdlkcat\u0018dogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cZ*)(dog)",
+    "examples": [
+      "asdlkcat\u001adogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\cz*)(dog)",
+    "examples": [
+      "asdlkcat\u001adogiwod"
+    ]
+  },
+  {
+    "regex": "(cat)(\\c[*)(dog)",
+    "examples": [
+      "asdlkcat\u001bdogiwod",
+      "asdlkcatÿdogiwod"
+    ]
+  },
+  {
+    "regex": "\\A(cat)\\s+(dog)",
+    "examples": [
+      "cat   \n\n\n   dog",
+      "cat   \n\n\ncat     dog"
+    ]
+  },
+  {
+    "regex": "(cat)\\s+(dog)\\Z",
+    "examples": [
+      "cat   \n\n\n   dog",
+      "cat   \n\n\n   dog\n",
+      "cat   dog\n\n\ncat",
+      "cat   dog\n\n\ncat     "
+    ]
+  },
+  {
+    "regex": "(cat)\\s+(dog)\\z",
+    "examples": [
+      "cat   \n\n\n   dog",
+      "cat   dog\n\n\ncat",
+      "cat   dog\n\n\ncat     ",
+      "cat   \n\n\n   dog\n"
+    ]
+  },
+  {
+    "regex": "\\b@cat",
+    "examples": [
+      "123START123@catEND",
+      "123START123;@catEND"
+    ]
+  },
+  {
+    "regex": "\\b\\<cat",
+    "examples": [
+      "123START123<catEND"
+    ]
+  },
+  {
+    "regex": "\\b,cat",
+    "examples": [
+      "satwe,,,START,catEND",
+      "satwe,,,START',catEND"
+    ]
+  },
+  {
+    "regex": "\\b\\[cat",
+    "examples": [
+      "`12START123[catEND",
+      "`12START123'[catEND"
+    ]
+  },
+  {
+    "regex": "\\B@cat",
+    "examples": [
+      "123START123;@catEND",
+      "123START123@catEND"
+    ]
+  },
+  {
+    "regex": "\\B\\<cat",
+    "examples": [
+      "123START123'<catEND"
+    ]
+  },
+  {
+    "regex": "\\B,cat",
+    "examples": [
+      "satwe,,,START',catEND",
+      "satwe,,,START,catEND"
+    ]
+  },
+  {
+    "regex": "\\B\\[cat",
+    "examples": [
+      "`12START123'[catEND",
+      "`12START123[catEND"
+    ]
+  },
+  {
+    "regex": "(\\w+)\\s+(\\w+)",
+    "examples": [
+      "catʰ dogʱ"
+    ]
+  },
+  {
+    "regex": "(cat\\w+)\\s+(dog\\w+)",
+    "examples": [
+      "STARTcatー dog々END",
+      "STARTcatﾞ dogﾟEND"
+    ]
+  },
+  {
+    "regex": "[^a]|d",
+    "examples": [
+      "d"
+    ]
+  },
+  {
+    "regex": "([^a]|[d])*",
+    "examples": [
+      "Hello Worlddf"
+    ]
+  },
+  {
+    "regex": "([^{}]|\\n)+",
+    "examples": [
+      "{{{{Hello\n World \n}END"
+    ]
+  },
+  {
+    "regex": "([a-d]|[^abcd])+",
+    "examples": [
+      "\tonce\n upon\u0000 a- ()*&^%#time?"
+    ]
+  },
+  {
+    "regex": "([^a]|[a])*",
+    "examples": [
+      "once upon a time"
+    ]
+  },
+  {
+    "regex": "([a-d]|[^abcd]|[x-z]|^wxyz])+",
+    "examples": [
+      "\tonce\n upon\u0000 a- ()*&^%#time?"
+    ]
+  },
+  {
+    "regex": "([a-d]|[e-i]|[^e]|wxyz])+",
+    "examples": [
+      "\tonce\n upon\u0000 a- ()*&^%#time?"
+    ]
+  },
+  {
+    "regex": "^(([^b]+ )|(.* ))$",
+    "examples": [
+      "aaa ",
+      "bbb "
+    ]
+  },
+  {
+    "regex": "^(([^b]+ )|(.*))$",
+    "examples": [
+      "aaa",
+      "bbb"
+    ]
+  },
+  {
+    "regex": "^((a*)|(.*))$",
+    "examples": [
+      "aaa",
+      "aaabbb"
+    ]
+  },
+  {
+    "regex": "(([0-9])|([a-z])|([A-Z]))*",
+    "examples": [
+      "{hello 1234567890 world}",
+      "{HELLO 1234567890 world}",
+      "{1234567890 hello  world}"
+    ]
+  },
+  {
+    "regex": "(([0-9])|([a-z])|([A-Z]))+",
+    "examples": [
+      "{hello 1234567890 world}",
+      "{HELLO 1234567890 world}",
+      "{1234567890 hello world}"
+    ]
+  },
+  {
+    "regex": "^(([a-d]*)|([a-z]*))$",
+    "examples": [
+      "aaabbbcccdddeeefff"
+    ]
+  },
+  {
+    "regex": "^(([d-f]*)|([c-e]*))$",
+    "examples": [
+      "dddeeeccceee"
+    ]
+  },
+  {
+    "regex": "^(([c-e]*)|([d-f]*))$",
+    "examples": [
+      "dddeeeccceee"
+    ]
+  },
+  {
+    "regex": "(([a-d]*)|([a-z]*))",
+    "examples": [
+      "aaabbbcccdddeeefff"
+    ]
+  },
+  {
+    "regex": "(([d-f]*)|([c-e]*))",
+    "examples": [
+      "dddeeeccceee"
+    ]
+  },
+  {
+    "regex": "(([c-e]*)|([d-f]*))",
+    "examples": [
+      "dddeeeccceee"
+    ]
+  },
+  {
+    "regex": "(([a-d]*)|(.*))",
+    "examples": [
+      "aaabbbcccdddeeefff"
+    ]
+  },
+  {
+    "regex": "(([d-f]*)|(.*))",
+    "examples": [
+      "dddeeeccceee"
+    ]
+  },
+  {
+    "regex": "(([c-e]*)|(.*))",
+    "examples": [
+      "dddeeeccceee"
+    ]
+  },
+  {
+    "regex": "\\p{Pi}(\\w*)\\p{Pf}",
+    "examples": [
+      "«Cat»   »Dog«'",
+      "‘Cat’   ’Dog‘'"
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\s+(?<dog>dog)\\s+\\123\\s+\\234",
+    "examples": [
+      "asdfcat   dog     cat23    dog34eia"
+    ]
+  },
+  {
+    "regex": "<div>\r\n            (?>\r\n                <div>(?<DEPTH>) |\r\n                </div> (?<-DEPTH>) |\r\n                .?\r\n            )*?\r\n            (?(DEPTH)(?!))\r\n            </div>",
+    "examples": [
+      "<div>this is some <div>red</div> text</div></div></div>"
+    ]
+  },
+  {
+    "regex": "(\r\n            ((?'open'<+)[^<>]*)+\r\n            ((?'close-open'>+)[^<>]*)+\r\n            )+",
+    "examples": [
+      "<01deep_01<02deep_01<03deep_01>><02deep_02><02deep_03<03deep_03>>>"
+    ]
+  },
+  {
+    "regex": "(\r\n            (?<start><)?\r\n            [^<>]?\r\n            (?<end-start>>)?\r\n            )*",
+    "examples": [
+      "<01deep_01<02deep_01<03deep_01>><02deep_02><02deep_03<03deep_03>>>"
+    ]
+  },
+  {
+    "regex": "(\r\n            (?<start><[^/<>]*>)?\r\n            [^<>]?\r\n            (?<end-start></[^/<>]*>)?\r\n            )*",
+    "examples": [
+      "<b><a>Cat</a></b>"
+    ]
+  },
+  {
+    "regex": "(\r\n            (?<start><(?<TagName>[^/<>]*)>)?\r\n            [^<>]?\r\n            (?<end-start></\\k<TagName>>)?\r\n            )*",
+    "examples": [
+      "<b>cat</b><a>dog</a>"
+    ]
+  },
+  {
+    "regex": "(\r\n            (?<start><[^/<>]*>)?\r\n            .?\r\n            (?<end-start></[^/<>]*>)?\r\n            )*\r\n            (?(start)(?!)) ",
+    "examples": [
+      "<b><a>Cat</a></b><<<<c>>>><<d><e<f>><g><<<>>>>"
+    ]
+  },
+  {
+    "regex": "([0-9]+?)([\\w]+?)",
+    "examples": [
+      "55488aheiaheiad"
+    ]
+  },
+  {
+    "regex": "([0-9]+?)([a-z]+?)",
+    "examples": [
+      "55488aheiaheiad"
+    ]
+  },
+  {
+    "regex": "(?<openingtag>1)(?<content>.*?)(?=2)",
+    "examples": [
+      "1\r\n<Projecaa DefaultTargets=\"x\"/>\r\n2"
+    ]
+  },
+  {
+    "regex": "\\G<%#(?<code>.*?)?%>",
+    "examples": [
+      "<%# DataBinder.Eval(this, \"MyNumber\") %>"
+    ]
+  },
+  {
+    "regex": "^[abcd]{0,0x10}*$",
+    "examples": [
+      "a{0,0x10}}}"
+    ]
+  },
+  {
+    "regex": "http://([a-zA-z0-9\\-]*\\.?)*?(:[0-9]*)??/",
+    "examples": [
+      "http://www.msn.com/",
+      "http://www.msn.com"
+    ]
+  },
+  {
+    "regex": "http://([a-zA-Z0-9\\-]*\\.?)*?/",
+    "examples": [
+      "http://www.google.com/"
+    ]
+  },
+  {
+    "regex": "([a-z]*?)([\\w])",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "^([a-z]*?)([\\w])$",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "([a-z]*)([\\w])",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "^([a-z]*)([\\w])$",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(cat){",
+    "examples": [
+      "cat{"
+    ]
+  },
+  {
+    "regex": "(cat){}",
+    "examples": [
+      "cat{}"
+    ]
+  },
+  {
+    "regex": "(cat){,",
+    "examples": [
+      "cat{,"
+    ]
+  },
+  {
+    "regex": "(cat){,}",
+    "examples": [
+      "cat{,}"
+    ]
+  },
+  {
+    "regex": "(cat){cat}",
+    "examples": [
+      "cat{cat}"
+    ]
+  },
+  {
+    "regex": "(cat){cat,5}",
+    "examples": [
+      "cat{cat,5}"
+    ]
+  },
+  {
+    "regex": "(cat){5,dog}",
+    "examples": [
+      "cat{5,dog}"
+    ]
+  },
+  {
+    "regex": "(cat){cat,dog}",
+    "examples": [
+      "cat{cat,dog}"
+    ]
+  },
+  {
+    "regex": "(cat){,}?",
+    "examples": [
+      "cat{,}?"
+    ]
+  },
+  {
+    "regex": "(cat){cat}?",
+    "examples": [
+      "cat{cat}?"
+    ]
+  },
+  {
+    "regex": "(cat){cat,5}?",
+    "examples": [
+      "cat{cat,5}?"
+    ]
+  },
+  {
+    "regex": "(cat){5,dog}?",
+    "examples": [
+      "cat{5,dog}?"
+    ]
+  },
+  {
+    "regex": "(cat){cat,dog}?",
+    "examples": [
+      "cat{cat,dog}?"
+    ]
+  },
+  {
+    "regex": "()",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?<cat>)",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?'cat')",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?:)",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?imn)",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?imn)cat",
+    "examples": [
+      "(?imn)cat"
+    ]
+  },
+  {
+    "regex": "(?=)",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?<=)",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?>)",
+    "examples": [
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?()|)",
+    "examples": [
+      "(?()|)"
+    ]
+  },
+  {
+    "regex": "(?(cat)|)",
+    "examples": [
+      "cat",
+      "dog"
+    ]
+  },
+  {
+    "regex": "(?(cat)catdog|)",
+    "examples": [
+      "catdog",
+      "dog"
+    ]
+  },
+  {
+    "regex": "(?(cat)dog|)",
+    "examples": [
+      "dog",
+      "cat"
+    ]
+  },
+  {
+    "regex": "(?(cat)|catdog)",
+    "examples": [
+      "cat",
+      "catdog"
+    ]
+  },
+  {
+    "regex": "(?(cat)|dog)",
+    "examples": [
+      "dog",
+      "cat",
+      "catdog",
+      "oof"
+    ]
+  },
+  {
+    "regex": "([\u0000-￿-[azAZ09]]|[\u0000-￿-[^azAZ09]])+",
+    "examples": [
+      "azAZBCDE1234567890BCDEFAZza"
+    ]
+  },
+  {
+    "regex": "[\u0000-￿-[\u0000-￿-[\u0000-￿-[\u0000-￿-[\u0000-￿-[a]]]]]]+",
+    "examples": [
+      "abcxyzABCXYZ123890"
+    ]
+  },
+  {
+    "regex": "[\u0000-￿-[\u0000-￿-[\u0000-￿-[\u0000-￿-[\u0000-￿-[\u0000-￿-[a]]]]]]]+",
+    "examples": [
+      "bcxyzABCXYZ123890a"
+    ]
+  },
+  {
+    "regex": "[\u0000-￿-[\\p{P}\\p{S}\\p{C}]]+",
+    "examples": [
+      "!@`';.,$+<>=\u0001\u001fazAZ09"
+    ]
+  },
+  {
+    "regex": "[\\uFFFD-\\uFFFF]+",
+    "examples": [
+      "￼�￾￿"
+    ]
+  },
+  {
+    "regex": "[\\uFFFC-\\uFFFE]+",
+    "examples": [
+      "￻￼�￾￿"
+    ]
+  },
+  {
+    "regex": "([a*]*)+?$",
+    "examples": [
+      "ab"
+    ]
+  },
+  {
+    "regex": "(a*)+?$",
+    "examples": [
+      "b"
+    ]
+  },
+  {
+    "regex": "\\060(\\061)?\\061",
+    "examples": [
+      "011"
+    ]
+  },
+  {
+    "regex": "(\\x30\\x31\\x32)",
+    "examples": [
+      "012"
+    ]
+  },
+  {
+    "regex": "(4)",
+    "examples": [
+      "4"
+    ]
+  },
+  {
+    "regex": "a+\\.?b*\\.+c{2}",
+    "examples": [
+      "ab.cc"
+    ]
+  },
+  {
+    "regex": "a{10}",
+    "examples": [
+      "aaaaaaaaaa"
+    ]
+  },
+  {
+    "regex": "a{100}",
+    "examples": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+  },
+  {
+    "regex": "a{10}b",
+    "examples": [
+      "aaaaaaaaaabc"
+    ]
+  },
+  {
+    "regex": "a{100}b",
+    "examples": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabc"
+    ]
+  },
+  {
+    "regex": "a{11}b",
+    "examples": [
+      "aaaaaaaaaabc"
+    ]
+  },
+  {
+    "regex": "a{101}b",
+    "examples": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabc"
+    ]
+  },
+  {
+    "regex": "a{1,3}b",
+    "examples": [
+      "bc",
+      "abc",
+      "aaabc",
+      "aaaabc"
+    ]
+  },
+  {
+    "regex": "a{2,}b",
+    "examples": [
+      "abc",
+      "aabc"
+    ]
+  },
+  {
+    "regex": "a{,3}b",
+    "examples": [
+      "a{,3}bc",
+      "aaabc"
+    ]
+  },
+  {
+    "regex": "([a-zA-Z]+)\\s(\\w+)",
+    "examples": [
+      "David Bau"
+    ]
+  },
+  {
+    "regex": "(\\S+):\\W(\\d+)\\s(\\D+)",
+    "examples": [
+      "Price: 5 dollars"
+    ]
+  },
+  {
+    "regex": "[^0-9]+(\\d+)",
+    "examples": [
+      "Price: 30 dollars"
+    ]
+  },
+  {
+    "regex": "abc(?!XXX)\\w+",
+    "examples": [
+      "abcXXXdef"
+    ]
+  },
+  {
+    "regex": "(\\w){6}(?<=XXX)def",
+    "examples": [
+      "abcXXXdef"
+    ]
+  },
+  {
+    "regex": "(\\w){6}(?<!XXX)def",
+    "examples": [
+      "XXXabcdef"
+    ]
+  },
+  {
+    "regex": "[^0-9]+(?>[0-9]+)3",
+    "examples": [
+      "abc123"
+    ]
+  },
+  {
+    "regex": "\\Aaaa\\w+zzz\\Z",
+    "examples": [
+      "aaaasdfajsdlfjzzz",
+      "aaaasdfajsdlfjzzza"
+    ]
+  },
+  {
+    "regex": "\\Aaaaaa\\w+zzz\\Z",
+    "examples": [
+      "aaaa"
+    ]
+  },
+  {
+    "regex": "\\Aaaaaa\\w+zzzzz\\Z",
+    "examples": [
+      "aaaa"
+    ]
+  },
+  {
+    "regex": "\\A(line2\\n)line3\\Z",
+    "examples": [
+      "line2\nline3\n"
+    ]
+  },
+  {
+    "regex": "^b",
+    "examples": [
+      "ab",
+      "abc"
+    ]
+  },
+  {
+    "regex": "(?<char>\\w)\\<char>",
+    "examples": [
+      "aa"
+    ]
+  },
+  {
+    "regex": "(?<43>\\w)\\43",
+    "examples": [
+      "aa"
+    ]
+  },
+  {
+    "regex": "(abbc)(?(1)111|222)",
+    "examples": [
+      "abbc222"
+    ]
+  },
+  {
+    "regex": "            ((.)+) #comment     ",
+    "examples": [
+      "abc"
+    ]
+  },
+  {
+    "regex": " ([^/]+)       ",
+    "examples": [
+      " abc       "
+    ]
+  },
+  {
+    "regex": "aaa(?i:match this)bbb",
+    "examples": [
+      "aaaMaTcH ThIsbbb"
+    ]
+  },
+  {
+    "regex": "aAa(?-i:match this)bbb",
+    "examples": [
+      "AaAmatch thisBBb"
+    ]
+  },
+  {
+    "regex": "aaa(?imnsx-imnsx:match this)bbb",
+    "examples": [
+      "AaAmatcH thisBBb"
+    ]
+  },
+  {
+    "regex": "aAa(?#ignore this completely)bbb",
+    "examples": [
+      "aAabbb"
+    ]
+  },
+  {
+    "regex": "[a-z0-9]+",
+    "examples": [
+      "",
+      "[token1]? GARBAGEtoken2GARBAGE ;token3!"
+    ]
+  },
+  {
+    "regex": "(?<1>\\d{3})(?<2>\\d{3})(?<3>\\d{4})",
+    "examples": [
+      "8885551111",
+      "Invalid string"
+    ]
+  },
+  {
+    "regex": "^(cat|chat)",
+    "examples": [
+      "cats are bad"
+    ]
+  },
+  {
+    "regex": "abc",
+    "examples": [
+      "abc",
+      "aBc"
+    ]
+  },
+  {
+    "regex": "\\s+\\d+",
+    "examples": [
+      "sdf 12sad",
+      " asdf12 "
+    ]
+  },
+  {
+    "regex": "aaa",
+    "examples": [
+      "aaabbb"
+    ]
+  },
+  {
+    "regex": "foo\\d+",
+    "examples": [
+      "0123456789foo4567890foo         ",
+      "0123456789foo4567890foo1foo  0987"
+    ]
+  },
+  {
+    "regex": "AAA",
+    "examples": [
+      "aaabbb"
+    ]
+  },
+  {
+    "regex": "\\p{Lu}",
+    "examples": [
+      "1bc"
+    ]
+  },
+  {
+    "regex": "\\p{Ll}",
+    "examples": [
+      "1bc"
+    ]
+  },
+  {
+    "regex": "\\p{Lt}",
+    "examples": [
+      "1bc"
+    ]
+  },
+  {
+    "regex": "\\p{Lo}",
+    "examples": [
+      "1bc"
+    ]
+  },
+  {
+    "regex": "\\D+",
+    "examples": [
+      "12321"
+    ]
+  },
+  {
+    "regex": "(?<first_name>\\S+)\\s(?<last_name>\\S+)",
+    "examples": [
+      "David Bau",
+      "Ryan Byington"
+    ]
+  },
+  {
+    "regex": "\\s*(.*?)\\s*$",
+    "examples": [
+      " Hello World "
+    ]
+  },
+  {
+    "regex": "(?<cat>cat)\\w+(?<dog-0>dog)",
+    "examples": [
+      "cat_Hello_World_dog"
+    ]
+  },
+  {
+    "regex": "\\b<cat",
+    "examples": [
+      "123START123'<catEND"
+    ]
+  },
+  {
+    "regex": "\\B<cat",
+    "examples": [
+      "123START123<catEND"
+    ]
+  },
+  {
+    "regex": "(?!)",
+    "examples": [
+      "(?!)cat"
+    ]
+  },
+  {
+    "regex": "(?<!)",
+    "examples": [
+      "(?<!)cat"
+    ]
+  },
+  {
+    "regex": "(?(cat)dog1|dog2)",
+    "examples": [
+      "catdog1",
+      "catdog2",
+      "catdog1dog2"
+    ]
+  },
+  {
+    "regex": "(?(dog2))",
+    "examples": [
+      "dog2"
+    ]
+  },
+  {
+    "regex": "(?(a:b))",
+    "examples": [
+      "a"
+    ]
+  },
+  {
+    "regex": "(?(a:))",
+    "examples": [
+      "a"
+    ]
+  },
+  {
+    "regex": "[abcd-[abcd]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[1234-[1234]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^abcd-[^abcd]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^1234-[^1234]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[a-z-[a-z]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[0-9-[0-9]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^a-z-[^a-z]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^0-9-[^0-9]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\w-[\\w]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\W-[\\W]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\s-[\\s]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\S-[\\S]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\d-[\\d]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\D-[\\D]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\w-[^\\w]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\W-[^\\W]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\s-[^\\s]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\S-[^\\S]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\d-[^\\d]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\D-[^\\D]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\w-[\\W]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\w-[^\\W]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\s-[\\S]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\s-[^\\S]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\d-[\\D]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\d-[^\\D]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\p{Ll}-[\\p{Ll}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\P{Ll}-[\\P{Ll}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\p{Lu}-[\\p{Lu}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\P{Lu}-[\\P{Lu}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\p{Nd}-[\\p{Nd}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\P{Nd}-[\\P{Nd}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\p{Ll}-[^\\p{Ll}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\P{Ll}-[^\\P{Ll}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\p{Lu}-[^\\p{Lu}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\P{Lu}-[^\\P{Lu}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\p{Nd}-[^\\p{Nd}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\P{Nd}-[^\\P{Nd}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\p{Ll}-[\\P{Ll}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\p{Ll}-[^\\P{Ll}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\p{Lu}-[\\P{Lu}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\p{Lu}-[^\\P{Lu}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[^\\p{Nd}-[\\P{Nd}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[\\p{Nd}-[^\\P{Nd}]]+",
+    "examples": [
+      "abcxyzABCXYZ`!@#$%^&*()_-+= \t\n"
+    ]
+  },
+  {
+    "regex": "[a-[a-f]]",
+    "examples": [
+      "abcdefghijklmnopqrstuvwxyz"
+    ]
+  },
+  {
+    "regex": "(\\uD82F[\\uDCA0-\\uDCA3])",
+    "examples": [
+      "������"
+    ]
+  },
+  {
+    "regex": "[0-9]",
+    "examples": [
+      "12345asdfasdfasdfljkhsda67890"
+    ]
+  },
+  {
+    "regex": "(abc){2}",
+    "examples": [
+      " !abcabcasl  dkfjasiduf 12343214-//asdfjzpiouxoifzuoxpicvql23r\\` #$3245,2345278 :asdfas & 100% @daeeffga (ryyy27343) poiweurwabcabcasdfalksdhfaiuyoiruqwer{234}/[(132387 + x)]'aaa''?"
+    ]
+  },
+  {
+    "regex": "[a-z]",
+    "examples": [
+      "a",
+      "a1bc"
+    ]
+  },
+  {
+    "regex": "(?(A)A123|C789)",
+    "examples": [
+      "A123 B456 C789"
+    ]
+  },
+  {
+    "regex": "((?<One>abc)\\d+)?(?<Two>xyz)(.*)",
+    "examples": [
+      "abc208923xyzanqnakl"
+    ]
+  },
+  {
+    "regex": "((?<256>abc)\\d+)?(?<16>xyz)(.*)",
+    "examples": [
+      "0272saasdabc8978xyz][]12_+-"
+    ]
+  },
+  {
+    "regex": "((?<4>abc)(?<digits>\\d+))?(?<2>xyz)(?<everything_else>.*)",
+    "examples": [
+      "0272saasdabc8978xyz][]12_+-"
+    ]
+  },
+  {
+    "regex": "(?<first_name>\\S+)\\s(?<first_name>\\S+)",
+    "examples": [
+      "Ryan Byington"
+    ]
+  },
+  {
+    "regex": "(?<15>\\S+)\\s(?<15>\\S+)",
+    "examples": [
+      "Ryan Byington"
+    ]
+  },
+  {
+    "regex": "(?'first_name'\\S+)\\s(?'last_name'\\S+)",
+    "examples": [
+      "Ryan Byington"
+    ]
+  },
+  {
+    "regex": "((?'One'abc)\\d+)?(?'Two'xyz)(.*)",
+    "examples": [
+      "abc208923xyzanqnakl"
+    ]
+  },
+  {
+    "regex": "((?'256'abc)\\d+)?(?'16'xyz)(.*)",
+    "examples": [
+      "0272saasdabc8978xyz][]12_+-"
+    ]
+  },
+  {
+    "regex": "((?'4'abc)(?'digits'\\d+))?(?'2'xyz)(?'everything_else'.*)",
+    "examples": [
+      "0272saasdabc8978xyz][]12_+-"
+    ]
+  },
+  {
+    "regex": "(?'first_name'\\S+)\\s(?'first_name'\\S+)",
+    "examples": [
+      "Ryan Byington"
+    ]
+  },
+  {
+    "regex": "(?'15'\\S+)\\s(?'15'\\S+)",
+    "examples": [
+      "Ryan Byington"
+    ]
+  }
+]
