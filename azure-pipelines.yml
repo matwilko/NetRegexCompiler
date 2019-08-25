@@ -22,11 +22,12 @@ stages:
         packagesToPack: 'NetRegexCompiler.sln'
         arguments: '--configuration Release'
 
-- stage: parity_test_None
-  displayName: Parity Tests (None)
+- stage: parity_tests
+  displayName: Parity Tests
   dependsOn: [initial_build]
   jobs:
-  - job:
+    - job:
+    displayName: Parity Tests (None)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -45,12 +46,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_CultureInvariant
-  displayName: Parity Tests (CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -69,12 +66,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture
-  displayName: Parity Tests (ExplicitCapture)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -93,12 +86,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -117,12 +106,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase
-  displayName: Parity Tests (IgnoreCase)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -141,12 +126,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -165,12 +146,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -189,12 +166,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -213,12 +186,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -237,12 +206,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -261,12 +226,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_IgnorePatternWhitespace
-  displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -285,12 +246,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -309,12 +266,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -333,12 +286,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -357,12 +306,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -381,12 +326,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -405,12 +346,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline
-  displayName: Parity Tests (Multiline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -429,12 +366,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_CultureInvariant
-  displayName: Parity Tests (Multiline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -453,12 +386,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture
-  displayName: Parity Tests (Multiline, ExplicitCapture)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -477,12 +406,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -501,12 +426,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline
-  displayName: Parity Tests (IgnoreCase, Multiline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -525,12 +446,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -549,12 +466,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -573,12 +486,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -597,12 +506,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_IgnorePatternWhitespace
-  displayName: Parity Tests (Multiline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -621,12 +526,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (Multiline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -645,12 +546,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace
-  displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -669,12 +566,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -693,12 +586,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -717,12 +606,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -741,12 +626,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -765,12 +646,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -789,12 +666,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_RightToLeft
-  displayName: Parity Tests (RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -813,12 +686,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_RightToLeft_CultureInvariant
-  displayName: Parity Tests (RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -837,12 +706,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_RightToLeft
-  displayName: Parity Tests (ExplicitCapture, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -861,12 +726,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_RightToLeft_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -885,12 +746,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_RightToLeft
-  displayName: Parity Tests (IgnoreCase, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -909,12 +766,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -933,12 +786,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_RightToLeft
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -957,12 +806,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -981,12 +826,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1005,12 +846,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1029,12 +866,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1053,12 +886,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1077,12 +906,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1101,12 +926,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1125,12 +946,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1149,12 +966,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1173,12 +986,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_RightToLeft
-  displayName: Parity Tests (Multiline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1197,12 +1006,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Multiline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1221,12 +1026,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_RightToLeft
-  displayName: Parity Tests (Multiline, ExplicitCapture, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1245,12 +1046,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1269,12 +1066,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Multiline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1293,12 +1086,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1317,12 +1106,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1341,12 +1126,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1365,12 +1146,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (Multiline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1389,12 +1166,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Multiline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1413,12 +1186,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1437,12 +1206,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1461,12 +1226,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1485,12 +1246,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1509,12 +1266,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1533,12 +1286,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1557,12 +1306,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Singleline
-  displayName: Parity Tests (Singleline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Singleline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1581,12 +1326,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_CultureInvariant
-  displayName: Parity Tests (Singleline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Singleline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1605,12 +1346,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline
-  displayName: Parity Tests (ExplicitCapture, Singleline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, Singleline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1629,12 +1366,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, Singleline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, Singleline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1653,12 +1386,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline
-  displayName: Parity Tests (IgnoreCase, Singleline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Singleline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1677,12 +1406,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Singleline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Singleline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1701,12 +1426,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1725,12 +1446,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1749,12 +1466,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_IgnorePatternWhitespace
-  displayName: Parity Tests (Singleline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Singleline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1773,12 +1486,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (Singleline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Singleline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1797,12 +1506,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace
-  displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1821,12 +1526,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1845,12 +1546,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1869,12 +1566,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1893,12 +1586,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1917,12 +1606,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1941,12 +1626,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline
-  displayName: Parity Tests (Multiline, Singleline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, Singleline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1965,12 +1646,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_CultureInvariant
-  displayName: Parity Tests (Multiline, Singleline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, Singleline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -1989,12 +1666,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, Singleline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2013,12 +1686,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2037,12 +1706,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, Singleline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2061,12 +1726,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, Singleline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2085,12 +1746,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2109,12 +1766,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2133,12 +1786,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace
-  displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2157,12 +1806,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2181,12 +1826,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2205,12 +1846,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2229,12 +1866,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2253,12 +1886,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2277,12 +1906,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2301,12 +1926,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2325,12 +1946,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_RightToLeft
-  displayName: Parity Tests (Singleline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Singleline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2349,12 +1966,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Singleline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Singleline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2373,12 +1986,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_RightToLeft
-  displayName: Parity Tests (ExplicitCapture, Singleline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, Singleline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2397,12 +2006,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, Singleline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, Singleline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2421,12 +2026,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Singleline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Singleline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2445,12 +2046,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Singleline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Singleline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2469,13 +2066,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_RightToLeft
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, RightToLeft)
-
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2494,12 +2086,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2518,12 +2106,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (Singleline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Singleline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2542,12 +2126,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2566,12 +2146,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2590,12 +2166,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2614,12 +2186,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2638,12 +2206,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2662,12 +2226,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2686,12 +2246,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2704,18 +2260,15 @@ stages:
         command: 'run'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
         arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant'
+
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
     - task: DotNetCoreCLI@2
       inputs:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_RightToLeft
-  displayName: Parity Tests (Multiline, Singleline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, Singleline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2734,12 +2287,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Multiline, Singleline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, Singleline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2758,12 +2307,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_RightToLeft
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2782,12 +2327,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2806,12 +2347,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, Singleline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2830,12 +2367,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, Singleline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2854,12 +2387,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2878,12 +2407,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2902,12 +2427,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2926,12 +2447,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2950,12 +2467,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2974,12 +2487,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -2998,12 +2507,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -3022,12 +2527,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -3046,12 +2547,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -3070,12 +2567,8 @@ stages:
         command: 'test'
         projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes/NetRegexCompiler.NetRegexCompiler.Tests.TestRegexes.csproj'
         arguments: '--configuration Release'
-
-- stage: parity_test_IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant
-  displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
-  dependsOn: [initial_build]
-  jobs:
   - job:
+    displayName: Parity Tests (IgnoreCase, Multiline, ExplicitCapture, Singleline, IgnorePatternWhitespace, RightToLeft, CultureInvariant)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
