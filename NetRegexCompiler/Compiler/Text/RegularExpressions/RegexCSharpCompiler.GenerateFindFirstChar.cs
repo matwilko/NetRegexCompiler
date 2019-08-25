@@ -384,7 +384,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             using (Writer.If($"{text}.Length - {index} < {BoyerMoorePrefix.Pattern.Length}"))
                                 Writer.Write($"return false");
 
-                            Writer.Write($@"return 0 == string.Compare(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length}, true, {boyerMooreCulture})");
+                            Writer.Write($@"return 0 == string.Compare(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length}, ignoreCase: true, {boyerMooreCulture})");
                         }
                         else
                         {
@@ -402,7 +402,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             using (Writer.If($"{text}.Length - {index} < {BoyerMoorePrefix.Pattern.Length}"))
                                 Writer.Write($"return false");
 
-                            Writer.Write($@"return 0 == string.Compare(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length}, false, {boyerMooreCulture})");
+                            Writer.Write($@"return 0 == string.Compare(""{BoyerMoorePrefix.Pattern}"", 0, {text}, {index}, {BoyerMoorePrefix.Pattern.Length}, ignoreCase: true, {boyerMooreCulture})");
                         }
                         else
                         {
