@@ -1235,7 +1235,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         else if (group.Equals(s_notWord))
                             desc.Append("\\W");
                         else
-                            Debug.Assert(false, $"Couldn't find a group to match '{group}'");
+                        {
+                            var groups = group.Substring(1, group.Length - 2);
+                            foreach (var cat in groups)
+                                desc.Append(CategoryDescription(cat));
+                        }
                     }
 
                     index = lastindex;
