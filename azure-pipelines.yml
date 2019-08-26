@@ -16,10 +16,11 @@ stages:
       lfs: true
       submodules: true
     - task: DotNetCoreCLI@2
-      displayName: Build Solution
+      displayName: Build NetRegexCompiler
       inputs:
         command: 'build'
-        packagesToPack: 'NetRegexCompiler.sln'
+        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler/NetRegexCompiler.csproj'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler'
         arguments: '--configuration Release'
 
 - stage: parity_tests
@@ -320,3 +321,234 @@ stages:
         command: 'test'
         arguments: '--configuration Release'
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes'
+- stage: benchmarking
+  displayName: Benchmarking
+  dependsOn: [parity_tests]
+  jobs:
+  - job:
+    displayName: Benchmarks
+    strategy:
+      matrix:
+        ubuntu_netcoreapp20_0:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.0'
+          Seed: 0
+        ubuntu_netcoreapp20_1:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.0'
+          Seed: 1
+        ubuntu_netcoreapp20_2:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.0'
+          Seed: 2
+        ubuntu_netcoreapp20_3:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.0'
+          Seed: 3
+        ubuntu_netcoreapp20_4:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.0'
+          Seed: 4
+        ubuntu_netcoreapp21_0:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.1'
+          Seed: 0
+        ubuntu_netcoreapp21_1:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.1'
+          Seed: 1
+        ubuntu_netcoreapp21_2:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.1'
+          Seed: 2
+        ubuntu_netcoreapp21_3:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.1'
+          Seed: 3
+        ubuntu_netcoreapp21_4:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.1'
+          Seed: 4
+        ubuntu_netcoreapp22_0:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.2'
+          Seed: 0
+        ubuntu_netcoreapp22_1:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.2'
+          Seed: 1
+        ubuntu_netcoreapp22_2:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.2'
+          Seed: 2
+        ubuntu_netcoreapp22_3:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.2'
+          Seed: 3
+        ubuntu_netcoreapp22_4:
+          Platform: 'ubuntu-16.04'
+          Framework: 'netcoreapp2.2'
+          Seed: 4
+        macOS_netcoreapp20_0:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.0'
+          Seed: 0
+        macOS_netcoreapp20_1:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.0'
+          Seed: 1
+        macOS_netcoreapp20_2:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.0'
+          Seed: 2
+        macOS_netcoreapp20_3:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.0'
+          Seed: 3
+        macOS_netcoreapp20_4:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.0'
+          Seed: 4
+        macOS_netcoreapp21_0:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.1'
+          Seed: 0
+        macOS_netcoreapp21_1:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.1'
+          Seed: 1
+        macOS_netcoreapp21_2:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.1'
+          Seed: 2
+        macOS_netcoreapp21_3:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.1'
+          Seed: 3
+        macOS_netcoreapp21_4:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.1'
+          Seed: 4
+        macOS_netcoreapp22_0:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.2'
+          Seed: 0
+        macOS_netcoreapp22_1:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.2'
+          Seed: 1
+        macOS_netcoreapp22_2:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.2'
+          Seed: 2
+        macOS_netcoreapp22_3:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.2'
+          Seed: 3
+        macOS_netcoreapp22_4:
+          Platform: 'macOS-10.14'
+          Framework: 'netcoreapp2.2'
+          Seed: 4
+        windows_net472_0:
+          Platform: 'windows-2019'
+          Framework: 'net472'
+          Seed: 0
+        windows_net472_1:
+          Platform: 'windows-2019'
+          Framework: 'net472'
+          Seed: 1
+        windows_net472_2:
+          Platform: 'windows-2019'
+          Framework: 'net472'
+          Seed: 2
+        windows_net472_3:
+          Platform: 'windows-2019'
+          Framework: 'net472'
+          Seed: 3
+        windows_net472_4:
+          Platform: 'windows-2019'
+          Framework: 'net472'
+          Seed: 4
+        windows_netcoreapp20_0:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.0'
+          Seed: 0
+        windows_netcoreapp20_1:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.0'
+          Seed: 1
+        windows_netcoreapp20_2:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.0'
+          Seed: 2
+        windows_netcoreapp20_3:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.0'
+          Seed: 3
+        windows_netcoreapp20_4:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.0'
+          Seed: 4
+        windows_netcoreapp21_0:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.1'
+          Seed: 0
+        windows_netcoreapp21_1:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.1'
+          Seed: 1
+        windows_netcoreapp21_2:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.1'
+          Seed: 2
+        windows_netcoreapp21_3:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.1'
+          Seed: 3
+        windows_netcoreapp21_4:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.1'
+          Seed: 4
+        windows_netcoreapp22_0:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.2'
+          Seed: 0
+        windows_netcoreapp22_1:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.2'
+          Seed: 1
+        windows_netcoreapp22_2:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.2'
+          Seed: 2
+        windows_netcoreapp22_3:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.2'
+          Seed: 3
+        windows_netcoreapp22_4:
+          Platform: 'windows-2019'
+          Framework: 'netcoreapp2.2'
+          Seed: 4
+    pool:
+      vmImage: $(Platform)
+    steps:
+    - checkout: self
+      clean: true
+      lfs: true
+      submodules: true
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'run'
+        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateBenchmarks/NetRegexCompiler.GenerateBenchmarks.csproj'
+        arguments: '--configuration Release --framework $(Framework) "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Benchmarks/regexes" $(Seed) compiled'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Benchmarks'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'run'
+        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Benchmarks/NetRegexCompiler.Benchmarks.csproj'
+        arguments: '--configuration Release --framework $(Framework) --filter *'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Benchmarks'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Benchmarks/BenchmarkDotNet.Artifacts/results/NetRegexCompiler.Benchmarks.Benchmarks-report-full.json'
+        artifactName: 'benchmark-$(Platform)-$(Framework)-$(Seed)'
