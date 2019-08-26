@@ -20,8 +20,7 @@ namespace NetRegexCompiler.GenerateTests
                 .Select(s => (RegexOptions) Enum.Parse(typeof(RegexOptions), s))
                 .Aggregate(RegexOptions.None, (f1, f2) => f1 | f2);
 
-            var regexes = JsonConvert.DeserializeObject<IEnumerable<RegexExample>>(File.ReadAllText(@"dotnettests.json"))
-                .Concat(JsonConvert.DeserializeObject<IEnumerable<RegexExample>>(File.ReadAllText(@"regexlib.json")));
+            var regexes = GetRegexes(@"dotnettests.json").Concat(GetRegexes(@"regexlib.json"));
             using (var theoryFile = File.Open(Path.Combine(outputDir, "Theories.cs"), FileMode.Create, FileAccess.Write, FileShare.None))
             using (var theoryWriter = new StreamWriter(theoryFile))
             {
@@ -94,6 +93,14 @@ namespace NetRegexCompiler.Tests.CompiledTestRegexes
             {
                 return false;
             }
+        }
+
+        private static IEnumerable<RegexExample> GetRegexes(string filename)
+        {
+			using (var stream = typeof(Program).Assembly.GetManifestResourceStream($"NetRegexCompiler.GenerateTests.{filename}"))
+			using (var reader = new StreamReader(stream))
+			using (var jsonReader = new JsonTextReader(reader))
+				return new JsonSerializer().Deserialize<IEnumerable<RegexExample>>(jsonReader);
         }
     }
 }

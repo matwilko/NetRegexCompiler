@@ -7,17 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="dotnettests.json" />
-    <None Remove="regexlib.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="dotnettests.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="regexlib.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="../dotnettests.json"/>
+    <Content Include="../regexlib.json" />
   </ItemGroup>
 
   <ItemGroup>
