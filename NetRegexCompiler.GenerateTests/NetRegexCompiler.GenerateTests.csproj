@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="../dotnettests.json"/>
-    <Content Include="../regexlib.json" />
+    <EmbeddedResource Include="../regexlib.json" />
   </ItemGroup>
 
   <ItemGroup>
