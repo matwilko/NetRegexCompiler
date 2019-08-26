@@ -36,6 +36,10 @@ stages:
           RegexOptions: None
         CultureInvariant:
           RegexOptions: CultureInvariant
+        ECMAScript:
+          RegexOptions: ECMAScript
+        ECMAScript_CultureInvariant:
+          RegexOptions: ECMAScript CultureInvariant
         ExplicitCapture:
           RegexOptions: ExplicitCapture
         ExplicitCapture_CultureInvariant:
@@ -44,6 +48,10 @@ stages:
           RegexOptions: IgnoreCase
         IgnoreCase_CultureInvariant:
           RegexOptions: IgnoreCase CultureInvariant
+        IgnoreCase_ECMAScript:
+          RegexOptions: IgnoreCase ECMAScript
+        IgnoreCase_ECMAScript_CultureInvariant:
+          RegexOptions: IgnoreCase ECMAScript CultureInvariant
         IgnoreCase_ExplicitCapture:
           RegexOptions: IgnoreCase ExplicitCapture
         IgnoreCase_ExplicitCapture_CultureInvariant:
@@ -68,6 +76,10 @@ stages:
           RegexOptions: Multiline
         Multiline_CultureInvariant:
           RegexOptions: Multiline CultureInvariant
+        Multiline_ECMAScript:
+          RegexOptions: Multiline ECMAScript
+        Multiline_ECMAScript_CultureInvariant:
+          RegexOptions: Multiline ECMAScript CultureInvariant
         Multiline_ExplicitCapture:
           RegexOptions: Multiline ExplicitCapture
         Multiline_ExplicitCapture_CultureInvariant:
@@ -76,6 +88,10 @@ stages:
           RegexOptions: IgnoreCase Multiline
         IgnoreCase_Multiline_CultureInvariant:
           RegexOptions: IgnoreCase Multiline CultureInvariant
+        IgnoreCase_Multiline_ECMAScript:
+          RegexOptions: IgnoreCase Multiline ECMAScript
+        IgnoreCase_Multiline_ECMAScript_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ECMAScript CultureInvariant
         IgnoreCase_Multiline_ExplicitCapture:
           RegexOptions: IgnoreCase Multiline ExplicitCapture
         IgnoreCase_Multiline_ExplicitCapture_CultureInvariant:
