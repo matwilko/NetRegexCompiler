@@ -98,20 +98,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         }
 
         /// <summary>
-        /// This static call constructs a flat concatenation node given a replacement pattern.
-        /// </summary>
-        public static RegexReplacement ParseReplacement(string pattern, RegexOptions options, Dictionary<int, int> caps, int capsize, Dictionary<string, int> capnames)
-        {
-            CultureInfo culture = (options & RegexOptions.CultureInvariant) != 0 ? CultureInfo.InvariantCulture : CultureInfo.CurrentCulture;
-            var parser = new RegexParser(pattern, options, culture, caps, capsize, capnames);
-
-            RegexNode root = parser.ScanReplacement();
-            var regexReplacement = new RegexReplacement(pattern, root, caps);
-
-            return regexReplacement;
-        }
-
-        /// <summary>
         /// Escapes all metacharacters (including |,(,),[,{,|,^,$,*,+,?,\, spaces and #)
         /// </summary>
         public static string Escape(string input)
@@ -419,40 +405,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             AddGroup();
 
             return Unit();
-        }
-
-        /*
-         * Simple parsing for replacement patterns
-         */
-        private RegexNode ScanReplacement()
-        {
-            _concatenation = new RegexNode(RegexNode.Concatenate, _options);
-
-            for (; ;)
-            {
-                int c = CharsRight();
-                if (c == 0)
-                    break;
-
-                int startpos = Textpos();
-
-                while (c > 0 && RightChar() != '$')
-                {
-                    MoveRight();
-                    c--;
-                }
-
-                AddConcatenate(startpos, Textpos() - startpos, true);
-
-                if (c > 0)
-                {
-                    if (RightCharMoveRight() == '$')
-                        AddUnitNode(ScanDollar());
-                    AddConcatenate();
-                }
-            }
-
-            return _concatenation;
         }
 
         /*
@@ -1150,130 +1102,6 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 ch = _culture.TextInfo.ToLower(ch);
 
             return scanOnly ? null : new RegexNode(RegexNode.One, _options, ch);
-        }
-
-        /*
-         * Scans $ patterns recognized within replacement patterns
-         */
-        private RegexNode ScanDollar()
-        {
-            if (CharsRight() == 0)
-                return new RegexNode(RegexNode.One, _options, '$');
-
-            char ch = RightChar();
-            bool angled;
-            int backpos = Textpos();
-            int lastEndPos = backpos;
-
-            // Note angle
-
-            if (ch == '{' && CharsRight() > 1)
-            {
-                angled = true;
-                MoveRight();
-                ch = RightChar();
-            }
-            else
-            {
-                angled = false;
-            }
-
-            // Try to parse backreference: \1 or \{1} or \{cap}
-
-            if (ch >= '0' && ch <= '9')
-            {
-                if (!angled && UseOptionE())
-                {
-                    int capnum = -1;
-                    int newcapnum = (int)(ch - '0');
-                    MoveRight();
-                    if (IsCaptureSlot(newcapnum))
-                    {
-                        capnum = newcapnum;
-                        lastEndPos = Textpos();
-                    }
-
-                    while (CharsRight() > 0 && (ch = RightChar()) >= '0' && ch <= '9')
-                    {
-                        int digit = (int)(ch - '0');
-                        if (newcapnum > (MaxValueDiv10) || (newcapnum == (MaxValueDiv10) && digit > (MaxValueMod10)))
-                            throw MakeException(RegexParseError.CaptureGroupOutOfRange, "Capture group numbers must be less than or equal to Int32.MaxValue.");
-
-                        newcapnum = newcapnum * 10 + digit;
-
-                        MoveRight();
-                        if (IsCaptureSlot(newcapnum))
-                        {
-                            capnum = newcapnum;
-                            lastEndPos = Textpos();
-                        }
-                    }
-                    Textto(lastEndPos);
-                    if (capnum >= 0)
-                        return new RegexNode(RegexNode.Ref, _options, capnum);
-                }
-                else
-                {
-                    int capnum = ScanDecimal();
-                    if (!angled || CharsRight() > 0 && RightCharMoveRight() == '}')
-                    {
-                        if (IsCaptureSlot(capnum))
-                            return new RegexNode(RegexNode.Ref, _options, capnum);
-                    }
-                }
-            }
-            else if (angled && RegexCharClass.IsWordChar(ch))
-            {
-                string capname = ScanCapname();
-
-                if (CharsRight() > 0 && RightCharMoveRight() == '}')
-                {
-                    if (IsCaptureName(capname))
-                        return new RegexNode(RegexNode.Ref, _options, CaptureSlotFromName(capname));
-                }
-            }
-            else if (!angled)
-            {
-                int capnum = 1;
-
-                switch (ch)
-                {
-                    case '$':
-                        MoveRight();
-                        return new RegexNode(RegexNode.One, _options, '$');
-
-                    case '&':
-                        capnum = 0;
-                        break;
-
-                    case '`':
-                        capnum = RegexReplacement.LeftPortion;
-                        break;
-
-                    case '\'':
-                        capnum = RegexReplacement.RightPortion;
-                        break;
-
-                    case '+':
-                        capnum = RegexReplacement.LastGroup;
-                        break;
-
-                    case '_':
-                        capnum = RegexReplacement.WholeString;
-                        break;
-                }
-
-                if (capnum != 1)
-                {
-                    MoveRight();
-                    return new RegexNode(RegexNode.Ref, _options, capnum);
-                }
-            }
-
-            // unrecognized $: literalize
-
-            Textto(backpos);
-            return new RegexNode(RegexNode.One, _options, '$');
         }
 
         /*
