@@ -23,308 +23,307 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler'
         arguments: '--configuration Release'
 
-#- stage: parity_tests
-#  displayName: Parity Tests
-#  dependsOn: [initial_build]
-#  jobs:
-#  - job:
-#    displayName: Parity Tests
-#    pool:
-#      vmImage: 'ubuntu-latest'
-#    strategy:
-#      matrix:
-#        None:
-#          RegexOptions: None
-#        CultureInvariant:
-#          RegexOptions: CultureInvariant
-#        ECMAScript:
-#          RegexOptions: ECMAScript
-#        ECMAScript_CultureInvariant:
-#          RegexOptions: ECMAScript CultureInvariant
-#        ExplicitCapture:
-#          RegexOptions: ExplicitCapture
-#        ExplicitCapture_CultureInvariant:
-#          RegexOptions: ExplicitCapture CultureInvariant
-#        IgnoreCase:
-#          RegexOptions: IgnoreCase
-#        IgnoreCase_CultureInvariant:
-#          RegexOptions: IgnoreCase CultureInvariant
-#        IgnoreCase_ECMAScript:
-#          RegexOptions: IgnoreCase ECMAScript
-#        IgnoreCase_ECMAScript_CultureInvariant:
-#          RegexOptions: IgnoreCase ECMAScript CultureInvariant
-#        IgnoreCase_ExplicitCapture:
-#          RegexOptions: IgnoreCase ExplicitCapture
-#        IgnoreCase_ExplicitCapture_CultureInvariant:
-#          RegexOptions: IgnoreCase ExplicitCapture CultureInvariant
-#        IgnorePatternWhitespace:
-#          RegexOptions: IgnorePatternWhitespace
-#        IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnorePatternWhitespace CultureInvariant
-#        ExplicitCapture_IgnorePatternWhitespace:
-#          RegexOptions: ExplicitCapture IgnorePatternWhitespace
-#        ExplicitCapture_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: ExplicitCapture IgnorePatternWhitespace CultureInvariant
-#        IgnoreCase_IgnorePatternWhitespace:
-#          RegexOptions: IgnoreCase IgnorePatternWhitespace
-#        IgnoreCase_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnoreCase IgnorePatternWhitespace CultureInvariant
-#        IgnoreCase_ExplicitCapture_IgnorePatternWhitespace:
-#          RegexOptions: IgnoreCase ExplicitCapture IgnorePatternWhitespace
-#        IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnoreCase ExplicitCapture IgnorePatternWhitespace CultureInvariant
-#        Multiline:
-#          RegexOptions: Multiline
-#        Multiline_CultureInvariant:
-#          RegexOptions: Multiline CultureInvariant
-#        Multiline_ECMAScript:
-#          RegexOptions: Multiline ECMAScript
-#        Multiline_ECMAScript_CultureInvariant:
-#          RegexOptions: Multiline ECMAScript CultureInvariant
-#        Multiline_ExplicitCapture:
-#          RegexOptions: Multiline ExplicitCapture
-#        Multiline_ExplicitCapture_CultureInvariant:
-#          RegexOptions: Multiline ExplicitCapture CultureInvariant
-#        IgnoreCase_Multiline:
-#          RegexOptions: IgnoreCase Multiline
-#        IgnoreCase_Multiline_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline CultureInvariant
-#        IgnoreCase_Multiline_ECMAScript:
-#          RegexOptions: IgnoreCase Multiline ECMAScript
-#        IgnoreCase_Multiline_ECMAScript_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ECMAScript CultureInvariant
-#        IgnoreCase_Multiline_ExplicitCapture:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture
-#        IgnoreCase_Multiline_ExplicitCapture_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture CultureInvariant
-#        Multiline_IgnorePatternWhitespace:
-#          RegexOptions: Multiline IgnorePatternWhitespace
-#        Multiline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: Multiline IgnorePatternWhitespace CultureInvariant
-#        Multiline_ExplicitCapture_IgnorePatternWhitespace:
-#          RegexOptions: Multiline ExplicitCapture IgnorePatternWhitespace
-#        Multiline_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: Multiline ExplicitCapture IgnorePatternWhitespace CultureInvariant
-#        IgnoreCase_Multiline_IgnorePatternWhitespace:
-#          RegexOptions: IgnoreCase Multiline IgnorePatternWhitespace
-#        IgnoreCase_Multiline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline IgnorePatternWhitespace CultureInvariant
-#        IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace
-#        IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace CultureInvariant
-#        RightToLeft:
-#          RegexOptions: RightToLeft
-#        RightToLeft_CultureInvariant:
-#          RegexOptions: RightToLeft CultureInvariant
-#        ExplicitCapture_RightToLeft:
-#          RegexOptions: ExplicitCapture RightToLeft
-#        ExplicitCapture_RightToLeft_CultureInvariant:
-#          RegexOptions: ExplicitCapture RightToLeft CultureInvariant
-#        IgnoreCase_RightToLeft:
-#          RegexOptions: IgnoreCase RightToLeft
-#        IgnoreCase_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase RightToLeft CultureInvariant
-#        IgnoreCase_ExplicitCapture_RightToLeft:
-#          RegexOptions: IgnoreCase ExplicitCapture RightToLeft
-#        IgnoreCase_ExplicitCapture_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase ExplicitCapture RightToLeft CultureInvariant
-#        IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnorePatternWhitespace RightToLeft
-#        IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnorePatternWhitespace RightToLeft CultureInvariant
-#        ExplicitCapture_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: ExplicitCapture IgnorePatternWhitespace RightToLeft
-#        ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant
-#        IgnoreCase_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnoreCase IgnorePatternWhitespace RightToLeft
-#        IgnoreCase_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase IgnorePatternWhitespace RightToLeft CultureInvariant
-#        IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnoreCase ExplicitCapture IgnorePatternWhitespace RightToLeft
-#        IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant
-#        Multiline_RightToLeft:
-#          RegexOptions: Multiline RightToLeft
-#        Multiline_RightToLeft_CultureInvariant:
-#          RegexOptions: Multiline RightToLeft CultureInvariant
-#        Multiline_ExplicitCapture_RightToLeft:
-#          RegexOptions: Multiline ExplicitCapture RightToLeft
-#        Multiline_ExplicitCapture_RightToLeft_CultureInvariant:
-#          RegexOptions: Multiline ExplicitCapture RightToLeft CultureInvariant
-#        IgnoreCase_Multiline_RightToLeft:
-#          RegexOptions: IgnoreCase Multiline RightToLeft
-#        IgnoreCase_Multiline_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline RightToLeft CultureInvariant
-#        IgnoreCase_Multiline_ExplicitCapture_RightToLeft:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture RightToLeft
-#        IgnoreCase_Multiline_ExplicitCapture_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture RightToLeft CultureInvariant
-#        Multiline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: Multiline IgnorePatternWhitespace RightToLeft
-#        Multiline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: Multiline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft
-#        Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant
-#        IgnoreCase_Multiline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnoreCase Multiline IgnorePatternWhitespace RightToLeft
-#        IgnoreCase_Multiline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft
-#        IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant
-#        Singleline:
-#          RegexOptions: Singleline
-#        Singleline_CultureInvariant:
-#          RegexOptions: Singleline CultureInvariant
-#        ExplicitCapture_Singleline:
-#          RegexOptions: ExplicitCapture Singleline
-#        ExplicitCapture_Singleline_CultureInvariant:
-#          RegexOptions: ExplicitCapture Singleline CultureInvariant
-#        IgnoreCase_Singleline:
-#          RegexOptions: IgnoreCase Singleline
-#        IgnoreCase_Singleline_CultureInvariant:
-#          RegexOptions: IgnoreCase Singleline CultureInvariant
-#        IgnoreCase_ExplicitCapture_Singleline:
-#          RegexOptions: IgnoreCase ExplicitCapture Singleline
-#        IgnoreCase_ExplicitCapture_Singleline_CultureInvariant:
-#          RegexOptions: IgnoreCase ExplicitCapture Singleline CultureInvariant
-#        Singleline_IgnorePatternWhitespace:
-#          RegexOptions: Singleline IgnorePatternWhitespace
-#        Singleline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: Singleline IgnorePatternWhitespace CultureInvariant
-#        ExplicitCapture_Singleline_IgnorePatternWhitespace:
-#          RegexOptions: ExplicitCapture Singleline IgnorePatternWhitespace
-#        ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant
-#        IgnoreCase_Singleline_IgnorePatternWhitespace:
-#          RegexOptions: IgnoreCase Singleline IgnorePatternWhitespace
-#        IgnoreCase_Singleline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnoreCase Singleline IgnorePatternWhitespace CultureInvariant
-#        IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace:
-#          RegexOptions: IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace
-#        IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant
-#        Multiline_Singleline:
-#          RegexOptions: Multiline Singleline
-#        Multiline_Singleline_CultureInvariant:
-#          RegexOptions: Multiline Singleline CultureInvariant
-#        Multiline_ExplicitCapture_Singleline:
-#          RegexOptions: Multiline ExplicitCapture Singleline
-#        Multiline_ExplicitCapture_Singleline_CultureInvariant:
-#          RegexOptions: Multiline ExplicitCapture Singleline CultureInvariant
-#        IgnoreCase_Multiline_Singleline:
-#          RegexOptions: IgnoreCase Multiline Singleline
-#        IgnoreCase_Multiline_Singleline_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline Singleline CultureInvariant
-#        IgnoreCase_Multiline_ExplicitCapture_Singleline:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline
-#        IgnoreCase_Multiline_ExplicitCapture_Singleline_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline CultureInvariant
-#        Multiline_Singleline_IgnorePatternWhitespace:
-#          RegexOptions: Multiline Singleline IgnorePatternWhitespace
-#        Multiline_Singleline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: Multiline Singleline IgnorePatternWhitespace CultureInvariant
-#        Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace:
-#          RegexOptions: Multiline ExplicitCapture Singleline IgnorePatternWhitespace
-#        Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: Multiline ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant
-#        IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace:
-#          RegexOptions: IgnoreCase Multiline Singleline IgnorePatternWhitespace
-#        IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline Singleline IgnorePatternWhitespace CultureInvariant
-#        IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace
-#        IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant
-#        Singleline_RightToLeft:
-#          RegexOptions: Singleline RightToLeft
-#        Singleline_RightToLeft_CultureInvariant:
-#          RegexOptions: Singleline RightToLeft CultureInvariant
-#        ExplicitCapture_Singleline_RightToLeft:
-#          RegexOptions: ExplicitCapture Singleline RightToLeft
-#        ExplicitCapture_Singleline_RightToLeft_CultureInvariant:
-#          RegexOptions: ExplicitCapture Singleline RightToLeft CultureInvariant
-#        IgnoreCase_Singleline_RightToLeft:
-#          RegexOptions: IgnoreCase Singleline RightToLeft
-#        IgnoreCase_Singleline_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Singleline RightToLeft CultureInvariant
-#        IgnoreCase_ExplicitCapture_Singleline_RightToLeft:
-#          RegexOptions: IgnoreCase ExplicitCapture Singleline RightToLeft
-#        IgnoreCase_ExplicitCapture_Singleline_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase ExplicitCapture Singleline RightToLeft CultureInvariant
-#        Singleline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: Singleline IgnorePatternWhitespace RightToLeft
-#        Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
-#        ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        IgnoreCase_Singleline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnoreCase Singleline IgnorePatternWhitespace RightToLeft
-#        IgnoreCase_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
-#        IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        Multiline_Singleline_RightToLeft:
-#          RegexOptions: Multiline Singleline RightToLeft
-#        Multiline_Singleline_RightToLeft_CultureInvariant:
-#          RegexOptions: Multiline Singleline RightToLeft CultureInvariant
-#        Multiline_ExplicitCapture_Singleline_RightToLeft:
-#          RegexOptions: Multiline ExplicitCapture Singleline RightToLeft
-#        Multiline_ExplicitCapture_Singleline_RightToLeft_CultureInvariant:
-#          RegexOptions: Multiline ExplicitCapture Singleline RightToLeft CultureInvariant
-#        IgnoreCase_Multiline_Singleline_RightToLeft:
-#          RegexOptions: IgnoreCase Multiline Singleline RightToLeft
-#        IgnoreCase_Multiline_Singleline_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline Singleline RightToLeft CultureInvariant
-#        IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline RightToLeft
-#        IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline RightToLeft CultureInvariant
-#        Multiline_Singleline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: Multiline Singleline IgnorePatternWhitespace RightToLeft
-#        Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: Multiline Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
-#        Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnoreCase Multiline Singleline IgnorePatternWhitespace RightToLeft
-#        IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-#        IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
-#        IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
-#          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
-#    steps:
-#    - checkout: self
-#      clean: true
-#      lfs: true
-#      submodules: true
-#    - task: DotNetCoreCLI@2
-#      inputs:
-#        command: 'run'
-#        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
-#        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" $(RegexOptions)'
-#        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
-#    - task: DotNetCoreCLI@2
-#      inputs:
-#        command: 'test'
-#        arguments: '--configuration Release'
-#        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes'
+- stage: parity_tests
+  displayName: Parity Tests
+  dependsOn: [initial_build]
+  jobs:
+  - job:
+    displayName: Parity Tests
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      matrix:
+        None:
+          RegexOptions: None
+        CultureInvariant:
+          RegexOptions: CultureInvariant
+        ECMAScript:
+          RegexOptions: ECMAScript
+        ECMAScript_CultureInvariant:
+          RegexOptions: ECMAScript CultureInvariant
+        ExplicitCapture:
+          RegexOptions: ExplicitCapture
+        ExplicitCapture_CultureInvariant:
+          RegexOptions: ExplicitCapture CultureInvariant
+        IgnoreCase:
+          RegexOptions: IgnoreCase
+        IgnoreCase_CultureInvariant:
+          RegexOptions: IgnoreCase CultureInvariant
+        IgnoreCase_ECMAScript:
+          RegexOptions: IgnoreCase ECMAScript
+        IgnoreCase_ECMAScript_CultureInvariant:
+          RegexOptions: IgnoreCase ECMAScript CultureInvariant
+        IgnoreCase_ExplicitCapture:
+          RegexOptions: IgnoreCase ExplicitCapture
+        IgnoreCase_ExplicitCapture_CultureInvariant:
+          RegexOptions: IgnoreCase ExplicitCapture CultureInvariant
+        IgnorePatternWhitespace:
+          RegexOptions: IgnorePatternWhitespace
+        IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnorePatternWhitespace CultureInvariant
+        ExplicitCapture_IgnorePatternWhitespace:
+          RegexOptions: ExplicitCapture IgnorePatternWhitespace
+        ExplicitCapture_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: ExplicitCapture IgnorePatternWhitespace CultureInvariant
+        IgnoreCase_IgnorePatternWhitespace:
+          RegexOptions: IgnoreCase IgnorePatternWhitespace
+        IgnoreCase_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnoreCase IgnorePatternWhitespace CultureInvariant
+        IgnoreCase_ExplicitCapture_IgnorePatternWhitespace:
+          RegexOptions: IgnoreCase ExplicitCapture IgnorePatternWhitespace
+        IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnoreCase ExplicitCapture IgnorePatternWhitespace CultureInvariant
+        Multiline:
+          RegexOptions: Multiline
+        Multiline_CultureInvariant:
+          RegexOptions: Multiline CultureInvariant
+        Multiline_ECMAScript:
+          RegexOptions: Multiline ECMAScript
+        Multiline_ECMAScript_CultureInvariant:
+          RegexOptions: Multiline ECMAScript CultureInvariant
+        Multiline_ExplicitCapture:
+          RegexOptions: Multiline ExplicitCapture
+        Multiline_ExplicitCapture_CultureInvariant:
+          RegexOptions: Multiline ExplicitCapture CultureInvariant
+        IgnoreCase_Multiline:
+          RegexOptions: IgnoreCase Multiline
+        IgnoreCase_Multiline_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline CultureInvariant
+        IgnoreCase_Multiline_ECMAScript:
+          RegexOptions: IgnoreCase Multiline ECMAScript
+        IgnoreCase_Multiline_ECMAScript_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ECMAScript CultureInvariant
+        IgnoreCase_Multiline_ExplicitCapture:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture
+        IgnoreCase_Multiline_ExplicitCapture_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture CultureInvariant
+        Multiline_IgnorePatternWhitespace:
+          RegexOptions: Multiline IgnorePatternWhitespace
+        Multiline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: Multiline IgnorePatternWhitespace CultureInvariant
+        Multiline_ExplicitCapture_IgnorePatternWhitespace:
+          RegexOptions: Multiline ExplicitCapture IgnorePatternWhitespace
+        Multiline_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: Multiline ExplicitCapture IgnorePatternWhitespace CultureInvariant
+        IgnoreCase_Multiline_IgnorePatternWhitespace:
+          RegexOptions: IgnoreCase Multiline IgnorePatternWhitespace
+        IgnoreCase_Multiline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline IgnorePatternWhitespace CultureInvariant
+        IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace
+        IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace CultureInvariant
+        RightToLeft:
+          RegexOptions: RightToLeft
+        RightToLeft_CultureInvariant:
+          RegexOptions: RightToLeft CultureInvariant
+        ExplicitCapture_RightToLeft:
+          RegexOptions: ExplicitCapture RightToLeft
+        ExplicitCapture_RightToLeft_CultureInvariant:
+          RegexOptions: ExplicitCapture RightToLeft CultureInvariant
+        IgnoreCase_RightToLeft:
+          RegexOptions: IgnoreCase RightToLeft
+        IgnoreCase_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase RightToLeft CultureInvariant
+        IgnoreCase_ExplicitCapture_RightToLeft:
+          RegexOptions: IgnoreCase ExplicitCapture RightToLeft
+        IgnoreCase_ExplicitCapture_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase ExplicitCapture RightToLeft CultureInvariant
+        IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnorePatternWhitespace RightToLeft
+        IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnorePatternWhitespace RightToLeft CultureInvariant
+        ExplicitCapture_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: ExplicitCapture IgnorePatternWhitespace RightToLeft
+        ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant
+        IgnoreCase_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnoreCase IgnorePatternWhitespace RightToLeft
+        IgnoreCase_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase IgnorePatternWhitespace RightToLeft CultureInvariant
+        IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnoreCase ExplicitCapture IgnorePatternWhitespace RightToLeft
+        IgnoreCase_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant
+        Multiline_RightToLeft:
+          RegexOptions: Multiline RightToLeft
+        Multiline_RightToLeft_CultureInvariant:
+          RegexOptions: Multiline RightToLeft CultureInvariant
+        Multiline_ExplicitCapture_RightToLeft:
+          RegexOptions: Multiline ExplicitCapture RightToLeft
+        Multiline_ExplicitCapture_RightToLeft_CultureInvariant:
+          RegexOptions: Multiline ExplicitCapture RightToLeft CultureInvariant
+        IgnoreCase_Multiline_RightToLeft:
+          RegexOptions: IgnoreCase Multiline RightToLeft
+        IgnoreCase_Multiline_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline RightToLeft CultureInvariant
+        IgnoreCase_Multiline_ExplicitCapture_RightToLeft:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture RightToLeft
+        IgnoreCase_Multiline_ExplicitCapture_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture RightToLeft CultureInvariant
+        Multiline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: Multiline IgnorePatternWhitespace RightToLeft
+        Multiline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: Multiline IgnorePatternWhitespace RightToLeft CultureInvariant
+        Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft
+        Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant
+        IgnoreCase_Multiline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnoreCase Multiline IgnorePatternWhitespace RightToLeft
+        IgnoreCase_Multiline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline IgnorePatternWhitespace RightToLeft CultureInvariant
+        IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft
+        IgnoreCase_Multiline_ExplicitCapture_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture IgnorePatternWhitespace RightToLeft CultureInvariant
+        Singleline:
+          RegexOptions: Singleline
+        Singleline_CultureInvariant:
+          RegexOptions: Singleline CultureInvariant
+        ExplicitCapture_Singleline:
+          RegexOptions: ExplicitCapture Singleline
+        ExplicitCapture_Singleline_CultureInvariant:
+          RegexOptions: ExplicitCapture Singleline CultureInvariant
+        IgnoreCase_Singleline:
+          RegexOptions: IgnoreCase Singleline
+        IgnoreCase_Singleline_CultureInvariant:
+          RegexOptions: IgnoreCase Singleline CultureInvariant
+        IgnoreCase_ExplicitCapture_Singleline:
+          RegexOptions: IgnoreCase ExplicitCapture Singleline
+        IgnoreCase_ExplicitCapture_Singleline_CultureInvariant:
+          RegexOptions: IgnoreCase ExplicitCapture Singleline CultureInvariant
+        Singleline_IgnorePatternWhitespace:
+          RegexOptions: Singleline IgnorePatternWhitespace
+        Singleline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: Singleline IgnorePatternWhitespace CultureInvariant
+        ExplicitCapture_Singleline_IgnorePatternWhitespace:
+          RegexOptions: ExplicitCapture Singleline IgnorePatternWhitespace
+        ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant
+        IgnoreCase_Singleline_IgnorePatternWhitespace:
+          RegexOptions: IgnoreCase Singleline IgnorePatternWhitespace
+        IgnoreCase_Singleline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnoreCase Singleline IgnorePatternWhitespace CultureInvariant
+        IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace:
+          RegexOptions: IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace
+        IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant
+        Multiline_Singleline:
+          RegexOptions: Multiline Singleline
+        Multiline_Singleline_CultureInvariant:
+          RegexOptions: Multiline Singleline CultureInvariant
+        Multiline_ExplicitCapture_Singleline:
+          RegexOptions: Multiline ExplicitCapture Singleline
+        Multiline_ExplicitCapture_Singleline_CultureInvariant:
+          RegexOptions: Multiline ExplicitCapture Singleline CultureInvariant
+        IgnoreCase_Multiline_Singleline:
+          RegexOptions: IgnoreCase Multiline Singleline
+        IgnoreCase_Multiline_Singleline_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline Singleline CultureInvariant
+        IgnoreCase_Multiline_ExplicitCapture_Singleline:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline
+        IgnoreCase_Multiline_ExplicitCapture_Singleline_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline CultureInvariant
+        Multiline_Singleline_IgnorePatternWhitespace:
+          RegexOptions: Multiline Singleline IgnorePatternWhitespace
+        Multiline_Singleline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: Multiline Singleline IgnorePatternWhitespace CultureInvariant
+        Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace:
+          RegexOptions: Multiline ExplicitCapture Singleline IgnorePatternWhitespace
+        Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: Multiline ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant
+        IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace:
+          RegexOptions: IgnoreCase Multiline Singleline IgnorePatternWhitespace
+        IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline Singleline IgnorePatternWhitespace CultureInvariant
+        IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace
+        IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace CultureInvariant
+        Singleline_RightToLeft:
+          RegexOptions: Singleline RightToLeft
+        Singleline_RightToLeft_CultureInvariant:
+          RegexOptions: Singleline RightToLeft CultureInvariant
+        ExplicitCapture_Singleline_RightToLeft:
+          RegexOptions: ExplicitCapture Singleline RightToLeft
+        ExplicitCapture_Singleline_RightToLeft_CultureInvariant:
+          RegexOptions: ExplicitCapture Singleline RightToLeft CultureInvariant
+        IgnoreCase_Singleline_RightToLeft:
+          RegexOptions: IgnoreCase Singleline RightToLeft
+        IgnoreCase_Singleline_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Singleline RightToLeft CultureInvariant
+        IgnoreCase_ExplicitCapture_Singleline_RightToLeft:
+          RegexOptions: IgnoreCase ExplicitCapture Singleline RightToLeft
+        IgnoreCase_ExplicitCapture_Singleline_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase ExplicitCapture Singleline RightToLeft CultureInvariant
+        Singleline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: Singleline IgnorePatternWhitespace RightToLeft
+        Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
+        ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
+        ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
+        IgnoreCase_Singleline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnoreCase Singleline IgnorePatternWhitespace RightToLeft
+        IgnoreCase_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
+        IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
+        IgnoreCase_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
+        Multiline_Singleline_RightToLeft:
+          RegexOptions: Multiline Singleline RightToLeft
+        Multiline_Singleline_RightToLeft_CultureInvariant:
+          RegexOptions: Multiline Singleline RightToLeft CultureInvariant
+        Multiline_ExplicitCapture_Singleline_RightToLeft:
+          RegexOptions: Multiline ExplicitCapture Singleline RightToLeft
+        Multiline_ExplicitCapture_Singleline_RightToLeft_CultureInvariant:
+          RegexOptions: Multiline ExplicitCapture Singleline RightToLeft CultureInvariant
+        IgnoreCase_Multiline_Singleline_RightToLeft:
+          RegexOptions: IgnoreCase Multiline Singleline RightToLeft
+        IgnoreCase_Multiline_Singleline_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline Singleline RightToLeft CultureInvariant
+        IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline RightToLeft
+        IgnoreCase_Multiline_ExplicitCapture_Singleline_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline RightToLeft CultureInvariant
+        Multiline_Singleline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: Multiline Singleline IgnorePatternWhitespace RightToLeft
+        Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: Multiline Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
+        Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
+        Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
+        IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnoreCase Multiline Singleline IgnorePatternWhitespace RightToLeft
+        IgnoreCase_Multiline_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
+        IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft
+        IgnoreCase_Multiline_ExplicitCapture_Singleline_IgnorePatternWhitespace_RightToLeft_CultureInvariant:
+          RegexOptions: IgnoreCase Multiline ExplicitCapture Singleline IgnorePatternWhitespace RightToLeft CultureInvariant
+    steps:
+    - checkout: self
+      clean: true
+      lfs: true
+      submodules: true
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'run'
+        projects: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests/NetRegexCompiler.GenerateTests.csproj'
+        arguments: '--configuration Release "$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes/regexes" $(RegexOptions)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.GenerateTests'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'test'
+        arguments: '--configuration Release'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/NetRegexCompiler.Tests.TestRegexes'
 - stage: benchmarking
   displayName: Benchmarking
-#  dependsOn: [parity_tests]
-  dependsOn: [initial_build]
+  dependsOn: [initial_build, parity_tests]
   jobs:
   - job:
     displayName: Benchmarks
