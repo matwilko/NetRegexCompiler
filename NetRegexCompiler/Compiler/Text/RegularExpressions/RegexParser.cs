@@ -97,9 +97,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return tree;
         }
 
-        /// <summary>
-        /// Escapes all metacharacters (including |,(,),[,{,|,^,$,*,+,?,\, spaces and #)
-        /// </summary>
+        /// <summary>Escapes all metacharacters (including |,(,),[,{,|,^,$,*,+,?,\, spaces and #)</summary>
         public static string Escape(string input)
         {
             for (int i = 0; i < input.Length; i++)
@@ -157,9 +155,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return vsb.ToString();
         }
         
-        /// <summary>
-        /// Resets parsing to the beginning of the pattern.
-        /// </summary>
+        /// <summary>Resets parsing to the beginning of the pattern.</summary>
         private void Reset(RegexOptions options)
         {
             _currentPos = 0;
@@ -169,11 +165,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _options = options;
             _stack = null;
         }
-
-        /*
-         * The main parsing function.
-         */
-
+        
         private RegexNode ScanRegex()
         {
             char ch = '@'; // nonspecial ch, means at beginning
@@ -181,29 +173,29 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             StartGroup(new RegexNode(RegexNode.Capture, _options, 0, -1));
 
-            while (CharsRight() > 0)
+            while (CharsRight > 0)
             {
                 bool wasPrevQuantifier = isQuantifier;
                 isQuantifier = false;
 
                 ScanBlank();
 
-                int startpos = Textpos();
+                int startpos = Textpos;
 
                 // move past all of the normal characters.  We'll stop when we hit some kind of control character,
                 // or if IgnorePatternWhiteSpace is on, we'll stop when we see some whitespace.
-                if (UseOptionX())
-                    while (CharsRight() > 0 && (!IsStopperX(ch = RightChar()) || (ch == '{' && !IsTrueQuantifier())))
+                if (IgnorePatternWhitespace)
+                    while (CharsRight > 0 && (!IsStopperX(ch = RightChar()) || (ch == '{' && !IsTrueQuantifier())))
                         MoveRight();
                 else
-                    while (CharsRight() > 0 && (!IsSpecial(ch = RightChar()) || (ch == '{' && !IsTrueQuantifier())))
+                    while (CharsRight > 0 && (!IsSpecial(ch = RightChar()) || (ch == '{' && !IsTrueQuantifier())))
                         MoveRight();
 
-                int endpos = Textpos();
+                int endpos = Textpos;
 
                 ScanBlank();
 
-                if (CharsRight() == 0)
+                if (CharsRight == 0)
                     ch = '!'; // nonspecial, means at end
                 else if (IsSpecial(ch = RightChar()))
                 {
@@ -235,7 +227,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         goto ContinueOuterScan;
 
                     case '[':
-                        AddUnitSet(ScanCharClass(UseOptionI(), scanOnly: false).ToStringClass());
+                        AddUnitSet(ScanCharClass(IsCaseInsensitive, scanOnly: false).ToStringClass());
                         break;
 
                     case '(':
@@ -273,22 +265,22 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         break;
 
                     case '\\':
-                        if (CharsRight() == 0)
+                        if (CharsRight == 0)
                             throw MakeException(RegexParseError.IllegalEndEscape, "Illegal \\ at end of pattern.");
 
                         AddUnitNode(ScanBackslash(scanOnly: false));
                         break;
 
                     case '^':
-                        AddUnitType(UseOptionM() ? RegexNode.Bol : RegexNode.Beginning);
+                        AddUnitType(IsMultiLine ? RegexNode.Bol : RegexNode.Beginning);
                         break;
 
                     case '$':
-                        AddUnitType(UseOptionM() ? RegexNode.Eol : RegexNode.EndZ);
+                        AddUnitType(IsMultiLine ? RegexNode.Eol : RegexNode.EndZ);
                         break;
 
                     case '.':
-                        if (UseOptionS())
+                        if (IsSingleLine)
                             AddUnitSet(RegexCharClass.AnyClass);
                         else
                             AddUnitNotone('\n');
@@ -314,7 +306,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                 ScanBlank();
 
-                if (CharsRight() == 0 || !(isQuantifier = IsTrueQuantifier()))
+                if (CharsRight == 0 || !(isQuantifier = IsTrueQuantifier()))
                 {
                     AddConcatenate();
                     goto ContinueOuterScan;
@@ -348,21 +340,21 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                         case '{':
                             {
-                                startpos = Textpos();
+                                startpos = Textpos;
                                 max = min = ScanDecimal();
-                                if (startpos < Textpos())
+                                if (startpos < Textpos)
                                 {
-                                    if (CharsRight() > 0 && RightChar() == ',')
+                                    if (CharsRight > 0 && RightChar() == ',')
                                     {
                                         MoveRight();
-                                        if (CharsRight() == 0 || RightChar() == '}')
+                                        if (CharsRight == 0 || RightChar() == '}')
                                             max = int.MaxValue;
                                         else
                                             max = ScanDecimal();
                                     }
                                 }
 
-                                if (startpos == Textpos() || CharsRight() == 0 || RightCharMoveRight() != '}')
+                                if (startpos == Textpos || CharsRight == 0 || RightCharMoveRight() != '}')
                                 {
                                     AddConcatenate();
                                     Textto(startpos - 1);
@@ -378,7 +370,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                     ScanBlank();
 
-                    if (CharsRight() == 0 || RightChar() != '?')
+                    if (CharsRight == 0 || RightChar() != '?')
                         lazy = false;
                     else
                     {
@@ -407,10 +399,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return Unit();
         }
 
-        /*
-         * Scans contents of [] (not including []'s), and converts to a
-         * RegexCharClass.
-         */
+        /// <summary>Scans contents of [] (not including []'s), and converts to a RegexCharClass.</summary> 
         private RegexCharClass ScanCharClass(bool caseInsensitive, bool scanOnly)
         {
             char ch = '\0';
@@ -423,14 +412,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             cc = scanOnly ? null : new RegexCharClass();
 
-            if (CharsRight() > 0 && RightChar() == '^')
+            if (CharsRight > 0 && RightChar() == '^')
             {
                 MoveRight();
                 if (!scanOnly)
                     cc.Negate = true;
             }
 
-            for (; CharsRight() > 0; firstChar = false)
+            for (; CharsRight > 0; firstChar = false)
             {
                 bool fTranslatedChar = false;
                 ch = RightCharMoveRight();
@@ -442,7 +431,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         break;
                     }
                 }
-                else if (ch == '\\' && CharsRight() > 0)
+                else if (ch == '\\' && CharsRight > 0)
                 {
                     switch (ch = RightCharMoveRight())
                     {
@@ -452,7 +441,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             {
                                 if (inRange)
                                     throw MakeException(RegexParseError.BadClassInCharRange, $"Cannot include class \\{ch} in character range.");
-                                cc.AddDigit(UseOptionE(), ch == 'D', _pattern, _currentPos);
+                                cc.AddDigit(IsEcmaScript, ch == 'D', _pattern, _currentPos);
                             }
                             continue;
 
@@ -462,7 +451,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             {
                                 if (inRange)
                                     throw MakeException(RegexParseError.BadClassInCharRange, $"Cannot include class \\{ch} in character range.");
-                                cc.AddSpace(UseOptionE(), ch == 'S');
+                                cc.AddSpace(IsEcmaScript, ch == 'S');
                             }
                             continue;
 
@@ -473,7 +462,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                 if (inRange)
                                     throw MakeException(RegexParseError.BadClassInCharRange, $"Cannot include class \\{ch} in character range.");
 
-                                cc.AddWord(UseOptionE(), ch == 'W');
+                                cc.AddWord(IsEcmaScript, ch == 'W');
                             }
                             continue;
 
@@ -506,12 +495,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 {
                     // This is code for Posix style properties - [:Ll:] or [:IsTibetan:].
                     // It currently doesn't do anything other than skip the whole thing!
-                    if (CharsRight() > 0 && RightChar() == ':' && !inRange)
+                    if (CharsRight > 0 && RightChar() == ':' && !inRange)
                     {
-                        int savePos = Textpos();
+                        int savePos = Textpos;
 
                         MoveRight();
-                        if (CharsRight() < 2 || RightCharMoveRight() != ':' || RightCharMoveRight() != ']')
+                        if (CharsRight < 2 || RightCharMoveRight() != ':' || RightCharMoveRight() != ']')
                             Textto(savePos);
                     }
                 }
@@ -529,7 +518,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             cc.AddChar(chPrev);
                             cc.AddSubtraction(ScanCharClass(caseInsensitive, scanOnly));
 
-                            if (CharsRight() > 0 && RightChar() != ']')
+                            if (CharsRight > 0 && RightChar() != ']')
                                 throw MakeException(RegexParseError.SubtractionMustBeLast, "A subtraction must be the last element in a character class.");
                         }
                         else
@@ -541,14 +530,14 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         }
                     }
                 }
-                else if (CharsRight() >= 2 && RightChar() == '-' && RightChar(1) != ']')
+                else if (CharsRight >= 2 && RightChar() == '-' && RightChar(1) != ']')
                 {
                     // this could be the start of a range
                     chPrev = ch;
                     inRange = true;
                     MoveRight();
                 }
-                else if (CharsRight() >= 1 && ch == '-' && !fTranslatedChar && RightChar() == '[' && !firstChar)
+                else if (CharsRight >= 1 && ch == '-' && !fTranslatedChar && RightChar() == '[' && !firstChar)
                 {
                     // we aren't in a range, and now there is a subtraction.  Usually this happens
                     // only when a subtraction follows a range, like [a-z-[b]]
@@ -557,7 +546,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         MoveRight(1);
                         cc.AddSubtraction(ScanCharClass(caseInsensitive, scanOnly));
 
-                        if (CharsRight() > 0 && RightChar() != ']')
+                        if (CharsRight > 0 && RightChar() != ']')
                             throw MakeException(RegexParseError.SubtractionMustBeLast, "A subtraction must be the last element in a character class.");
                     }
                     else
@@ -582,20 +571,20 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return cc;
         }
 
-        /*
-         * Scans chars following a '(' (not counting the '('), and returns
-         * a RegexNode for the type of group scanned, or null if the group
-         * simply changed options (?cimsx-cimsx) or was a comment (#...).
-         */
+        /// <summary>
+        ///  Scans chars following a '(' (not counting the '('), and returns
+        ///  a RegexNode for the type of group scanned, or null if the group
+        ///  simply changed options (?cimsx-cimsx) or was a comment (#...).      
+        /// </summary>
         private RegexNode ScanGroupOpen()
         {
             // just return a RegexNode if we have:
             // 1. "(" followed by nothing
             // 2. "(x" where x != ?
             // 3. "(?)"
-            if (CharsRight() == 0 || RightChar() != '?' || (RightChar() == '?' && (CharsRight() > 1 && RightChar(1) == ')')))
+            if (CharsRight == 0 || RightChar() != '?' || (RightChar() == '?' && (CharsRight > 1 && RightChar(1) == ')')))
             {
-                if (UseOptionN() || _ignoreNextParen)
+                if (IsExplicitCapture || _ignoreNextParen)
                 {
                     _ignoreNextParen = false;
                     return new RegexNode(RegexNode.Group, _options);
@@ -608,7 +597,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             for (; ;)
             {
-                if (CharsRight() == 0)
+                if (CharsRight == 0)
                     break;
 
                 int NodeType;
@@ -644,7 +633,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     // fallthrough
 
                     case '<':
-                        if (CharsRight() == 0)
+                        if (CharsRight == 0)
                             goto BreakRecognize;
 
                         switch (ch = RightCharMoveRight())
@@ -683,7 +672,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                         capnum = -1;
 
                                     // check if we have bogus characters after the number
-                                    if (CharsRight() > 0 && !(RightChar() == close || RightChar() == '-'))
+                                    if (CharsRight > 0 && !(RightChar() == close || RightChar() == '-'))
                                         throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                     if (capnum == 0)
                                         throw MakeException(RegexParseError.CapnumNotZero, "Capture number cannot be zero.");
@@ -696,7 +685,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                         capnum = CaptureSlotFromName(capname);
 
                                     // check if we have bogus character after the name
-                                    if (CharsRight() > 0 && !(RightChar() == close || RightChar() == '-'))
+                                    if (CharsRight > 0 && !(RightChar() == close || RightChar() == '-'))
                                         throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                 }
                                 else if (ch == '-')
@@ -711,7 +700,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                                 // grab part after - if any
 
-                                if ((capnum != -1 || proceed == true) && CharsRight() > 1 && RightChar() == '-')
+                                if ((capnum != -1 || proceed == true) && CharsRight > 1 && RightChar() == '-')
                                 {
                                     MoveRight();
                                     ch = RightChar();
@@ -724,7 +713,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                             throw MakeException(RegexParseError.UndefinedBackref, $"Reference to undefined group number {uncapnum}.");
 
                                         // check if we have bogus characters after the number
-                                        if (CharsRight() > 0 && RightChar() != close)
+                                        if (CharsRight > 0 && RightChar() != close)
                                             throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                     }
                                     else if (RegexCharClass.IsWordChar(ch))
@@ -737,7 +726,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                             throw MakeException(RegexParseError.UndefinedNameRef, $"Reference to undefined group name '{uncapname}'.");
 
                                         // check if we have bogus character after the name
-                                        if (CharsRight() > 0 && RightChar() != close)
+                                        if (CharsRight > 0 && RightChar() != close)
                                             throw MakeException(RegexParseError.InvalidGroupName, "Invalid group name: Group names must begin with a word character.");
                                     }
                                     else
@@ -749,7 +738,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
                                 // actually make the node
 
-                                if ((capnum != -1 || uncapnum != -1) && CharsRight() > 0 && RightCharMoveRight() == close)
+                                if ((capnum != -1 || uncapnum != -1) && CharsRight > 0 && RightCharMoveRight() == close)
                                 {
                                     return new RegexNode(RegexNode.Capture, _options, capnum, uncapnum);
                                 }
@@ -760,8 +749,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     case '(':
                         // alternation construct (?(...) | )
 
-                        int parenPos = Textpos();
-                        if (CharsRight() > 0)
+                        int parenPos = Textpos;
+                        if (CharsRight > 0)
                         {
                             ch = RightChar();
 
@@ -769,7 +758,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             if (ch >= '0' && ch <= '9')
                             {
                                 int capnum = ScanDecimal();
-                                if (CharsRight() > 0 && RightCharMoveRight() == ')')
+                                if (CharsRight > 0 && RightCharMoveRight() == ')')
                                 {
                                     if (IsCaptureSlot(capnum))
                                         return new RegexNode(RegexNode.Testref, _options, capnum);
@@ -783,7 +772,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                             {
                                 string capname = ScanCapname();
 
-                                if (IsCaptureName(capname) && CharsRight() > 0 && RightCharMoveRight() == ')')
+                                if (IsCaptureName(capname) && CharsRight > 0 && RightCharMoveRight() == ')')
                                     return new RegexNode(RegexNode.Testref, _options, CaptureSlotFromName(capname));
                             }
                         }
@@ -792,7 +781,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         Textto(parenPos - 1);       // jump to the start of the parentheses
                         _ignoreNextParen = true;    // but make sure we don't try to capture the insides
 
-                        int charsRight = CharsRight();
+                        int charsRight = CharsRight;
                         if (charsRight >= 3 && RightChar(1) == '?')
                         {
                             char rightchar2 = RightChar(2);
@@ -820,7 +809,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         // Disallow options in the children of a testgroup node
                         if (_group.NType != RegexNode.Testgroup)
                             ScanOptions();
-                        if (CharsRight() == 0)
+                        if (CharsRight == 0)
                             goto BreakRecognize;
 
                         if ((ch = RightCharMoveRight()) == ')')
@@ -841,32 +830,30 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             throw MakeException(RegexParseError.UnrecognizedGrouping, "Unrecognized grouping construct.");
         }
 
-        /*
-         * Scans whitespace or x-mode comments.
-         */
+        /// <summary>Scans whitespace or x-mode comments.</summary>
         private void ScanBlank()
         {
-            if (UseOptionX())
+            if (IgnorePatternWhitespace)
             {
                 for (; ;)
                 {
-                    while (CharsRight() > 0 && IsSpace(RightChar()))
+                    while (CharsRight > 0 && IsWhitespace(RightChar()))
                         MoveRight();
 
-                    if (CharsRight() == 0)
+                    if (CharsRight == 0)
                         break;
 
                     if (RightChar() == '#')
                     {
-                        while (CharsRight() > 0 && RightChar() != '\n')
+                        while (CharsRight > 0 && RightChar() != '\n')
                             MoveRight();
                     }
-                    else if (CharsRight() >= 3 && RightChar(2) == '#' &&
+                    else if (CharsRight >= 3 && RightChar(2) == '#' &&
                              RightChar(1) == '?' && RightChar() == '(')
                     {
-                        while (CharsRight() > 0 && RightChar() != ')')
+                        while (CharsRight > 0 && RightChar() != ')')
                             MoveRight();
-                        if (CharsRight() == 0)
+                        if (CharsRight == 0)
                             throw MakeException(RegexParseError.UnterminatedComment, "Unterminated (?#...) comment.");
                         MoveRight();
                     }
@@ -878,27 +865,24 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 for (; ;)
                 {
-                    if (CharsRight() < 3 || RightChar(2) != '#' ||
+                    if (CharsRight < 3 || RightChar(2) != '#' ||
                         RightChar(1) != '?' || RightChar() != '(')
                         return;
 
                     // skip comment (?# ...)
-                    while (CharsRight() > 0 && RightChar() != ')')
+                    while (CharsRight > 0 && RightChar() != ')')
                         MoveRight();
-                    if (CharsRight() == 0)
+                    if (CharsRight == 0)
                         throw MakeException(RegexParseError.UnterminatedComment, "Unterminated (?#...) comment.");
                     MoveRight();
                 }
             }
         }
 
-        /*
-         * Scans chars following a '\' (not counting the '\'), and returns
-         * a RegexNode for the type of atom scanned.
-         */
+        /// <summary>Scans chars following a '\' (not counting the '\'), and returns a RegexNode for the type of atom scanned.</summary>
         private RegexNode ScanBackslash(bool scanOnly)
         {
-            Debug.Assert(CharsRight() > 0, "The current reading position must not be at the end of the pattern");
+            Debug.Assert(CharsRight > 0, "The current reading position must not be at the end of the pattern");
 
             char ch;
             switch (ch = RightChar())
@@ -918,7 +902,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     MoveRight();
                     if (scanOnly)
                         return null;
-                    if (UseOptionE())
+                    if (IsEcmaScript)
                         return new RegexNode(RegexNode.Set, _options, RegexCharClass.ECMAWordClass);
                     return new RegexNode(RegexNode.Set, _options, RegexCharClass.WordClass);
 
@@ -926,7 +910,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     MoveRight();
                     if (scanOnly)
                         return null;
-                    if (UseOptionE())
+                    if (IsEcmaScript)
                         return new RegexNode(RegexNode.Set, _options, RegexCharClass.NotECMAWordClass);
                     return new RegexNode(RegexNode.Set, _options, RegexCharClass.NotWordClass);
 
@@ -934,7 +918,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     MoveRight();
                     if (scanOnly)
                         return null;
-                    if (UseOptionE())
+                    if (IsEcmaScript)
                         return new RegexNode(RegexNode.Set, _options, RegexCharClass.ECMASpaceClass);
                     return new RegexNode(RegexNode.Set, _options, RegexCharClass.SpaceClass);
 
@@ -942,7 +926,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     MoveRight();
                     if (scanOnly)
                         return null;
-                    if (UseOptionE())
+                    if (IsEcmaScript)
                         return new RegexNode(RegexNode.Set, _options, RegexCharClass.NotECMASpaceClass);
                     return new RegexNode(RegexNode.Set, _options, RegexCharClass.NotSpaceClass);
 
@@ -950,7 +934,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     MoveRight();
                     if (scanOnly)
                         return null;
-                    if (UseOptionE())
+                    if (IsEcmaScript)
                         return new RegexNode(RegexNode.Set, _options, RegexCharClass.ECMADigitClass);
                     return new RegexNode(RegexNode.Set, _options, RegexCharClass.DigitClass);
 
@@ -958,7 +942,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     MoveRight();
                     if (scanOnly)
                         return null;
-                    if (UseOptionE())
+                    if (IsEcmaScript)
                         return new RegexNode(RegexNode.Set, _options, RegexCharClass.NotECMADigitClass);
                     return new RegexNode(RegexNode.Set, _options, RegexCharClass.NotDigitClass);
 
@@ -968,8 +952,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     if (scanOnly)
                         return null;
                     var cc = new RegexCharClass();
-                    cc.AddCategoryFromName(ParseProperty(), (ch != 'p'), UseOptionI(), _pattern, _currentPos);
-                    if (UseOptionI())
+                    cc.AddCategoryFromName(ParseProperty(), (ch != 'p'), IsCaseInsensitive, _pattern, _currentPos);
+                    if (IsCaseInsensitive)
                         cc.AddLowercase(_culture);
 
                     return new RegexNode(RegexNode.Set, _options, cc.ToStringClass());
@@ -979,15 +963,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        /*
-         * Scans \-style backreferences and character escapes
-         */
+        /// <summary>Scans \-style backreferences and character escapes</summary>
         private RegexNode ScanBasicBackslash(bool scanOnly)
         {
-            if (CharsRight() == 0)
+            if (CharsRight == 0)
                 throw MakeException(RegexParseError.IllegalEndEscape, "Illegal \\ at end of pattern.");
 
-            int backpos = Textpos();
+            int backpos = Textpos;
             char close = '\0';
             bool angled = false;
             char ch = RightChar();
@@ -996,7 +978,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             if (ch == 'k')
             {
-                if (CharsRight() >= 2)
+                if (CharsRight >= 2)
                 {
                     MoveRight();
                     ch = RightCharMoveRight();
@@ -1008,7 +990,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     }
                 }
 
-                if (!angled || CharsRight() <= 0)
+                if (!angled || CharsRight <= 0)
                     throw MakeException(RegexParseError.MalformedNameRef, "Malformed \\k<...> named back reference.");
 
                 ch = RightChar();
@@ -1016,7 +998,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             // Note angle without \g
 
-            else if ((ch == '<' || ch == '\'') && CharsRight() > 1)
+            else if ((ch == '<' || ch == '\'') && CharsRight > 1)
             {
                 angled = true;
                 close = (ch == '\'') ? '\'' : '>';
@@ -1031,7 +1013,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 int capnum = ScanDecimal();
 
-                if (CharsRight() > 0 && RightCharMoveRight() == close)
+                if (CharsRight > 0 && RightCharMoveRight() == close)
                 {
                     if (scanOnly)
                         return null;
@@ -1046,17 +1028,17 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
 
             else if (!angled && ch >= '1' && ch <= '9')
             {
-                if (UseOptionE())
+                if (IsEcmaScript)
                 {
                     int capnum = -1;
                     int newcapnum = (int)(ch - '0');
-                    int pos = Textpos() - 1;
+                    int pos = Textpos - 1;
                     while (newcapnum <= _captop)
                     {
                         if (IsCaptureSlot(newcapnum) && (_caps == null || (int)_caps[newcapnum] < pos))
                             capnum = newcapnum;
                         MoveRight();
-                        if (CharsRight() == 0 || (ch = RightChar()) < '0' || ch > '9')
+                        if (CharsRight == 0 || (ch = RightChar()) < '0' || ch > '9')
                             break;
                         newcapnum = newcapnum * 10 + (int)(ch - '0');
                     }
@@ -1082,7 +1064,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 string capname = ScanCapname();
 
-                if (CharsRight() > 0 && RightCharMoveRight() == close)
+                if (CharsRight > 0 && RightCharMoveRight() == close)
                 {
                     if (scanOnly)
                         return null;
@@ -1098,20 +1080,18 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             Textto(backpos);
             ch = ScanCharEscape();
 
-            if (UseOptionI())
+            if (IsCaseInsensitive)
                 ch = _culture.TextInfo.ToLower(ch);
 
             return scanOnly ? null : new RegexNode(RegexNode.One, _options, ch);
         }
 
-        /*
-         * Scans a capture name: consumes word chars
-         */
+        /// <summary>Scans a capture name: consumes word chars</summary>
         private string ScanCapname()
         {
-            int startpos = Textpos();
+            int startpos = Textpos;
 
-            while (CharsRight() > 0)
+            while (CharsRight > 0)
             {
                 if (!RegexCharClass.IsWordChar(RightCharMoveRight()))
                 {
@@ -1120,13 +1100,11 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 }
             }
 
-            return _pattern.Substring(startpos, Textpos() - startpos);
+            return _pattern.Substring(startpos, Textpos - startpos);
         }
 
 
-        /*
-         * Scans up to three octal digits (stops before exceeding 0377).
-         */
+        /// <summary>Scans up to three octal digits (stops before exceeding 0377).</summary>
         private char ScanOctal()
         {
             // Consume octal chars only up to 3 digits and value 0377
@@ -1134,15 +1112,15 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             int d;
             int i;
 
-            if (c > CharsRight())
-                c = CharsRight();
+            if (c > CharsRight)
+                c = CharsRight;
 
             for (i = 0; c > 0 && unchecked((uint)(d = RightChar() - '0')) <= 7; c -= 1)
             {
                 MoveRight();
                 i *= 8;
                 i += d;
-                if (UseOptionE() && i >= 0x20)
+                if (IsEcmaScript && i >= 0x20)
                     break;
             }
 
@@ -1153,15 +1131,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return (char)i;
         }
 
-        /*
-         * Scans any number of decimal digits (pegs value at 2^31-1 if too large)
-         */
+        /// <summary>Scans any number of decimal digits (pegs value at 2^31-1 if too large)</summary>
         private int ScanDecimal()
         {
             int i = 0;
             int d;
 
-            while (CharsRight() > 0 && unchecked((uint)(d = (char)(RightChar() - '0'))) <= 9)
+            while (CharsRight > 0 && unchecked((uint)(d = (char)(RightChar() - '0'))) <= 9)
             {
                 MoveRight();
 
@@ -1175,15 +1151,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return i;
         }
 
-        /*
-         * Scans exactly c hex digits (c=2 for \xFF, c=4 for \uFFFF)
-         */
+        /// <summary>Scans exactly c hex digits (c=2 for \xFF, c=4 for \uFFFF)</summary>
         private char ScanHex(int c)
         {
             int i = 0;
             int d;
 
-            if (CharsRight() >= c)
+            if (CharsRight >= c)
             {
                 for (; c > 0 && ((d = HexDigit(RightCharMoveRight())) >= 0); c -= 1)
                 {
@@ -1198,9 +1172,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return (char)i;
         }
 
-        /*
-         * Returns n <= 0xF for a hex digit.
-         */
+        /// <summary>Returns n <= 0xF for a hex digit.</summary>
         private static int HexDigit(char ch)
         {
             int d;
@@ -1217,12 +1189,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return -1;
         }
 
-        /*
-         * Grabs and converts an ASCII control character
-         */
+        /// <summary>Grabs and converts an ASCII control character</summary>
         private char ScanControl()
         {
-            if (CharsRight() == 0)
+            if (CharsRight == 0)
                 throw MakeException(RegexParseError.MissingControl, "Missing control character.");
 
             char ch = RightCharMoveRight();
@@ -1238,9 +1208,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             throw MakeException(RegexParseError.UnrecognizedControl, "Unrecognized control character.");
         }
 
-        /*
-         * Returns true for options allowed only at the top level
-         */
+        /// <summary>Returns true for options allowed only at the top level</summary>
         private bool IsOnlyTopOption(RegexOptions options)
         {
             return options == RegexOptions.RightToLeft ||
@@ -1248,12 +1216,10 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 options == RegexOptions.ECMAScript;
         }
 
-        /*
-         * Scans cimsx-cimsx option string, stops at the first unrecognized char.
-         */
+        /// <summary>Scans cimsx-cimsx option string, stops at the first unrecognized char.</summary>
         private void ScanOptions()
         {
-            for (bool off = false; CharsRight() > 0; MoveRight())
+            for (bool off = false; CharsRight > 0; MoveRight())
             {
                 char ch = RightChar();
 
@@ -1279,9 +1245,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        /*
-         * Scans \ code for escape codes that map to single Unicode chars.
-         */
+        /// <summary>Scans \ code for escape codes that map to single Unicode chars.</summary>
         private char ScanCharEscape()
         {
             char ch = RightCharMoveRight();
@@ -1317,18 +1281,16 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 case 'c':
                     return ScanControl();
                 default:
-                    if (!UseOptionE() && RegexCharClass.IsWordChar(ch))
+                    if (!IsEcmaScript && RegexCharClass.IsWordChar(ch))
                         throw MakeException(RegexParseError.UnrecognizedEscape, $"Unrecognized escape sequence \\{ch}.");
                     return ch;
             }
         }
 
-        /*
-         * Scans X for \p{X} or \P{X}
-         */
+        /// <summary>Scans X for \p{X} or \P{X}</summary>
         private string ParseProperty()
         {
-            if (CharsRight() < 3)
+            if (CharsRight < 3)
             {
                 throw MakeException(RegexParseError.IncompleteSlashP, "Incomplete \\p{X} character escape.");
             }
@@ -1339,8 +1301,8 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                 throw MakeException(RegexParseError.MalformedSlashP, "Malformed \\p{X} character escape.");
             }
 
-            int startpos = Textpos();
-            while (CharsRight() > 0)
+            int startpos = Textpos;
+            while (CharsRight > 0)
             {
                 ch = RightCharMoveRight();
                 if (!(RegexCharClass.IsWordChar(ch) || ch == '-'))
@@ -1349,25 +1311,23 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                     break;
                 }
             }
-            string capname = _pattern.Substring(startpos, Textpos() - startpos);
+            string capname = _pattern.Substring(startpos, Textpos - startpos);
 
-            if (CharsRight() == 0 || RightCharMoveRight() != '}')
+            if (CharsRight == 0 || RightCharMoveRight() != '}')
                 throw MakeException(RegexParseError.IncompleteSlashP, "Incomplete \\p{X} character escape.");
 
             return capname;
         }
 
-        /*
-         * Returns ReNode type for zero-length assertions with a \ code.
-         */
+        /// <summary>Returns ReNode type for zero-length assertions with a \ code.</summary>
         private int TypeFromCode(char ch)
         {
             switch (ch)
             {
                 case 'b':
-                    return UseOptionE() ? RegexNode.ECMABoundary : RegexNode.Boundary;
+                    return IsEcmaScript ? RegexNode.ECMABoundary : RegexNode.Boundary;
                 case 'B':
-                    return UseOptionE() ? RegexNode.NonECMABoundary : RegexNode.Nonboundary;
+                    return IsEcmaScript ? RegexNode.NonECMABoundary : RegexNode.Nonboundary;
                 case 'A':
                     return RegexNode.Beginning;
                 case 'G':
@@ -1381,9 +1341,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        /*
-         * Returns option bit from single-char (?cimsx) code.
-         */
+        /// <summary>Returns option bit from single-char (?cimsx) code.</summary>
         private static RegexOptions OptionFromCode(char ch)
         {
             // case-insensitive
@@ -1415,29 +1373,26 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        /*
-         * a prescanner for deducing the slots used for
-         * captures by doing a partial tokenization of the pattern.
-         */
+        /// <summary>a prescanner for deducing the slots used for captures by doing a partial tokenization of the pattern.</summary>
         private void CountCaptures()
         {
             NoteCaptureSlot(0, 0);
 
             _autocap = 1;
 
-            while (CharsRight() > 0)
+            while (CharsRight > 0)
             {
-                int pos = Textpos();
+                int pos = Textpos;
                 char ch = RightCharMoveRight();
                 switch (ch)
                 {
                     case '\\':
-                        if (CharsRight() > 0)
+                        if (CharsRight > 0)
                             ScanBackslash(scanOnly: true);
                         break;
 
                     case '#':
-                        if (UseOptionX())
+                        if (IgnorePatternWhitespace)
                         {
                             MoveLeft();
                             ScanBlank();
@@ -1449,12 +1404,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         break;
 
                     case ')':
-                        if (!EmptyOptionsStack())
+                        if (!IsOptionsStackEmpty)
                             PopOptions();
                         break;
 
                     case '(':
-                        if (CharsRight() >= 2 && RightChar(1) == '#' && RightChar() == '?')
+                        if (CharsRight >= 2 && RightChar(1) == '#' && RightChar() == '?')
                         {
                             // we have a comment (?#
                             MoveLeft();
@@ -1463,12 +1418,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                         else
                         {
                             PushOptions();
-                            if (CharsRight() > 0 && RightChar() == '?')
+                            if (CharsRight > 0 && RightChar() == '?')
                             {
                                 // we have (?...
                                 MoveRight();
 
-                                if (CharsRight() > 1 && (RightChar() == '<' || RightChar() == '\''))
+                                if (CharsRight > 1 && (RightChar() == '<' || RightChar() == '\''))
                                 {
                                     // named group: (?<... or (?'...
 
@@ -1490,7 +1445,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                     // get the options if it's an option construct (?cimsx-cimsx...)
                                     ScanOptions();
 
-                                    if (CharsRight() > 0)
+                                    if (CharsRight > 0)
                                     {
                                         if (RightChar() == ')')
                                         {
@@ -1515,7 +1470,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
                                 // Simple (unnamed) capture group.
                                 // Add unnamend parentheses if ExplicitCapture is not set
                                 // and the next parentheses is not ignored.
-                                if (!UseOptionN() && !_ignoreNextParen)
+                                if (!IsExplicitCapture && !_ignoreNextParen)
                                     NoteCaptureSlot(_autocap++, pos);
                             }
                         }
@@ -1528,9 +1483,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             AssignNameSlots();
         }
 
-        /*
-         * Notes a used capture slot
-         */
+        /// <summary>Notes a used capture slot</summary>
         private void NoteCaptureSlot(int i, int pos)
         {
             if (!_caps.ContainsKey(i))
@@ -1547,9 +1500,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        /*
-         * Notes a used capture slot
-         */
+        /// <summary>Notes a used capture slot</summary>
         private void NoteCaptureName(string name, int pos)
         {
             if (_capnames == null)
@@ -1565,9 +1516,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        /*
-         * Assigns unused slot numbers to the capture names
-         */
+        /// <summary>Assigns unused slot numbers to the capture names</summary>
         private void AssignNameSlots()
         {
             if (_capnames != null)
@@ -1643,83 +1592,19 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        /*
-         * Looks up the slot number for a given name
-         */
-        private int CaptureSlotFromName(string capname)
-        {
-            return (int)_capnames[capname];
-        }
+        private int CaptureSlotFromName(string capname) => _capnames[capname];
 
-        /*
-         * True if the capture slot was noted
-         */
-        private bool IsCaptureSlot(int i)
-        {
-            if (_caps != null)
-                return _caps.ContainsKey(i);
+        /// <summary>True if the capture slot was noted</summary>
+        private bool IsCaptureSlot(int i) => _caps?.ContainsKey(i) ?? i >= 0 && i < _capsize;
 
-            return (i >= 0 && i < _capsize);
-        }
+        private bool IsCaptureName(string capname) => _capnames != null && _capnames.ContainsKey(capname);
 
-        /*
-         * Looks up the slot number for a given name
-         */
-        private bool IsCaptureName(string capname)
-        {
-            if (_capnames == null)
-                return false;
-
-            return _capnames.ContainsKey(capname);
-        }
-
-        /*
-         * True if N option disabling '(' autocapture is on.
-         */
-        private bool UseOptionN()
-        {
-            return (_options & RegexOptions.ExplicitCapture) != 0;
-        }
-
-        /*
-         * True if I option enabling case-insensitivity is on.
-         */
-        private bool UseOptionI()
-        {
-            return (_options & RegexOptions.IgnoreCase) != 0;
-        }
-
-        /*
-         * True if M option altering meaning of $ and ^ is on.
-         */
-        private bool UseOptionM()
-        {
-            return (_options & RegexOptions.Multiline) != 0;
-        }
-
-        /*
-         * True if S option altering meaning of . is on.
-         */
-        private bool UseOptionS()
-        {
-            return (_options & RegexOptions.Singleline) != 0;
-        }
-
-        /*
-         * True if X option enabling whitespace/comment mode is on.
-         */
-        private bool UseOptionX()
-        {
-            return (_options & RegexOptions.IgnorePatternWhitespace) != 0;
-        }
-
-        /*
-         * True if E option enabling ECMAScript behavior is on.
-         */
-        private bool UseOptionE()
-        {
-            return (_options & RegexOptions.ECMAScript) != 0;
-        }
+        private bool IsExplicitCapture => (_options & RegexOptions.ExplicitCapture) != 0;
+        private bool IsCaseInsensitive => (_options & RegexOptions.IgnoreCase) != 0;
+        private bool IsMultiLine => (_options & RegexOptions.Multiline) != 0;
+        private bool IsSingleLine => (_options & RegexOptions.Singleline) != 0;
+        private bool IgnorePatternWhitespace => (_options & RegexOptions.IgnorePatternWhitespace) != 0;
+        private bool IsEcmaScript => (_options & RegexOptions.ECMAScript) != 0;
 
         private const byte Q = 5;    // quantifier
         private const byte S = 4;    // ordinary stopper
@@ -1727,9 +1612,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
         private const byte X = 2;    // whitespace
         private const byte E = 1;    // should be escaped
 
-        /*
-         * For categorizing ASCII characters.
-        */
+        /// <summary>For categorizing ASCII characters.</summary>
         private static readonly byte[] s_category = new byte[] {
             // 0 1 2 3 4 5 6 7 8 9 A B C D E F 0 1 2 3 4 5 6 7 8 9 A B C D E F
                0,0,0,0,0,0,0,0,0,X,X,0,X,X,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -1740,41 +1623,26 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             // ' a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~
                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,Q,S,0,0,0};
 
-        /*
-         * Returns true for those characters that terminate a string of ordinary chars.
-         */
-        private static bool IsSpecial(char ch)
-        {
-            return (ch <= '|' && s_category[ch] >= S);
-        }
+        /// <summary>Returns true for those characters that terminate a string of ordinary chars.</summary>
+        private static bool IsSpecial(char ch) => (ch <= '|' && s_category[ch] >= S);
 
-        /*
-         * Returns true for those characters that terminate a string of ordinary chars.
-         */
-        private static bool IsStopperX(char ch)
-        {
-            return (ch <= '|' && s_category[ch] >= X);
-        }
+        /// <summary>Returns true for those characters that terminate a string of ordinary chars.</summary>
+        private static bool IsStopperX(char ch) => (ch <= '|' && s_category[ch] >= X);
 
-        /*
-         * Returns true for those characters that begin a quantifier.
-         */
-        private static bool IsQuantifier(char ch)
-        {
-            return (ch <= '{' && s_category[ch] >= Q);
-        }
+        /// <summary>Returns true for those characters that begin a quantifier.</summary>
+        private static bool IsQuantifier(char ch) => (ch <= '{' && s_category[ch] >= Q);
 
         private bool IsTrueQuantifier()
         {
-            Debug.Assert(CharsRight() > 0, "The current reading position must not be at the end of the pattern");
+            Debug.Assert(CharsRight > 0, "The current reading position must not be at the end of the pattern");
 
-            int startpos = Textpos();
+            int startpos = Textpos;
             char ch = CharAt(startpos);
             if (ch != '{')
                 return ch <= '{' && s_category[ch] >= Q;
 
             int pos = startpos;
-            int nChars = CharsRight();
+            int nChars = CharsRight;
             while (--nChars > 0 && (ch = CharAt(++pos)) >= '0' && ch <= '9') ;
 
             if (nChars == 0 || pos - startpos == 1)
@@ -1791,26 +1659,13 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             return nChars > 0 && ch == '}';
         }
 
-        /*
-         * Returns true for whitespace.
-         */
-        private static bool IsSpace(char ch)
-        {
-            return (ch <= ' ' && s_category[ch] == X);
-        }
+        private static bool IsWhitespace(char ch) => (ch <= ' ' && s_category[ch] == X);
 
-        /*
-         * Returns true for chars that should be escaped.
-         */
-        private static bool IsMetachar(char ch)
-        {
-            return (ch <= '|' && s_category[ch] >= E);
-        }
+        /// <summary>Returns true for chars that should be escaped.</summary>
+        private static bool IsMetachar(char ch) => (ch <= '|' && s_category[ch] >= E);
 
 
-        /*
-         * Add a string to the last concatenate.
-         */
+        /// <summary>Add a string to the last concatenate.</summary>
         private void AddConcatenate(int pos, int cch, bool isReplacement)
         {
             if (cch == 0)
@@ -1820,7 +1675,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             if (cch > 1)
             {
                 string str;
-                if (UseOptionI() && !isReplacement)
+                if (IsCaseInsensitive && !isReplacement)
                 {
                     str = _pattern.Substring(pos, cch).ToLower(_culture);
                 }
@@ -1835,7 +1690,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             {
                 char ch = _pattern[pos];
 
-                if (UseOptionI() && !isReplacement)
+                if (IsCaseInsensitive && !isReplacement)
                     ch = _culture.TextInfo.ToLower(ch);
 
                 node = new RegexNode(RegexNode.One, _options, ch);
@@ -1844,9 +1699,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _concatenation.AddChild(node);
         }
 
-        /*
-         * Push the parser state (in response to an open paren)
-         */
+        /// <summary>Push the parser state (in response to an open paren)</summary>
         private void PushGroup()
         {
             _group.Next = _stack;
@@ -1855,9 +1708,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _stack = _concatenation;
         }
 
-        /*
-         * Remember the pushed state (in response to a ')')
-         */
+        /// <summary>Remember the pushed state (in response to a ')')</summary>
         private void PopGroup()
         {
             _concatenation = _stack;
@@ -1876,17 +1727,12 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             }
         }
 
-        /*
-         * True if the group stack is empty.
-         */
-        private bool EmptyStack()
-        {
-            return _stack == null;
-        }
+        /// <summary>True if the group stack is empty.</summary>
+        private bool EmptyStack() => _stack == null;
 
-        /*
-         * Start a new round for the parser state (in response to an open paren or string start)
-         */
+        /// <summary>
+        ///             Start a new round for the parser state (in response to an open paren or string start)
+        /// </summary>
         private void StartGroup(RegexNode openGroup)
         {
             _group = openGroup;
@@ -1894,9 +1740,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _concatenation = new RegexNode(RegexNode.Concatenate, _options);
         }
 
-        /*
-         * Finish the current concatenation (in response to a |)
-         */
+        /// <summary>Finish the current concatenation (in response to a |)</summary>
         private void AddAlternate()
         {
             // The | parts inside a Testgroup group go directly to the group
@@ -1913,9 +1757,7 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _concatenation = new RegexNode(RegexNode.Concatenate, _options);
         }
 
-        /*
-         * Finish the current quantifiable (when a quantifier is not found or is not possible)
-         */
+        /// <summary>Finish the current quantifiable (when a quantifier is not found or is not possible)</summary>
         private void AddConcatenate()
         {
             // The first (| inside a Testgroup group goes directly to the group
@@ -1924,72 +1766,56 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _unit = null;
         }
 
-        /*
-         * Finish the current quantifiable (when a quantifier is found)
-         */
+        /// <summary>Finish the current quantifiable (when a quantifier is found)</summary>
         private void AddConcatenate(bool lazy, int min, int max)
         {
             _concatenation.AddChild(_unit.MakeQuantifier(lazy, min, max));
             _unit = null;
         }
 
-        /*
-         * Returns the current unit
-         */
+        /// <summary>Returns the current unit</summary>
         private RegexNode Unit()
         {
             return _unit;
         }
 
-        /*
-         * Sets the current unit to a single char node
-         */
+        /// <summary>Sets the current unit to a single char node</summary>
         private void AddUnitOne(char ch)
         {
-            if (UseOptionI())
+            if (IsCaseInsensitive)
                 ch = _culture.TextInfo.ToLower(ch);
 
             _unit = new RegexNode(RegexNode.One, _options, ch);
         }
 
-        /*
-         * Sets the current unit to a single inverse-char node
-         */
+        /// <summary>Sets the current unit to a single inverse-char node</summary>
         private void AddUnitNotone(char ch)
         {
-            if (UseOptionI())
+            if (IsCaseInsensitive)
                 ch = _culture.TextInfo.ToLower(ch);
 
             _unit = new RegexNode(RegexNode.Notone, _options, ch);
         }
 
-        /*
-         * Sets the current unit to a single set node
-         */
+        /// <summary>Sets the current unit to a single set node</summary>
         private void AddUnitSet(string cc)
         {
             _unit = new RegexNode(RegexNode.Set, _options, cc);
         }
 
-        /*
-         * Sets the current unit to a subtree
-         */
+        /// <summary>Sets the current unit to a subtree</summary>
         private void AddUnitNode(RegexNode node)
         {
             _unit = node;
         }
 
-        /*
-         * Sets the current unit to an assertion of the specified type
-         */
+        /// <summary>Sets the current unit to an assertion of the specified type</summary>
         private void AddUnitType(int type)
         {
             _unit = new RegexNode(type, _options);
         }
 
-        /*
-         * Finish the current group (in response to a ')' or end)
-         */
+        /// <summary>Finish the current group (in response to a ')' or end)</summary>
         private void AddGroup()
         {
             if (_group.Type() == RegexNode.Testgroup || _group.Type() == RegexNode.Testref)
@@ -2008,73 +1834,43 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _unit = _group;
         }
 
-        /*
-         * Saves options on a stack.
-         */
+        /// <summary>Saves options on a stack.</summary>
         private void PushOptions()
         {
             _optionsStack.Push(_options);
         }
 
-        /*
-         * Recalls options from the stack.
-         */
+        /// <summary>Recalls options from the stack.</summary>
         private void PopOptions()
         {
             _options = _optionsStack.Pop();
         }
 
-        /*
-         * True if options stack is empty.
-         */
-        private bool EmptyOptionsStack()
-        {
-            return _optionsStack.Count == 0;
-        }
+        /// <summary>True if options stack is empty.</summary>
+        private bool IsOptionsStackEmpty => _optionsStack.Count == 0;
 
-        /*
-         * Pops the options stack, but keeps the current options unchanged.
-         */
+        /// <summary>Pops the options stack, but keeps the current options unchanged.</summary>
         private void PopKeepOptions()
         {
             _ = _optionsStack.Pop();
         }
 
-        /*
-         * Fills in a RegexParseException
-         */
-        private RegexParseException MakeException(RegexParseError error, string message)
-        {
-            return new RegexParseException(error, _currentPos, $"Invalid pattern '{_pattern}' at offset {_currentPos}. {message}");
-        }
+        /// <summary>Fills in a RegexParseException</summary>
+        private RegexParseException MakeException(RegexParseError error, string message) => new RegexParseException(error, _currentPos, $"Invalid pattern '{_pattern}' at offset {_currentPos}. {message}");
 
-        /*
-         * Returns the current parsing position.
-         */
-        private int Textpos()
-        {
-            return _currentPos;
-        }
+        /// <summary>Returns the current parsing position.</summary>
+        private int Textpos => _currentPos;
 
-        /*
-         * Zaps to a specific parsing position.
-         */
+        /// <summary>Zaps to a specific parsing position.</summary>
         private void Textto(int pos)
         {
             _currentPos = pos;
         }
 
-        /*
-         * Returns the char at the right of the current parsing position and advances to the right.
-         */
-        private char RightCharMoveRight()
-        {
-            return _pattern[_currentPos++];
-        }
+        /// <summary>Returns the char at the right of the current parsing position and advances to the right.</summary>
+        private char RightCharMoveRight() => _pattern[_currentPos++];
 
-        /*
-         * Moves the current position to the right.
-         */
+        /// <summary>Moves the current position to the right.</summary>
         private void MoveRight()
         {
             MoveRight(1);
@@ -2085,44 +1881,23 @@ namespace NetRegexCompiler.Compiler.Text.RegularExpressions
             _currentPos += i;
         }
 
-        /*
-         * Moves the current parsing position one to the left.
-         */
+        /// <summary>Moves the current parsing position one to the left.</summary>
         private void MoveLeft()
         {
             --_currentPos;
         }
 
-        /*
-         * Returns the char left of the current parsing position.
-         */
-        private char CharAt(int i)
-        {
-            return _pattern[i];
-        }
+        /// <summary>Returns the char left of the current parsing position.</summary>
 
-        /*
-         * Returns the char right of the current parsing position.
-         */
-        internal char RightChar()
-        {
-            return _pattern[_currentPos];
-        }
+        private char CharAt(int i) => _pattern[i];
 
-        /*
-         * Returns the char i chars right of the current parsing position.
-         */
-        private char RightChar(int i)
-        {
-            return _pattern[_currentPos + i];
-        }
+        /// <summary>Returns the char right of the current parsing position.</summary>
+        internal char RightChar() => _pattern[_currentPos];
 
-        /*
-         * Number of characters to the right of the current parsing position.
-         */
-        private int CharsRight()
-        {
-            return _pattern.Length - _currentPos;
-        }
+        /// <summary>Returns the char i chars right of the current parsing position.</summary>
+        private char RightChar(int i) => _pattern[_currentPos + i];
+
+        /// <summary>Number of characters to the right of the current parsing position.</summary>
+        private int CharsRight => _pattern.Length - _currentPos;
     }
 }
